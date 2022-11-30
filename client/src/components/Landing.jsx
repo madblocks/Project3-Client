@@ -1,8 +1,6 @@
 import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
 import styled from 'styled-components'
 
-const Landing = (props) =>{
-
 const StyledWrapper = styled.div `
 
 .landing-container{
@@ -12,15 +10,17 @@ const StyledWrapper = styled.div `
     flex-direction: column;
 }
 .map{
-    height: 500px;
-    width: 500px;
+    height: 600px;
+    width: 600px;
     margin: 10px;
+    border: 3px solid black;
 }
 .search{
     margin: 10px;
     width: 500px;
 }
 `;
+const Landing = (props) =>{
 
     return(
     <StyledWrapper>
