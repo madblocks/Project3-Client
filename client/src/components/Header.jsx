@@ -29,6 +29,8 @@ const Header= (props) => {
             <Link to='/' ><img src={require("../images/logo_transparent.png")} alt="logo" className="logo"></img></Link>
             <Link to='/signup'><button>Signup</button></Link>
             <Link to='/login'><button>Login</button></Link>
+            
+            
         </div>
         </StyledWrapper>
     )

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom'
 
 
 const StyledWrapper = styled.div `
@@ -73,8 +74,10 @@ let pword = ''
 
   const handleSubmit =() =>{
       setAllData({...allData, firstName:fName, lastName:lName, email:mail, password:pword})
-      
+     sessionStorage.setItem('name',fName) 
   }
+
+
   console.log('allData: ', allData)
     return(
         <StyledWrapper>
@@ -106,9 +109,9 @@ let pword = ''
       <Form.Group className="mb-3" controlId="formBasicCheckbox">
         <Form.Check type="checkbox" label="Check me out" />
       </Form.Group>
-      <Button variant="primary" className='btn btn-primary' type="submit" onClick={handleSubmit}>
+      <Link to='/profile'><Button variant="primary" className='btn btn-primary' type="submit" onClick={handleSubmit}>
         Submit
-      </Button>
+      </Button></Link>
     </Form>
         </div>
         </StyledWrapper>
