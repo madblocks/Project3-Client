@@ -8,6 +8,7 @@ import Logout from './components/Logout'
 import Profile from './components/Profile'
 import { useState } from 'react'
 import { DataContext }from './DataContext' 
+import Profile from './components/Profile';
 
 function App() {
 
@@ -31,7 +32,11 @@ const [isLoggedIn, setLoggedIn] = useState(false)
           <Route path ='/signup' element={<Signup/>}/>
           <Route path ='/login' element={<Login/>}/>
           <Route path ='/logout' element={<Logout/>}/>
+
+          <Route path ='/profile' element={<Profile/>}/>
+
           <Route path = '/profile/:user_id' element={<Profile/>}/>
+
         </Routes>
       </main>
     </div>
