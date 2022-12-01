@@ -5,12 +5,14 @@ import Header from './components/Header'
 import Signup from './components/Signup'
 import Login from './components/Login'
 import Logout from './components/Logout'
+import Profile from './components/Profile'
 import { useState } from 'react'
 import { DataContext }from './DataContext' 
 import Profile from './components/Profile';
 
 function App() {
 
+const [user, setUser] = useState(null)
 const [isLoggedIn, setLoggedIn] = useState(false)
 
 
@@ -19,7 +21,9 @@ const [isLoggedIn, setLoggedIn] = useState(false)
 
 
   return (
-    <DataContext.Provider value ={{isLoggedIn, setLoggedIn}}>
+    <DataContext.Provider 
+    value ={{isLoggedIn, setLoggedIn,
+            user, setUser}}>
     <div className="App">
       <Header/>
       <main>
@@ -28,7 +32,11 @@ const [isLoggedIn, setLoggedIn] = useState(false)
           <Route path ='/signup' element={<Signup/>}/>
           <Route path ='/login' element={<Login/>}/>
           <Route path ='/logout' element={<Logout/>}/>
+
           <Route path ='/profile' element={<Profile/>}/>
+
+          <Route path = '/profile/:user_id' element={<Profile/>}/>
+
         </Routes>
       </main>
     </div>
