@@ -5,9 +5,20 @@ import Header from './components/Header'
 import Signup from './components/Signup'
 import Login from './components/Login'
 import Logout from './components/Logout'
+import { useState } from 'react'
+import { DataContext }from './DataContext' 
 
 function App() {
+
+const [isLoggedIn, setLoggedIn] = useState(false)
+
+
+
+
+
+
   return (
+    <DataContext.Provider value ={{isLoggedIn, setLoggedIn}}>
     <div className="App">
       <Header/>
       <main>
@@ -19,6 +30,7 @@ function App() {
         </Routes>
       </main>
     </div>
+    </DataContext.Provider>
   );
 }
 
