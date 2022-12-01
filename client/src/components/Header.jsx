@@ -18,11 +18,6 @@ const Header= (props) => {
     const {isLoggedIn, setLoggedIn} = useContext(DataContext)
 
 
-
-
-
-
-
     return(
         <StyledWrapper>
         <div className="header">
