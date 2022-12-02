@@ -1,9 +1,10 @@
 
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Button } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom'
+import { DataContext }from '../DataContext'
 
 
 const StyledWrapper = styled.div `
@@ -41,40 +42,18 @@ const Signup = (props) =>{
         password: ''
     } )
 
+    const {user,setUser} = useContext(DataContext);
+
 let fName = ''
 let lName = ''
 let mail = ''
 let pword = ''
 
 
-
-  const handleFirstName = event => {
-    fName = event.target.value
-
-    console.log('firstname is:', event.target.value);
-  };
-
-  const handleLastName = event => {
-    lName = event.target.value
-
-    console.log('lastname is:', event.target.value);
-  };
-
-  const handleEmail = event => {
-    mail = event.target.value
-
-    console.log('email is:', event.target.value);
-  };
-
-  const handlePassword = event => {
-    pword = event.target.value
-
-    console.log('password is:', event.target.value);
-  };
-
-  const handleSubmit =() =>{
-      setAllData({...allData, firstName:fName, lastName:lName, email:mail, password:pword})
-     sessionStorage.setItem('name',fName) 
+  const handleSubmit =(e) =>{
+    setAllData({...allData, firstName:fName, lastName:lName, email:mail, password:pword})
+    sessionStorage.setItem('name',fName) 
+    console.log(allData)
   }
 
 
@@ -83,19 +62,19 @@ let pword = ''
         <StyledWrapper>
         <div className='container'>
             <h1>Signup</h1>
-           
+          
             <Form>
-        <Form.Group className='mb-3' controlId='formBasicName'>
+        <Form.Group className='mb-3' controlId='firstName'>
             <Form.Label>First Name </Form.Label>
-            <Form.Control type='text' className='input' placeholder='Enter Your FirstName' onChange={handleFirstName}/>
+            <Form.Control type='text' className='input' placeholder='Enter Your FirstName' onChange={(event) => fName = event.target.value}/>
         </Form.Group>
-        <Form.Group className='mb-3' controlId='formBasicName'>
+        <Form.Group className='mb-3' controlId='lastName'>
             <Form.Label>Last Name </Form.Label>
-            <Form.Control type='text' className='input' placeholder='Enter Your LastName' onChange={handleLastName}/>
+            <Form.Control type='text' className='input' placeholder='Enter Your LastName' onChange={(event) => lName = event.target.value}/>
         </Form.Group>
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Your Email </Form.Label>
-        <Form.Control type="email" className='input' placeholder="Enter email" onChange={handleEmail}/>
+        <Form.Control type="email" className='input' placeholder="Enter email" onChange={(event) => mail = event.target.value}/>
         <br></br>
         <Form.Text className="text-muted">
           We'll never share your email with anyone else.
@@ -104,7 +83,7 @@ let pword = ''
 
       <Form.Group className="mb-3" controlId="formBasicPassword">
         <Form.Label>Password </Form.Label>
-        <Form.Control type="password" className='input' placeholder="Password" onChange={handlePassword}/>
+        <Form.Control type="password" className='input' placeholder="Password" onChange={(event) => pword = event.target.value}/>
       </Form.Group>
       <Form.Group className="mb-3" controlId="formBasicCheckbox">
         <Form.Check type="checkbox" label="Check me out" />

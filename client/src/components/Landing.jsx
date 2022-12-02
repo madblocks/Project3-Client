@@ -31,8 +31,7 @@ const StyledWrapper = styled.div `
     padding-left: 10px;
 }
 .map-and-details{
-    width:80%;
-    border:2px solid black;
+    width:100%;
     display:flex;
     flex-direction: row;
 }`;
@@ -41,7 +40,7 @@ const Landing = (props) =>{
 
     const {isLoggedIn, setLoggedIn} = useContext(DataContext)
     const [searchCriteria, setSearchCriteria] = useState([])
-    const [activePark, setActivePark] = useState(null)
+    const [activeEvent, setActiveEvent] = useState(null)
     const [currentSearch, setCurrentSearch] = useState([])
     
     const detailsStyle = {
@@ -92,11 +91,11 @@ const Landing = (props) =>{
             <LayersControl.Overlay  checked name="pins"> 
                 <Marker position={[35.591, -82.55]}>
                     <Popup>
-                        <h2 style={{margin:"0"}}>Acitivity Name</h2><br /> 
+                        <h2 style={{margin:"0"}}>Activity Name</h2><br /> 
                         <h5 style={{margin:"0", position:"relative", top:"-10px"}}>Liked by XX Members</h5><br/>
                         <h5 style={{margin:"0", position:"relative", top:"-10px"}}>Date and Time</h5>
                         <Button variant = "primary" onClick={handleShow}>
-                            show detials
+                            show details
                         </Button>
                     </Popup>
                 </Marker>
@@ -105,7 +104,7 @@ const Landing = (props) =>{
         </MapContainer>
         <Modal show={showDetails} onHide={handleClose} style={detailsStyle}>
             <Modal.Header>
-                <Modal.Title>Activity Name<Button onClick={handleClose} style={{marginLeft: "75px"}}>close</Button></Modal.Title>
+                <Modal.Title>Activity Name<Button onClick={handleClose} style={{float: "right"}}>close</Button></Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <h6 style={{margin:"0"}}>Liked by XX Members</h6> <br/>

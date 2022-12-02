@@ -22,10 +22,13 @@ const Header= (props) => {
         <StyledWrapper>
         <div className="header">
             <Link to='/' ><img src={require("../images/logo_transparent.png")} alt="logo" className="logo"></img></Link>
-            <Link to='/signup'><button>Signup</button></Link>
-            <Link to='/login'><button>Login</button></Link>
             
-            
+            {isLoggedIn ? <Link to='/profile'><button>profile</button></Link> 
+            : <div>
+                <Link to='/signup'><button>Signup</button></Link>
+                <Link to='/login'><button>Login</button></Link>
+            </div>
+            }
         </div>
         </StyledWrapper>
     )
