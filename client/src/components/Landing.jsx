@@ -1,14 +1,14 @@
 import { MapContainer, TileLayer, useMap, Marker, Popup, LayersControl } from 'react-leaflet'
-import {icon} from 'leaflet'
+import {icon, map} from 'leaflet'
 import styled from 'styled-components'
 import { useState, useContext, useEffect } from 'react'
 import  Button  from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import { DataContext } from '../DataContext' 
+import axios from 'axios'
+import Client from '../services/api'
 
 const StyledWrapper = styled.div `
-
-
 .landing-container{
     height: 80vh;
     display: flex;
@@ -38,10 +38,15 @@ const StyledWrapper = styled.div `
 
 const Landing = (props) =>{
 
+    const map=useMap();
     const {isLoggedIn, setLoggedIn} = useContext(DataContext)
     const [searchCriteria, setSearchCriteria] = useState([])
     const [activeEvent, setActiveEvent] = useState(null)
     const [currentSearch, setCurrentSearch] = useState([])
+    const [allEvents, setAllEvents] = useState([])
+    const [mapRendered, setMapRendered] = useState(0)
+    let hiking = [], running = [], ultimate = [], skiing = [], mountainBiking = [], roadBiking = [], kayaking = [], rafting = [], fishing = [], birdWatching = [];
+    const [fishing1, setFishing] = useState([])
     
     const detailsStyle = {
         border: "2px solid black",
@@ -61,8 +66,6 @@ const Landing = (props) =>{
         //else, check if already liked - remove the like, else add the like
     }
 
-    
-    
 //store locations in variable
 //map through locations with <Marker/> component. Marker needs key + position object (coordinates)
 //onclick listener -> set active park
@@ -72,33 +75,78 @@ const Landing = (props) =>{
     const handleShow = () => setShowDetails(true);
     const handleClose = () => setShowDetails(false)
 
-    useEffect(()=> {
-        //useEffect to track which boxes are checked / current search criteria
-    },[])
+useEffect(()=> {
+const handleEvents = async () => {
+    const getEvents = async () => {
+    try {
+        const res = await Client.get('api/event')
+        return res.data
+    } catch (error) {throw error}
+    }
+    const events = await getEvents();
+    setAllEvents(events)
+}
+handleEvents()
+const sortEvents = (array) => {
+    for (let i=0; i<array.length; i++){
+            if (array[i].activityId === 1) {
+                hiking.push(array[i]);
+            } else if (array[i].activityId === 2) {
+                running.push(array[i]);
+            } else if (array[i].activityId === 3) {
+                ultimate.push(array[i]);
+            } else if (array[i].activityId === 4) {
+                skiing.push(array[i]);
+            } else if (array[i].activityId === 5) {
+                mountainBiking.push(array[i]);
+            } else if (array[i].activityId === 6) {
+                roadBiking.push(array[i]);
+            } else if (array[i].activityId === 7) {
+                kayaking.push(array[i]);
+            } else if (array[i].activityId === 8) {
+                rafting.push(array[i]);
+            } else if (array[i].activityId === 9) {
+                setFishing(fishing1 => [...fishing1, array[i]])
+            } else if (array[i].activityId === 10) {
+                birdWatching.push(array[i]);
+            }
+        }
+        console.log(fishing)
+}
+sortEvents(allEvents);
 
-    return(
+},[mapRendered])
+
+const updateMap =() => {
+
+    setMapRendered(mapRendered+1);
+}
+
+    return allEvents.length >= 1 ?  (
     <StyledWrapper>
     <div className="landing-container">
-        <input type="text" placeholder="search" className="search"></input>
+        <input type="text" placeholder="search" className="search"></input>need search button and create event button
 
-        <h6 className='instructions'>click and drag to move, use scrollwheel to zoom</h6>
+        <h6 className='instructions'>click and drag to move, use scrollwheel to zoom</h6><button onClick = {updateMap}>update map</button>
         <div className="map-and-details">
-        <MapContainer center={[35.591, -82.55]} zoom={13} className="map">
+        <MapContainer center={[35.591, -82.55]} zoom={11} className="map">
         <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
         <LayersControl position="topright">
-            <LayersControl.Overlay  checked name="pins"> 
-                <Marker position={[35.591, -82.55]}>
-                    <Popup>
-                        <h2 style={{margin:"0"}}>Activity Name</h2><br /> 
+            <LayersControl.Overlay checked name="Fishing">
+                {fishing1.map(event => (
+                    <Marker key={event.id} position={[event.latitude, event.longitude]}>
+                        <Popup>
+                        <h2 style={{margin:"0"}}>{event.name}</h2><br /> 
                         <h5 style={{margin:"0", position:"relative", top:"-10px"}}>Liked by XX Members</h5><br/>
-                        <h5 style={{margin:"0", position:"relative", top:"-10px"}}>Date and Time</h5>
+                        <h5 style={{margin:"0", position:"relative", top:"-10px"}}>{event.date}</h5>
                         <Button variant = "primary" onClick={handleShow}>
                             show details
                         </Button>
                     </Popup>
-                </Marker>
+                    </Marker>
+                ))}
             </LayersControl.Overlay>
         </LayersControl>
         </MapContainer>
@@ -121,7 +169,7 @@ const Landing = (props) =>{
         
     </div>
     </StyledWrapper>
-    )
+    ) : <div><h1>Loading...</h1></div>
 }
 
 export default Landing
