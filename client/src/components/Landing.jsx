@@ -1,4 +1,4 @@
-import { MapContainer, TileLayer, useMap, Marker, Popup, LayersControl } from 'react-leaflet'
+import { MapContainer, TileLayer, useMap, Marker, Popup, LayersControl, LayerGroup } from 'react-leaflet'
 import {icon, map} from 'leaflet'
 import styled from 'styled-components'
 import { useState, useContext, useEffect } from 'react'
@@ -38,15 +38,25 @@ const StyledWrapper = styled.div `
 
 const Landing = (props) =>{
 
-    const map=useMap();
+
     const {isLoggedIn, setLoggedIn} = useContext(DataContext)
     const [searchCriteria, setSearchCriteria] = useState([])
     const [activeEvent, setActiveEvent] = useState(null)
     const [currentSearch, setCurrentSearch] = useState([])
     const [allEvents, setAllEvents] = useState([])
     const [mapRendered, setMapRendered] = useState(0)
-    let hiking = [], running = [], ultimate = [], skiing = [], mountainBiking = [], roadBiking = [], kayaking = [], rafting = [], fishing = [], birdWatching = [];
-    const [fishing1, setFishing] = useState([])
+    const [loading, setLoading] = useState(true)
+    const [hiking, setHiking] = useState([])
+    const [running, setRunning] = useState([])
+    const [ultimate, setUltimate] = useState([])
+    const [skiing, setSkiing] = useState([])
+    const [mountainBiking, setMountainBiking] = useState([])
+    const [roadBiking, setRoadBiking] = useState([])
+    const [kayaking, setKayaking] = useState([])
+    const [rafting, setRafting] = useState([])
+    const [fishing, setFishing] = useState([])
+    const [birdWatching, setBirdWatching] = useState([])
+    const eventsArray = [hiking, running, ultimate, skiing, mountainBiking, roadBiking, kayaking, rafting, fishing, birdWatching]
     
     const detailsStyle = {
         border: "2px solid black",
@@ -86,43 +96,51 @@ const handleEvents = async () => {
     const events = await getEvents();
     setAllEvents(events)
 }
-handleEvents()
-const sortEvents = (array) => {
+
+const sortEvents =  (array) => {
+    
     for (let i=0; i<array.length; i++){
             if (array[i].activityId === 1) {
-                hiking.push(array[i]);
+                setHiking(hiking => [...hiking, array[i]])
             } else if (array[i].activityId === 2) {
-                running.push(array[i]);
+                setRunning(running => [...running, array[i]])
             } else if (array[i].activityId === 3) {
+                setUltimate(running => [...running, array[i]])
                 ultimate.push(array[i]);
             } else if (array[i].activityId === 4) {
-                skiing.push(array[i]);
+                setSkiing(skiing => [...skiing, array[i]])
             } else if (array[i].activityId === 5) {
-                mountainBiking.push(array[i]);
+                setMountainBiking(mountainBiking => [...mountainBiking, array[i]])
             } else if (array[i].activityId === 6) {
-                roadBiking.push(array[i]);
+                setRoadBiking(roadBiking => [...roadBiking, array[i]])
             } else if (array[i].activityId === 7) {
-                kayaking.push(array[i]);
+                setKayaking(kayaking => [...kayaking, array[i]])
             } else if (array[i].activityId === 8) {
-                rafting.push(array[i]);
+                setRafting(rafting => [...rafting, array[i]])
             } else if (array[i].activityId === 9) {
-                setFishing(fishing1 => [...fishing1, array[i]])
+                setFishing(fishing => [...fishing, array[i]])
             } else if (array[i].activityId === 10) {
-                birdWatching.push(array[i]);
+                setBirdWatching(birdWatching => [...birdWatching, array[i]])
             }
         }
-        console.log(fishing)
-}
+    setLoading(false)
+    console.log(fishing)
+    }
+
+handleEvents()
 sortEvents(allEvents);
+
 
 },[mapRendered])
 
-const updateMap =() => {
 
+const updateMap =() => {
     setMapRendered(mapRendered+1);
 }
 
-    return allEvents.length >= 1 ?  (
+
+    return loading ? (  <div><h1>Loading...</h1>
+    <button onClick = {updateMap}>update map</button></div>   ) : 
     <StyledWrapper>
     <div className="landing-container">
         <input type="text" placeholder="search" className="search"></input>need search button and create event button
@@ -134,20 +152,24 @@ const updateMap =() => {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
         <LayersControl position="topright">
-            <LayersControl.Overlay checked name="Fishing">
-                {fishing1.map(event => (
-                    <Marker key={event.id} position={[event.latitude, event.longitude]}>
+        {eventsArray.map(event => (
+            <LayersControl.Overlay checked name={event} key = {event.id}>
+                <LayerGroup >
+                {event.map(activity => (
+                    <Marker key={activity.id} position={[activity.latitude, activity.longitude]}>
                         <Popup>
-                        <h2 style={{margin:"0"}}>{event.name}</h2><br /> 
+                        <h2 style={{margin:"0"}}>{activity.name}</h2><br /> 
                         <h5 style={{margin:"0", position:"relative", top:"-10px"}}>Liked by XX Members</h5><br/>
-                        <h5 style={{margin:"0", position:"relative", top:"-10px"}}>{event.date}</h5>
+                        <h5 style={{margin:"0", position:"relative", top:"-10px"}}>{activity.date}</h5>
                         <Button variant = "primary" onClick={handleShow}>
                             show details
                         </Button>
                     </Popup>
                     </Marker>
                 ))}
+                </LayerGroup>
             </LayersControl.Overlay>
+            ))}
         </LayersControl>
         </MapContainer>
         <Modal show={showDetails} onHide={handleClose} style={detailsStyle}>
@@ -169,7 +191,7 @@ const updateMap =() => {
         
     </div>
     </StyledWrapper>
-    ) : <div><h1>Loading...</h1></div>
+
 }
 
 export default Landing
