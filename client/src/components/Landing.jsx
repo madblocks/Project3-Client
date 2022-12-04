@@ -38,7 +38,7 @@ const StyledWrapper = styled.div `
 
 const Landing = (props) =>{
 
-    const map=useMap();
+    // const map=useMap();
     const {isLoggedIn, setLoggedIn} = useContext(DataContext)
     const [searchCriteria, setSearchCriteria] = useState([])
     const [activeEvent, setActiveEvent] = useState(null)
