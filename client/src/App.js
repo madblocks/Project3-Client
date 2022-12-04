@@ -8,7 +8,7 @@ import Logout from './components/Logout'
 import Profile from './components/Profile'
 import { useState } from 'react'
 import { DataContext }from './DataContext' 
-import Profile from './components/Profile';
+
 
 function App() {
 
