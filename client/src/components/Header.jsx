@@ -15,17 +15,24 @@ const StyledWrapper = styled.div `
 `;
 
 const Header= (props) => {
-    const {isLoggedIn, setLoggedIn} = useContext(DataContext)
+    const {authenticated} = useContext(DataContext)
 
 
     return(
         <StyledWrapper>
         <div className="header">
             <Link to='/' ><img src={require("../images/logo_transparent.png")} alt="logo" className="logo"></img></Link>
-            <Link to='/signup'><button>Signup</button></Link>
-            <Link to='/login'><button>Login</button></Link>
             
-            
+            {authenticated ? 
+            <div>
+                <Link to='/profile'><button>profile</button></Link>
+                <Link to='/logout'><button>Logout</button></Link>
+            </div>
+            : <div>
+                <Link to='/signup'><button>Signup</button></Link>
+                <Link to='/login'><button>Login</button></Link>
+            </div>
+            }
         </div>
         </StyledWrapper>
     )
