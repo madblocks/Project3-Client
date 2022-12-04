@@ -33,8 +33,7 @@ const StyledLogin = styled.div `
 const Login = (props) =>{
 
     let navigate = useNavigate()
-    const {authenticated, setAuth} = useContext(DataContext)
-    const {user, setUser} = useContext(DataContext);
+    const {setUser, setAuth} = useContext(DataContext)
 
     const [formData, setFormData] = useState({username: '', password: ''})
 
@@ -45,7 +44,7 @@ const Login = (props) =>{
     const handleSubmit = async (e) =>{
         e.preventDefault()
         const payload = await LoginUser(formData)
-        sessionStorage.setItem('name', formData.username) 
+        // sessionStorage.setItem('name', formData.username) 
         setFormData({username: '', password: ''})
         setUser(payload)
         setAuth(true)

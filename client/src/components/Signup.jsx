@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import styled from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { RegisterUser } from '../services/Auth';
 
 const StyledWrapper = styled.div `

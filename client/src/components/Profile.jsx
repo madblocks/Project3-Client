@@ -1,5 +1,5 @@
 import { DataContext } from '../DataContext';
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
 import { Button } from 'react-bootstrap';
@@ -10,9 +10,7 @@ const StyledProfile = styled.div`
 
 export default function Profile() {
   let navigate = useNavigate()
-  const {authenticated, setAuth} = useContext(DataContext)
-  const {user, setUser} = useContext(DataContext);
-
+  const {user, authenticated} = useContext(DataContext)
 
         return (user && authenticated) ? (
           <StyledProfile>
