@@ -1,18 +1,16 @@
 import { DataContext } from '../DataContext'
-import { useContext } from 'react'
+import { useEffect, useContext } from 'react'
 
-const Logout = (props) =>{
-    const {user, setUser} = useContext(DataContext)
-    const {authenticated, setAuth} = useContext(DataContext)
+const Logout = () =>{
+    const {setUser, setAuth} = useContext(DataContext)
 
-    const logOut = () => {
+    useEffect(() => {
         setUser(null)
         setAuth(false)
         localStorage.clear();
-    }
+    })
 
-    logOut();
-    return(<div>Logged Out</div>)
+    return(<div>You have been logged out</div>)
 }
 
 export default Logout
