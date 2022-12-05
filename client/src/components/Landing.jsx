@@ -5,6 +5,7 @@ import  Button  from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import { DataContext } from '../DataContext' 
 import Client from '../services/api'
+import Details from './Details'
 
 const StyledWrapper = styled.div `
 .landing-container{
@@ -35,9 +36,6 @@ const StyledWrapper = styled.div `
 }`;
 const Landing = (props) =>{
 
- 
-
-
     const mapRef = useRef();
     const {isLoggedIn, setLoggedIn} = useContext(DataContext)
     const [searchCriteria, setSearchCriteria] = useState([])
@@ -63,33 +61,28 @@ const Landing = (props) =>{
     const [layersReady, setLayersReady] = useState(false)
     const [layers, setLayers] = useState(null)
 
-    const detailsStyle = {
-        border: "2px solid black",
-        width: "20vw",
-        height: "550px",
-        position: "relative",
-        left: "650px",
-        bottom: "600px"
-    }
+    
 
-    const addComment = () => {
-        //check if logged in, if so, allow them to add comment
-        //if not logged in, route to login page
-    }
-    const adjustLike = () => {
-        //check if logged in, if not send them to login
-        //else, check if already liked - remove the like, else add the like
-    }
+    
 
 //store locations in variable
 //map through locations with <Marker/> component. Marker needs key + position object (coordinates)
 //onclick listener -> set active park
 //activePark &&  (<Popup position object, onclose event -> setActivePark(null))></Popup>)
 //
-    const [showDetails, setShowDetails] = useState(false)
-    const handleShow = () => setShowDetails(true);
-    const handleClose = () => setShowDetails(false)
+const[usableDate, setUsableDate] = useState(null)
+const fixDate = (randDate) => {
+    const parsed = Date.parse(randDate) 
+    setUsableDate(new Date(parsed).toLocaleString('en-US'))
 
+}
+const [currentActivity, setCurrentActivity] = useState({name: '', user: {username: ''}})
+const [showDetails, setShowDetails] = useState(false)
+const addDetails = (activity) => {
+    setCurrentActivity(activity)
+    setShowDetails(true)
+    fixDate(activity.date)
+}
 
 const updateMap =() => {
     setMapRendered(mapRendered+1);
@@ -108,7 +101,7 @@ const createLayers = () => {
                         <h2 style={{margin:"0"}}>{activity.name}</h2><br /> 
                         <h5 style={{margin:"0", position:"relative", top:"-10px"}}>Liked by XX Members</h5><br/>
                         <h5 style={{margin:"0", position:"relative", top:"-10px"}}>{activity.date}</h5>
-                        <Button variant = "primary" onClick={handleShow}>
+                        <Button variant = "primary" onClick={()=>addDetails(activity)}>
                             show details
                         </Button>
                     </Popup>
@@ -125,29 +118,29 @@ const createLayers = () => {
 useEffect(()=>{
 const handleEvents = async () => {
 
-    const sortEvents =  (array) => {
-    
+    const sortEvents =  async (array) => {
+        
         for (let i=0; i<array.length; i++){
                 if (array[i].activityId === 1) {
-                    setHiking(hiking => [...hiking, array[i]])
+                    await setHiking(hiking => [...hiking, array[i]])
                 } else if (array[i].activityId === 2) {
-                    setRunning(running => [...running, array[i]])
+                    await setRunning(running => [...running, array[i]])
                 } else if (array[i].activityId === 3) {
-                    setUltimate(ultimate => [...ultimate, array[i]])
+                    await setUltimate(ultimate => [...ultimate, array[i]])
                 } else if (array[i].activityId === 4) {
-                    setSkiing(skiing => [...skiing, array[i]])
+                    await setSkiing(skiing => [...skiing, array[i]])
                 } else if (array[i].activityId === 5) {
-                    setMountainBiking(mountainBiking => [...mountainBiking, array[i]])
+                    await setMountainBiking(mountainBiking => [...mountainBiking, array[i]])
                 } else if (array[i].activityId === 6) {
-                    setRoadBiking(roadBiking => [...roadBiking, array[i]])
+                    await setRoadBiking(roadBiking => [...roadBiking, array[i]])
                 } else if (array[i].activityId === 7) {
-                    setKayaking(kayaking => [...kayaking, array[i]])
+                    await setKayaking(kayaking => [...kayaking, array[i]])
                 } else if (array[i].activityId === 8) {
-                    setRafting(rafting => [...rafting, array[i]])
+                    await setRafting(rafting => [...rafting, array[i]])
                 } else if (array[i].activityId === 9) {
-                    setFishing(fishing => [...fishing, array[i]])
+                    await setFishing(fishing => [...fishing, array[i]])
                 } else if (array[i].activityId === 10) {
-                    setBirdWatching(birdWatching => [...birdWatching, array[i]])
+                    await setBirdWatching(birdWatching => [...birdWatching, array[i]])
                 }
             }
         setLoading(false)
@@ -160,10 +153,10 @@ const handleEvents = async () => {
         return res.data
     } catch (error) {throw error}
     }
-    const layerGenerator = () => {
-        const temp = createLayers()
+    const layerGenerator = async () => {
+        const temp = await createLayers()
         if (!temp){
-            console.log('did not generate layers')
+            console.log('did not generate')
         }
         else {
         setLayers(temp)
@@ -171,10 +164,12 @@ const handleEvents = async () => {
         }
     }
 
-try{const events = await getEvents();
-try{setAllEvents(events)}catch (error){ throw error}
-try{ sortEvents(allEvents)}catch (error){ throw error}
-try{layerGenerator()}catch (error){ throw error}
+try{
+    const events = await getEvents();
+    setAllEvents(events)
+    sortEvents(allEvents)
+    layerGenerator()
+    
 
 } catch (error) {throw error}
 
@@ -190,7 +185,7 @@ return loading && !layersReady ? (  <div><h1>Loading...</h1>
     <div className="landing-container">
         <input type="text" placeholder="search" className="search"></input>need search button and create event button
 
-        <h6 className='instructions'>click and drag to move, use scrollwheel to zoom</h6><button onClick = {updateMap}>update map</button>
+        <h6 className='instructions'>click and drag to move, use scrollwheel to zoom</h6><button onClick = {updateMap} style={{width: "100px"}}>update map</button>
         <div className="map-and-details">
         
     <MapContainer center={[35.591, -82.55]} zoom={11} className="map" ref={setMap}>
@@ -199,21 +194,8 @@ return loading && !layersReady ? (  <div><h1>Loading...</h1>
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
             {layers}
     </MapContainer>
-
-        <Modal show={showDetails} onHide={handleClose} style={detailsStyle}>
-            <Modal.Header>
-                <Modal.Title>Activity Name<Button onClick={handleClose} style={{float: "right"}}>close</Button></Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <h6 style={{margin:"0"}}>Liked by XX Members</h6> <br/>
-                <h5 style={{margin:"0", position:"relative", top:"-10px"}}>Date and Time</h5>
-                <h4>Description</h4>
-                <p>Description Body</p>
-                <h5>Comments <Button onClick={addComment}>+</Button></h5>
-                Map Comments Here<br/>
-                <Button onClick={adjustLike}>Like</Button>
-            </Modal.Body>
-        </Modal>
+        <Details show ={showDetails} currentActivity={currentActivity} date={usableDate}/>
+        
         </div>
     </div>
     </StyledWrapper>
