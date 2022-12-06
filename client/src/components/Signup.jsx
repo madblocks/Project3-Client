@@ -11,11 +11,17 @@ const StyledWrapper = styled.div `
   width: 450px;
   height: 630px;
   border: 2px solid black;
-  background-color: lightblue;
+  background-color: var(--green-color-1);
   margin: auto;
   border-radius: 30px;
   padding-left: 10px;
+  font-family: 'Noto Sans', sans-serif;
+  font-weight: 800;
 
+
+  .title {
+    font-weight: 800;
+  }
   .mb-3 {
       height: 70px; 
   }
@@ -90,7 +96,7 @@ const Signup = (props) =>{
 
   return(
     <StyledWrapper>
-      <h1>Signup</h1>
+      <h1 className='title'>Signup</h1>
       <Form>
         <Form.Group className='mb-3' controlId='username'>
           <Form.Label className='label'>Username </Form.Label>
