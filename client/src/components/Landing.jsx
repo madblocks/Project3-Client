@@ -56,13 +56,33 @@ const Landing = (props) =>{
         fishing: [],
         birdWatching: []
     })
-const [currentActivity, setCurrentActivity] = useState({name: '', owner: {username: ''}})
+
+const [map, setMap] = useState(null)
+
+const [currentActivity, setCurrentActivity] = useState({name: '', user: {username: ''}})
 const [showDetails, setShowDetails] = useState(false)
+const addDetails = (activity) => {
+    setCurrentActivity(activity)
+    setShowDetails(true)
+}
+
+const handleShow = () => setShowDetails(true);
+const handleClose = () => {setShowDetails(false); setShowCreate(false)}
+
+const addComment = () => {
+    //check if logged in, if so, allow them to add comment
+    //if not logged in, route to login page
+}
+const adjustLike = () => {
+    //check if logged in, if not send them to login
+    //else, check if already liked - remove the like, else add the like
+}
+
 const [showCreate, setShowCreate]= useState(false)
 const [createEventForm, setCreateEventForm] = useState({
     name: 'Select an Activity',
-    latitude: '',
-    longitude: '',
+    lat: '',
+    long: '',
     activityId: 0,
     date: new Date(),
     description:'',

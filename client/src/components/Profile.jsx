@@ -2,10 +2,15 @@ import { DataContext } from '../DataContext';
 import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
-import { Button } from 'react-bootstrap';
+import { Button, Card, Dropdown, Modal, DropdownButton } from 'react-bootstrap';
 import { useState, useEffect} from 'react';
 import axios from 'axios';
 import Client, { BASE_URL } from '../services/api';
+import Client from '../services/api'
+import { GrUserSettings } from 'react-icons/gr'
+import Calendar from 'react-calendar'
+
+
 
 const StyledProfile = styled.div`
 .grid-container{
@@ -30,8 +35,83 @@ export default function Profile() {
 
   let navigate = useNavigate()
   const {user, authenticated} = useContext(DataContext)
+  const [userEvents, setUserEvents] = useState([])
+  const [comments, setComments] = useState([])
+  const [currentActivity, setCurrentActivity] = useState({name: '', user: {username: ''}})
+  const [showDetails, setShowDetails] = useState(false)
+  const [showEdit, setShowEdit]= useState(false)
+  const [newComment, setNewComment]= useState({
+    body:'',
+    userId:'',
+    eventId:''
+  })
+  const [updatedEvent, setUpdatedEvent] = useState({})
+  let eventList = ["hiking","running","ultimate frisbee", "skiing", "mountain biking", "road biking", "kayaking", "whitewater rafting", "fishing", "bird watching"]
 
-        return (user && authenticated) ? (
+
+
+
+  const handleClose = () => {setShowDetails(false);setShowEdit(false)}  
+  const commentForm = () => {
+    document.querySelector(".commentForm").style.visibility= "visible";
+    document.querySelector(".comment-box").style.top="20px";
+  }
+  const handleCommentChange = (e) => {
+    setNewComment({...newComment, body: e.target.value, userId: user.id, eventId: currentActivity.id})
+  }
+  
+const getEventComments = async() => {
+  if (currentActivity.id) 
+  {
+  const res = await Client.get(`/api/comment/${currentActivity.id}`) 
+  let results = res.data
+  setComments(results)
+  setShowDetails(true)
+  }
+else {setComments(["failed to load comments"])}}
+const addComment = async (e) => {
+    e.preventDefault()
+    const res = await Client.post(`api/comment`, newComment)
+    console.log(res)
+    setNewComment({
+      body:'',
+    userId:'',
+    eventId:''
+    })
+}
+  const adjustLike = async () => {
+    //check if logged in, if not send them to login
+    //else, check if already liked - remove the like, else add the like
+}
+
+const addDetails = (activity) => {
+  setCurrentActivity(activity)
+  getEventComments();
+}
+const editEventButton = (activity) => {
+  setUpdatedEvent(activity);
+  setCurrentActivity(activity);
+  console.log(updatedEvent)
+  setShowEdit(true)
+}
+const setDate= (e)=> {
+  setUpdatedEvent({...updatedEvent, date: e})
+}
+
+useEffect(()=>{
+  const getUserEvents = async () => {
+    const res = await Client.get(`api/user/${user.username}`)
+    let results = res.data
+    setUserEvents(results[0].events)
+  const getLikes = async () => {
+    const res = await Client.get(`api/eventlikes/counter`)
+  }
+
+  }
+getUserEvents();
+},[])
+console.log(updatedEvent)
+return (user && authenticated && userEvents.length > 0) ? (
           <StyledProfile>
             <h1>Welcome, {user ? user.username : 'friend'}</h1>
             <img href={user.avatar} /> 
