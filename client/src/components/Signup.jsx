@@ -8,18 +8,19 @@ import { RegisterUser } from '../services/Auth';
 
 const StyledWrapper = styled.div `
 
-  width: 400px;
-  height: 650px;
+  width: 450px;
+  height: 630px;
   border: 2px solid black;
   background-color: lightblue;
   margin: auto;
   border-radius: 30px;
+  padding-left: 10px;
 
   .mb-3 {
       height: 70px; 
   }
   .input {
-      width: 70%;
+      width: 60%;
       height: 30px;
       border-radius: 30px;
   }
@@ -27,6 +28,20 @@ const StyledWrapper = styled.div `
       width: 25%;
       height: 35px;
       border-radius: 30px;
+  }
+  .label{
+    margin-right: 30px;
+  }
+  .email_label{
+    margin-left: 10px;
+    margin-right: 50px;
+  }
+  .p_label{
+    margin-left: -30px;
+    margin-right: 5px;
+  }
+  .text-muted{
+    margin-left: 100px;
   }
 `;
 
@@ -78,22 +93,22 @@ const Signup = (props) =>{
       <h1>Signup</h1>
       <Form>
         <Form.Group className='mb-3' controlId='username'>
-          <Form.Label>Username </Form.Label>
+          <Form.Label className='label'>Username </Form.Label>
           <Form.Control type='text' className='input' placeholder='Username' name='username' onChange={handleChange}/>
         </Form.Group>
 
         <Form.Group className='mb-3' controlId='firstName'>
-          <Form.Label>First Name </Form.Label>
+          <Form.Label className='label'>First Name </Form.Label>
           <Form.Control type='text' className='input' placeholder='Enter Your FirstName' name='firstName' onChange={handleChange}/>
         </Form.Group>
 
         <Form.Group className='mb-3' controlId='lastName'>
-          <Form.Label>Last Name </Form.Label>
+          <Form.Label className='label'>Last Name </Form.Label>
           <Form.Control type='text' className='input' placeholder='Enter Your LastName' name='lastName' onChange={handleChange}/>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Email </Form.Label>
+          <Form.Label className='email_label'>Email </Form.Label>
           <Form.Control type="email" className='input' placeholder="Enter email" name='email' onChange={handleChange}/>
           <br></br>
           <Form.Text className="text-muted">
@@ -102,12 +117,12 @@ const Signup = (props) =>{
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Password </Form.Label>
+          <Form.Label className='label'>Password </Form.Label>
           <Form.Control type="password" className='input' placeholder="Password" name='password' onChange={handleChange}/>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formConfirmPassword">
-          <Form.Label>Confirm Password </Form.Label>
+          <Form.Label className='p_label'>Confirm Password </Form.Label>
           <Form.Control type="password" className='input' placeholder="Confirm Password" name='confirmPassword' onChange={handleChange}/>
         </Form.Group>
 
