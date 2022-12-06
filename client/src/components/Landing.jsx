@@ -61,21 +61,11 @@ const Landing = (props) =>{
 
 const [map, setMap] = useState(null)
 
-
-
-const[usableDate, setUsableDate] = useState(null)
-const fixDate = (randDate) => {
-    const parsed = Date.parse(randDate) 
-    setUsableDate(new Date(parsed).toLocaleString('en-US'))
-
-}
-
 const [currentActivity, setCurrentActivity] = useState({name: '', user: {username: ''}})
 const [showDetails, setShowDetails] = useState(false)
 const addDetails = (activity) => {
     setCurrentActivity(activity)
     setShowDetails(true)
-    fixDate(activity.date)
 }
 
 const handleShow = () => setShowDetails(true);
@@ -92,7 +82,7 @@ const adjustLike = () => {
 
 const [showCreate, setShowCreate]= useState(false)
 const [createEventForm, setCreateEventForm] = useState({
-    activity: 'Select an Activity',
+    name: 'Select an Activity',
     lat: '',
     long: '',
     activityId: 0,
@@ -149,7 +139,7 @@ return (
                                         <Popup>
                                             <h2 style={{margin:"0"}}>{event.name}</h2><br /> 
                                             <h5 style={{margin:"0", position:"relative", top:"-10px"}}>Liked by XX Members</h5><br/>
-                                            <h5 style={{margin:"0", position:"relative", top:"-10px"}}>{event.date}</h5>
+                                            <h5 style={{margin:"0", position:"relative", top:"-10px"}}>{new Date(Date.parse(event.date)).toLocaleString('en-US')}</h5>
                                             <Button variant = "primary" onClick={()=>addDetails(event)} >
                                                 show details
                                             </Button>
@@ -167,15 +157,13 @@ return (
         </div>
         </div>
         <Modal show={showDetails} onHide={handleClose}>
-            
             <Modal.Header closeButton>
                 <Modal.Title>{currentActivity.name}</Modal.Title>
-                
             </Modal.Header>
             <Modal.Body>
                 Hosted By {currentActivity.user.username}
                 <h6 style={{margin:"0"}}>XX Likes</h6> <br/>
-                <h5 style={{margin:"0", position:"relative", top:"-10px"}}>{usableDate}</h5>
+                <h5 style={{margin:"0", position:"relative", top:"-10px"}}>{new Date(Date.parse(currentActivity.date)).toLocaleString('en-US')}</h5>
                 <p>{currentActivity.description}</p>
                 <h5>Comments <Button onClick={addComment}>add</Button></h5>
                 Map Comments Here<br/>
@@ -187,8 +175,8 @@ return (
                 Host an Event!
             </Modal.Header>
             <Modal.Body>
-                <Dropdown onSelect={(e)=>{setCreateEventForm({...createEventForm, activity: e})}}>
-                <DropdownButton title={createEventForm.activity}>
+                <Dropdown onSelect={(e)=>{setCreateEventForm({...createEventForm, name: e})}}>
+                <DropdownButton title={createEventForm.name}>
                     {eventList.map((item, index)=> (
                         <Dropdown.Item key={index} eventKey={item}>{item}</Dropdown.Item> 
                     ))}
