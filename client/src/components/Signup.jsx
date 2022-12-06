@@ -69,7 +69,7 @@ const Signup = (props) =>{
       confirmPassword: ''
     })
 
-    navigate('/signin')
+    navigate('/login')
     
   }
 
