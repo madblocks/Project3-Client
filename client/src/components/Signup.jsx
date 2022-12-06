@@ -7,48 +7,17 @@ import { useNavigate } from 'react-router-dom'
 import { RegisterUser } from '../services/Auth';
 
 const StyledWrapper = styled.div `
+  .input{
+    padding: 10px;
+    height: 50px;
+    width: 500px;
+    margin: auto;
+}
 
-  width: 450px;
-  height: 630px;
-  border: 2px solid black;
-  background-color: var(--green-color-1);
-  margin: auto;
-  border-radius: 30px;
-  padding-left: 10px;
-  font-family: 'Noto Sans', sans-serif;
-  font-weight: 800;
+.btn{
+  width: 100px;
+}
 
-
-  .title {
-    font-weight: 800;
-  }
-  .mb-3 {
-      height: 70px; 
-  }
-  .input {
-      width: 60%;
-      height: 30px;
-      border-radius: 30px;
-  }
-  .btn {
-      width: 25%;
-      height: 35px;
-      border-radius: 30px;
-  }
-  .label{
-    margin-right: 30px;
-  }
-  .email_label{
-    margin-left: 10px;
-    margin-right: 50px;
-  }
-  .p_label{
-    margin-left: -30px;
-    margin-right: 5px;
-  }
-  .text-muted{
-    margin-left: 100px;
-  }
 `;
 
 
