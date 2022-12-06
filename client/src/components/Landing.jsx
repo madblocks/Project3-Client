@@ -4,8 +4,11 @@ import { useState, useContext, useEffect, useRef} from 'react'
 import  Button  from 'react-bootstrap/Button'
 import { DataContext } from '../DataContext' 
 import Client from '../services/api'
-import CreateEvent from './CreateEvent'
 import Modal from 'react-bootstrap/Modal'
+import DropdownButton from 'react-bootstrap/DropdownButton'
+import DropdownItem from 'react-bootstrap/esm/DropdownItem'
+import Dropdown from 'react-bootstrap/Dropdown'
+import Calendar from 'react-calendar'
 
 const StyledWrapper = styled.div `
 .landing-container{
@@ -76,7 +79,7 @@ const addDetails = (activity) => {
 }
 
 const handleShow = () => setShowDetails(true);
-const handleClose = () => setShowDetails(false)
+const handleClose = () => {setShowDetails(false); setShowCreate(false)}
 
 const addComment = () => {
     //check if logged in, if so, allow them to add comment
@@ -87,11 +90,27 @@ const adjustLike = () => {
     //else, check if already liked - remove the like, else add the like
 }
 
-
-const createEvent = () => {
-    isLoggedIn && authenticated ? (alert()) : (alert('login or auth failure'))
+const [showCreate, setShowCreate]= useState(false)
+const [createEventForm, setCreateEventForm] = useState({
+    activity: 'Select an Activity',
+    lat: '',
+    long: '',
+    activityId: 0,
+    date: new Date(),
+    description:'',
+    userId:'',
+    city:'',
+    state:'',
+    reoccuring:''
+})
+let eventList = ["hiking","running","ultimate frisbee", "skiing", "mountain biking", "road biking", "kayaking", "whitewater rafting", "fishing", "bird watching"]
+const setDate= (e)=> {
+    setCreateEventForm({...createEventForm, date: e})
 }
-
+const createEvent = () => {
+    //isLoggedIn && authenticated ? (alert()) : (alert('login or auth failure'))
+    setShowCreate(true)
+}
 
 useEffect(() => {
     const getEvents = async () => {
@@ -115,7 +134,6 @@ return (
         <input type="text" placeholder="search" className="search"></input>
 
         <h6 className='instructions'>click and drag to move, use scrollwheel to zoom</h6>
-    <CreateEvent show={eventCreate}/>
     <div className="map-and-details">
     <MapContainer center={[35.591, -82.55]} zoom={10} className="map" ref={setMap}>
         <TileLayer
@@ -145,22 +163,41 @@ return (
             }
     </MapContainer>
         <div style={{display:"flex", flexDirection:"column", width: "33vw" }}>
-            <button style={{width:"18vw"}} onClick={createEvent}>Create Event</button> 
+            <Button style={{width:"18vw"}} onClick={createEvent}>Create Event</Button> 
         </div>
         </div>
         <Modal show={showDetails} onHide={handleClose}>
             
             <Modal.Header closeButton>
                 <Modal.Title>{currentActivity.name}</Modal.Title>
-                <h5>Hosted By {currentActivity.user.username} </h5>
+                
             </Modal.Header>
             <Modal.Body>
-                <h6 style={{margin:"0"}}>Liked by XX Members</h6> <br/>
+                Hosted By {currentActivity.user.username}
+                <h6 style={{margin:"0"}}>XX Likes</h6> <br/>
                 <h5 style={{margin:"0", position:"relative", top:"-10px"}}>{usableDate}</h5>
                 <p>{currentActivity.description}</p>
-                <h5>Comments <Button onClick={addComment}>+</Button></h5>
+                <h5>Comments <Button onClick={addComment}>add</Button></h5>
                 Map Comments Here<br/>
                 <Button onClick={adjustLike}>Like</Button>
+            </Modal.Body>
+        </Modal>
+        <Modal show ={showCreate} onHide={handleClose}>
+            <Modal.Header closeButton>
+                Host an Event!
+            </Modal.Header>
+            <Modal.Body>
+                <Dropdown onSelect={(e)=>{setCreateEventForm({...createEventForm, activity: e})}}>
+                <DropdownButton title={createEventForm.activity}>
+                    {eventList.map((item, index)=> (
+                        <Dropdown.Item key={index} eventKey={item}>{item}</Dropdown.Item> 
+                    ))}
+                </DropdownButton>
+                </Dropdown>
+                <br/>
+                <Calendar onChange={setDate} value={createEventForm.date}/>
+                
+                
             </Modal.Body>
         </Modal>
         </div>
