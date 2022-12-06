@@ -18,6 +18,10 @@ const StyledWrapper = styled.div `
   width: 100px;
 }
 
+h1{
+  padding-bottom: 25px;
+}
+
 `;
 
 
