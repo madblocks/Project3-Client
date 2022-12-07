@@ -8,18 +8,12 @@ font-family: 'Poppins', sans-serif; */
 
 
 :root {
-  --main-color: #23a129;
-  --main-color-dark: #005600;
-  --alt-color: #28638F;
-  --alt-color-2: #7EB0E1;
-  --dark-color: #3F4A3C;
-  --light-color: #A2AF9F;
-
-  --color1: #3d8ae0;
-  --color2: #7eb0e1;
-  --color3: #3dcfe0;
-  --color4: #80deea;
-  --color5: #03a9f4;
+  --main-color: #3d8ae0;
+  --main-color-dark: #08111c;
+  --alt-color: #3A8E88;
+  --alt-color-2: #3dcfe0;
+  --dark-color: #031b19;
+  --light-color: #DEF2F0;
 }
 
 .App {
