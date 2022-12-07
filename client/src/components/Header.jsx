@@ -27,9 +27,6 @@ const StyledWrapper = styled.div `
 }
 `;
 
-
-
-
 function NavbarDarkExample() {
   return (
     <Navbar variant="dark" bg="dark" className='nav_link' expand="lg">

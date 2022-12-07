@@ -1,4 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Noto+Sans:wght@400;700;800&family=Poppins:ital,wght@0,400;0,600;1,300&display=swap');
+
+/* fonts
+font-family: 'Montserrat', sans-serif;  main for now
+- weights 300(light) 400(regular), 700(bold)
+font-family: 'Noto Sans', sans-serif;
+font-family: 'Poppins', sans-serif; */
+
+
+:root {
+  --main-color: #23a129;
+  --main-color-dark: #005600;
+  --alt-color: #28638F;
+  --alt-color-2: #7EB0E1;
+  --dark-color: #3F4A3C;
+  --light-color: #A2AF9F;
+
+  --color1: #3d8ae0;
+  --color2: #7eb0e1;
+  --color3: #3dcfe0;
+  --color4: #80deea;
+  --color5: #03a9f4;
+}
+
 .App {
   text-align: center;
 }
+
 
