@@ -73,10 +73,7 @@ const [createEventForm, setCreateEventForm] = useState({
 })
 let eventList = ["Hiking","Running","Ultimate Frisbee", "Skiing", "Mountain Biking", "Road Biking", "Kayaking", "Whitewater Rafting", "Fishing", "Bird Watching"]
 
-const addDetails = (activity) => {
-    setCurrentActivity(activity)
-    setShowDetails(true)
-}
+
 
 
     const [eventCreate, setEventCreate] = useState(false)
@@ -115,7 +112,7 @@ const createEvent = () => {
     if (authenticated) {
         setCreateEventForm({...createEventForm, userId: user.id});
         setShowCreate(true)}
-        else {(alert('You need to Sign Up or Log In first!'))}
+    else {(alert('You need to Sign Up or Log In first!'))}
     
     
 }
@@ -126,14 +123,14 @@ const handleSubmit = async (e) =>{
     e.preventDefault();
     
     const activityId = eventList.indexOf(createEventForm.name) + 1;
-    setCreateEventForm({...createEventForm,activityId: activityId})
+    setCreateEventForm({...createEventForm, activityId: activityId})
     try{
     const res = await Client.post('api/event/', createEventForm )
     document.querySelector(".create-event-success").style.visibility= "visible"
-    document.querySelector(".create-event-failure").style.visibility= "hidden"
+    document.querySelector(".create-event-fail").style.visibility= "hidden"
     }
     catch (error){ 
-        document.querySelector(".create-event-failure").style.visibility= "visible"
+        document.querySelector(".create-event-fail").style.visibility= "visible"
         document.querySelector(".create-event-success").style.visibility= "hidden"
 }}
 
@@ -146,6 +143,11 @@ const handleSubmit = async (e) =>{
         //check if logged in, if not send them to login
         //else, check if already liked - remove the like, else add the like
     }
+
+const addDetails = (activity) => {
+    setCurrentActivity(activity)
+    setShowDetails(true)
+}
 
     useEffect(() => {
         const getEvents = async () => {
@@ -170,6 +172,9 @@ const handleSubmit = async (e) =>{
         }
         getEvents()
     },[])
+
+console.log(createEventForm)
+
 
     return (
         <StyledWrapper>
@@ -239,8 +244,19 @@ const handleSubmit = async (e) =>{
                     </Dropdown>
                     <br/>
                     <Calendar onChange={setDate} value={createEventForm.date}/>
-                    
-                    
+                    <form onSubmit={handleSubmit}>
+                <div style={{display: "flex",flexDirection:"column", margin:"10px 0 10px 0"}}>
+                    <input type="text" style={{width:"50%", marginBottom: "10px"}} placeholder ="latitude" name="latitude" onChange={handleChange}/>
+                    <input type="text" style={{width:"50%" , marginBottom: "10px"}} placeholder="longitude" name="longitude" onChange={handleChange}/>
+                    <input type="text" style={{width:"50%" , marginBottom: "10px"}} placeholder="city" name="city" onChange={handleChange}/>
+                    <input type="text" style={{width:"50%" , marginBottom: "10px"}} placeholder="state" name="state" onChange={handleChange}/>
+
+                    <textarea placeholder="description" name="description" onChange={handleChange}/>
+                </div>
+                <Button type="submit">Add Event!</Button>
+                </form>
+                <h4 className="create-event-success" style={{visibility:"hidden"}}>Created!</h4>
+                <h4 className="create-event-fail" style={{visibility:"hidden"}}>Please Fill Out All Fields!</h4>
                 </Modal.Body>
             </Modal>
             </div>
