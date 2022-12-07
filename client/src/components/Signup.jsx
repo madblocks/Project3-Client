@@ -9,40 +9,49 @@ import { RegisterUser } from '../services/Auth';
 const StyledWrapper = styled.div `
 
   width: 450px;
-  height: 630px;
-  border: 2px solid black;
-  background-color: lightblue;
+  height: 700px;
+  background: rgb(19,38,79);
+  background: linear-gradient(180deg, rgba(19,38,79,1) 0%, rgba(22,147,198,1) 52%, rgba(255,255,255,0) 82%);
   margin: auto;
-  border-radius: 30px;
+  border-radius: 10px;
   padding-left: 10px;
+  color: white;
+  margin-top: 50px;
+  padding-top: 17px;
+
 
   .mb-3 {
-      height: 70px; 
+      height: 40px;  
   }
   .input {
-      width: 60%;
+      width: 80%;
       height: 30px;
-      border-radius: 30px;
+      border-radius: 10px;
+      margin-left: 30px;
+      background: rgba(255,255,255,.2);
+      border: none;
   }
   .btn {
-      width: 25%;
+      width: 80%;
       height: 35px;
-      border-radius: 30px;
+      border-radius: 10px;
+      background: rgba(22, 46, 110, 0.895);
+      border: none; 
+      margin-left: -23px;
   }
   .label{
-    margin-right: 30px;
+    margin-left: -280px;
+    line-height: 5px;
   }
-  .email_label{
-    margin-left: 10px;
-    margin-right: 50px;
+  .e_label{
+    margin-left: -320px;
+    line-height: 5px;
   }
   .p_label{
-    margin-left: -30px;
-    margin-right: 5px;
+    margin-left: -210px;
+    line-height: 5px;
   }
-  .text-muted{
-    margin-left: 100px;
-  }
+  
 `;
 
 
@@ -90,44 +99,41 @@ const Signup = (props) =>{
 
   return(
     <StyledWrapper>
-      <h1>Signup</h1>
+      <h1>Sign Up</h1>
       <Form>
         <Form.Group className='mb-3' controlId='username'>
-          <Form.Label className='label'>Username </Form.Label>
+          <Form.Label className='label'>USERNAME </Form.Label>
           <Form.Control type='text' className='input' placeholder='Username' name='username' onChange={handleChange}/>
         </Form.Group>
 
         <Form.Group className='mb-3' controlId='firstName'>
-          <Form.Label className='label'>First Name </Form.Label>
-          <Form.Control type='text' className='input' placeholder='Enter Your FirstName' name='firstName' onChange={handleChange}/>
+          <Form.Label className='label'>FIRST NAME </Form.Label>
+          <Form.Control type='text' className='input' placeholder=' Firstname' name='firstName' onChange={handleChange}/>
         </Form.Group>
 
         <Form.Group className='mb-3' controlId='lastName'>
-          <Form.Label className='label'>Last Name </Form.Label>
-          <Form.Control type='text' className='input' placeholder='Enter Your LastName' name='lastName' onChange={handleChange}/>
+          <Form.Label className='label'>LAST NAME </Form.Label>
+          <Form.Control type='text' className='input' placeholder=' Lastname' name='lastName' onChange={handleChange}/>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label className='email_label'>Email </Form.Label>
+          <Form.Label className='e_label'>EMAIL </Form.Label>
           <Form.Control type="email" className='input' placeholder="Enter email" name='email' onChange={handleChange}/>
           <br></br>
-          <Form.Text className="text-muted">
-            We'll never share your email with anyone else.
-          </Form.Text>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label className='label'>Password </Form.Label>
+          <Form.Label className='label'>PASSWORD </Form.Label>
           <Form.Control type="password" className='input' placeholder="Password" name='password' onChange={handleChange}/>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formConfirmPassword">
-          <Form.Label className='p_label'>Confirm Password </Form.Label>
+          <Form.Label className='p_label'>CONFIRM PASSWORD </Form.Label>
           <Form.Control type="password" className='input' placeholder="Confirm Password" name='confirmPassword' onChange={handleChange}/>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicCheckbox">
-          <Form.Check type="checkbox" label="Check me out" />
+          <Form.Check type="checkbox" className="checkbox" label="Check me out" />
         </Form.Group>
         <Button variant="primary" className='btn btn-primary' type="submit" onClick={handleSubmit}
           disabled={!allData.username || !allData.firstName || !allData.lastName || !allData.email || 

@@ -9,24 +9,37 @@ import { LoginUser } from '../services/Auth';
 const StyledLogin = styled.div `
 
   width: 400px;
-  height: 300px;
-  border: 2px solid black;
-  background-color: lightblue;
+  height: 400px;
+  padding-top: 20px;
+  background: rgb(16,45,40);
+background: linear-gradient(180deg, rgba(16,45,40,1) 0%, rgba(13,120,99,0.9893333333333333) 29%, rgba(234,238,238,0.696) 96%);
   margin: auto;
-  border-radius: 30px;
+  border-radius: 10px;
+  margin-top: 60px;
+  color: white;
 
   .mb-3 {
-      height: 70px; 
+      height: 60px; 
+      
   }
   .input {
-      width: 70%;
+      width: 80%;
       height: 30px;
-      border-radius: 30px;
+      border-radius: 10px;
+      margin-left: 40px;
+      background: rgba(255,255,255,.2);
+      border: none;
   }
   .btn {
-      width: 25%;
+      width: 80%;
       height: 35px;
-      border-radius: 30px;
+      border-radius: 10px;
+      margin-top: 30px;
+      background: #0d7863;
+      border: none;
+  }
+  .label{
+      margin-left: -230px;
   }
 `;
 
@@ -56,11 +69,11 @@ const Login = (props) =>{
             <h1>Login</h1>
             <Form>
                 <Form.Group className='mb-3' controlId='username'>
-                    <Form.Label>Username </Form.Label>
+                    <Form.Label className='label'>USERNAME </Form.Label>
                     <Form.Control type='text' className='input' placeholder='Username' name='username' onChange={handleChange}/>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Label>Password </Form.Label>
+                    <Form.Label className='label'>PASSWORD </Form.Label>
                     <Form.Control type="password" className='input' placeholder="Password" name='password' onChange={handleChange}/>
                 </Form.Group>
                 <Button variant="primary" className='btn btn-primary' type="submit" onClick={handleSubmit}

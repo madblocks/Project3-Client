@@ -22,6 +22,9 @@ const StyledWrapper = styled.div `
     display: flex;
      justify-content: flex-end;
 }
+.nav_link{
+    background: #0e6655!important;
+}
 `;
 
 
@@ -29,7 +32,7 @@ const StyledWrapper = styled.div `
 
 function NavbarDarkExample() {
   return (
-    <Navbar variant="dark" bg="dark" expand="lg">
+    <Navbar variant="dark" bg="dark" className='nav_link' expand="lg">
       <Container fluid>
         <Navbar.Brand href="/"><img src={require("../images/logo_transparent.png")} alt="logo" className="logo"></img></Navbar.Brand>
         <Navbar.Toggle aria-controls="navbar-dark-example" />
