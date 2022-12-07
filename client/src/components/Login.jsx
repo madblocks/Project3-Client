@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import { LoginUser } from '../services/Auth';
 
 const StyledLogin = styled.div `
-<<<<<<< HEAD
+
 
   width: 400px;
   height: 400px;
@@ -42,17 +42,7 @@ background: linear-gradient(180deg, rgba(16,45,40,1) 0%, rgba(13,120,99,0.989333
   .label{
       margin-left: -230px;
   }
-=======
-.input{
-    padding: 10px;
-    height: 50px;
-    width: 500px;
-    margin: auto;
-}
-h1{
-    padding-bottom: 25px;
-}
->>>>>>> 84182e146bd746eb80b0cd16f4d96b9407de09a0
+
 `;
 //need feedback if username/password is incorrect
 const Login = (props) =>{
@@ -82,19 +72,19 @@ const Login = (props) =>{
             <h1>Login</h1>
             <Form>
                 <Form.Group className='mb-3' controlId='username'>
-<<<<<<< HEAD
+
                     <Form.Label className='label'>USERNAME </Form.Label>
                     <Form.Control type='text' className='input' placeholder='Username' name='username' onChange={handleChange}/>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                     <Form.Label className='label'>PASSWORD </Form.Label>
-=======
+
                     <Form.Label>UserName</Form.Label>
                     <Form.Control type='text' className='input' placeholder='Username' name='username' onChange={handleChange}/>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                     <Form.Label>Password</Form.Label>
->>>>>>> 84182e146bd746eb80b0cd16f4d96b9407de09a0
+
                     <Form.Control type="password" className='input' placeholder="Password" name='password' onChange={handleChange}/>
                 </Form.Group>
                 <Button variant="primary" className='btn btn-primary' type="submit" onClick={handleSubmit}
