@@ -6,7 +6,6 @@ import { DataContext } from '../DataContext'
 import Client from '../services/api'
 import Modal from 'react-bootstrap/Modal'
 import DropdownButton from 'react-bootstrap/DropdownButton'
-import DropdownItem from 'react-bootstrap/esm/DropdownItem'
 import Dropdown from 'react-bootstrap/Dropdown'
 import Calendar from 'react-calendar'
 
@@ -39,13 +38,10 @@ const StyledWrapper = styled.div `
 }`;
 const Landing = (props) =>{
 
-    const mapRef = useRef();
-    const {isLoggedIn, setLoggedIn} = useContext(DataContext)
+
     const {authenticated, setAuth} = useContext(DataContext)
     const {user, setUser} = useContext(DataContext)
-    const [eventCreate, setEventCreate] = useState(false)
     const [searchCriteria, setSearchCriteria] = useState([])
-    const [activeEvent, setActiveEvent] = useState(null)
     const [currentSearch, setCurrentSearch] = useState([])
     const [allEvents, setAllEvents] = useState({
         hiking: [],
@@ -59,28 +55,8 @@ const Landing = (props) =>{
         fishing: [],
         birdWatching: []
     })
-
-const [map, setMap] = useState(null)
-
 const [currentActivity, setCurrentActivity] = useState({name: '', owner: {username: ''}})
 const [showDetails, setShowDetails] = useState(false)
-const addDetails = (activity) => {
-    setCurrentActivity(activity)
-    setShowDetails(true)
-}
-
-const handleShow = () => setShowDetails(true);
-const handleClose = () => {setShowDetails(false); setShowCreate(false)}
-
-const addComment = () => {
-    //check if logged in, if so, allow them to add comment
-    //if not logged in, route to login page
-}
-const adjustLike = () => {
-    //check if logged in, if not send them to login
-    //else, check if already liked - remove the like, else add the like
-}
-
 const [showCreate, setShowCreate]= useState(false)
 const [createEventForm, setCreateEventForm] = useState({
     name: 'Select an Activity',
@@ -95,13 +71,32 @@ const [createEventForm, setCreateEventForm] = useState({
     reoccuring:''
 })
 let eventList = ["Hiking","Running","Ultimate Frisbee", "Skiing", "Mountain Biking", "Road Biking", "Kayaking", "Whitewater Rafting", "Fishing", "Bird Watching"]
+
+const addDetails = (activity) => {
+    setCurrentActivity(activity)
+    setShowDetails(true)
+}
+
+const handleClose = () => {setShowDetails(false); setShowCreate(false)}
+
+const addComment = () => {
+    //check if logged in, if so, allow them to add comment
+    //if not logged in, route to login page
+}
+const adjustLike = () => {
+    //check if logged in, if not send them to login
+    //else, check if already liked - remove the like, else add the like
+}
+
 const setDate= (e)=> {
     setCreateEventForm({...createEventForm, date: e})
 }
 const createEvent = () => {
-    //isLoggedIn && authenticated ? (alert()) : (alert('login or auth failure'))
-    setCreateEventForm({...createEventForm, userId: user.id})
-    setShowCreate(true)
+    if (authenticated) {
+        setCreateEventForm({...createEventForm, userId: user.id});
+        setShowCreate(true)}
+        else {(alert('You need to Sign Up or Log In first!'))}
+    
     
 }
 const handleChange = (e) =>{
@@ -112,14 +107,16 @@ const handleSubmit = async (e) =>{
     
     const activityId = eventList.indexOf(createEventForm.name) + 1;
     setCreateEventForm({...createEventForm,activityId: activityId})
-
-    console.log(createEventForm)
+    try{
     const res = await Client.post('api/event/', createEventForm )
-    if (res) {
-        document.querySelector(".create-event-success").style.visibility= "visible"
+    document.querySelector(".create-event-success").style.visibility= "visible"
+    document.querySelector(".create-event-failure").style.visibility= "hidden"
     }
+    catch (error){ 
+        document.querySelector(".create-event-failure").style.visibility= "visible"
+        document.querySelector(".create-event-success").style.visibility= "hidden"
+}}
 
-}
 
 useEffect(() => {
     const getEvents = async () => {
@@ -145,7 +142,7 @@ return (
         <h6 className='instructions'>click and drag to move, use scrollwheel to zoom</h6>
 {/* Map */}        
     <div className="map-and-details">
-    <MapContainer center={[35.591, -82.55]} zoom={10} className="map" ref={setMap}>
+    <MapContainer center={[35.591, -82.55]} zoom={10} className="map">
         <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
@@ -218,6 +215,7 @@ return (
                 <Button type="submit">Add Event!</Button>
                 </form>
                 <h4 className="create-event-success" style={{visibility:"hidden"}}>Created!</h4>
+                <h4 className="create-event-failure" style={{visibility:"hidden"}}>Please Fill Out All Fields!</h4>
                 
             </Modal.Body>
         </Modal>

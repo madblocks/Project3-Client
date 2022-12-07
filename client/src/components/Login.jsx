@@ -22,7 +22,7 @@ const Login = (props) =>{
 
     let navigate = useNavigate()
     const {setUser, setAuth} = useContext(DataContext)
-
+    const {isLoggedIn, setLoggedIn} = useContext(DataContext)
     const [formData, setFormData] = useState({username: '', password: ''})
 
     const handleChange = (e) => {
@@ -36,6 +36,7 @@ const Login = (props) =>{
         setFormData({username: '', password: ''})
         setUser(payload)
         setAuth(true)
+        setLoggedIn(true)
         navigate('/profile')
     }
 
