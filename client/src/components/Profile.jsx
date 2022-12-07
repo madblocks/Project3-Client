@@ -66,10 +66,10 @@ const getEventComments = async() => {
   setShowDetails(true)
   }
 else {setComments(["failed to load comments"])}}
+
 const addComment = async (e) => {
     e.preventDefault()
     const res = await Client.post(`api/comment`, newComment)
-    console.log(res)
     setNewComment({
       body:'',
     userId:'',
@@ -157,7 +157,6 @@ return (user && authenticated && userEvents.length > 0) ? (
                 </form>
                 <div className="comment-box" style={{overflowY:"scroll", border:"2px solid black", height: "25vh", position:"relative", top:"-100px", margin:"0 auto"}}>
                 {comments.map((comment,index)=>(
-                  
                   <p key={index}>{comment.body}</p>
                 ))}
                 </div>
