@@ -110,7 +110,11 @@ useEffect(()=>{
   }
 getUserEvents();
 },[])
-console.log(updatedEvent)
+
+
+
+
+
 return (user && authenticated && userEvents.length > 0) ? (
           <StyledProfile>
             <h1>Welcome, {user ? user.username : 'friend'}</h1>
