@@ -7,6 +7,42 @@ import { useNavigate } from 'react-router-dom'
 import { LoginUser } from '../services/Auth';
 
 const StyledLogin = styled.div `
+<<<<<<< HEAD
+
+  width: 400px;
+  height: 400px;
+  padding-top: 20px;
+  background: rgb(16,45,40);
+background: linear-gradient(180deg, rgba(16,45,40,1) 0%, rgba(13,120,99,0.9893333333333333) 29%, rgba(234,238,238,0.696) 96%);
+  margin: auto;
+  border-radius: 10px;
+  margin-top: 60px;
+  color: white;
+
+  .mb-3 {
+      height: 60px; 
+      
+  }
+  .input {
+      width: 80%;
+      height: 30px;
+      border-radius: 10px;
+      margin-left: 40px;
+      background: rgba(255,255,255,.2);
+      border: none;
+  }
+  .btn {
+      width: 80%;
+      height: 35px;
+      border-radius: 10px;
+      margin-top: 30px;
+      background: #0d7863;
+      border: none;
+  }
+  .label{
+      margin-left: -230px;
+  }
+=======
 .input{
     padding: 10px;
     height: 50px;
@@ -16,6 +52,7 @@ const StyledLogin = styled.div `
 h1{
     padding-bottom: 25px;
 }
+>>>>>>> 84182e146bd746eb80b0cd16f4d96b9407de09a0
 `;
 //need feedback if username/password is incorrect
 const Login = (props) =>{
@@ -45,11 +82,19 @@ const Login = (props) =>{
             <h1>Login</h1>
             <Form>
                 <Form.Group className='mb-3' controlId='username'>
+<<<<<<< HEAD
+                    <Form.Label className='label'>USERNAME </Form.Label>
+                    <Form.Control type='text' className='input' placeholder='Username' name='username' onChange={handleChange}/>
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Label className='label'>PASSWORD </Form.Label>
+=======
                     <Form.Label>UserName</Form.Label>
                     <Form.Control type='text' className='input' placeholder='Username' name='username' onChange={handleChange}/>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                     <Form.Label>Password</Form.Label>
+>>>>>>> 84182e146bd746eb80b0cd16f4d96b9407de09a0
                     <Form.Control type="password" className='input' placeholder="Password" name='password' onChange={handleChange}/>
                 </Form.Group>
                 <Button variant="primary" className='btn btn-primary' type="submit" onClick={handleSubmit}
