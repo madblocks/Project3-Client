@@ -104,16 +104,13 @@ const Signup = (props) =>{
           <Form.Label className='p_label'>Confirm Password </Form.Label>
           <Form.Control type="password" className='input' placeholder="Confirm Password" name='confirmPassword' onChange={handleChange}/>
         </Form.Group>
-
-        <Form.Group className="mb-3" controlId="formBasicCheckbox">
-          <Form.Check type="checkbox" label="Check me out" />
-        </Form.Group>
         <Button variant="primary" className='btn btn-primary' type="submit" onClick={handleSubmit}
           disabled={!allData.username || !allData.firstName || !allData.lastName || !allData.email || 
             !allData.password || !(allData.password === allData.confirmPassword)}>
           Submit
         </Button>
       </Form>
+      <br/>
     </StyledWrapper>
   )
 }

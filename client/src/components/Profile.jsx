@@ -107,7 +107,11 @@ useEffect(()=>{
   }
 getUserEvents();
 },[])
-console.log(updatedEvent)
+
+
+
+
+
 return (user && authenticated && userEvents.length > 0) ? (
           <StyledProfile>
             <h1 style={{width:"100%"}}>Welcome, {user ? user.username : 'friend'} <GrUserSettings style={{float:"right", marginRight:"20px"}}/></h1>
