@@ -40,43 +40,9 @@ const StyledWrapper = styled.div `
 }`;
 const Landing = (props) =>{
 
-
-
-    const {authenticated, setAuth} = useContext(DataContext)
-    const {user, setUser} = useContext(DataContext)
-    const [allEvents, setAllEvents] = useState({
-        hiking: [],
-        running: [],
-        ultimate: [],
-        skiing: [],
-        mountainBiking: [],
-        roadBiking: [],
-        kayaking: [],
-        rafting: [],
-        fishing: [],
-        birdWatching: []
-    })
-const [currentActivity, setCurrentActivity] = useState({name: '', owner: {username: ''}})
-const [showDetails, setShowDetails] = useState(false)
-const [showCreate, setShowCreate]= useState(false)
-const [createEventForm, setCreateEventForm] = useState({
-    name: 'Select an Activity',
-    latitude: '',
-    longitude: '',
-    activityId: 0,
-    date: new Date(),
-    description:'',
-    userId:'',
-    city:'',
-    state:'',
-    reoccuring:''
-})
-let eventList = ["Hiking","Running","Ultimate Frisbee", "Skiing", "Mountain Biking", "Road Biking", "Kayaking", "Whitewater Rafting", "Fishing", "Bird Watching"]
-
-
-
-
-    const [eventCreate, setEventCreate] = useState(false)
+    // const mapRef = useRef();
+    // const {authenticated, isLoggedIn} = useContext(DataContext)
+    // const [eventCreate, setEventCreate] = useState(false)
     const [search, setSearch] = useState({
         activityId: null,
         start: null,
@@ -95,45 +61,34 @@ let eventList = ["Hiking","Running","Ultimate Frisbee", "Skiing", "Mountain Biki
             fishing: false,
             birdWatching: true,
     })
-
+    // const [activeEvent, setActiveEvent] = useState(null)
     // const [currentSearch, setCurrentSearch] = useState([])
+    const [allEvents, setAllEvents] = useState({hiking: [],
+                                            running: [],
+                                            ultimate: [],
+                                            skiing: [],
+                                            mountainBiking: [],
+                                            roadBiking: [],
+                                            kayaking: [],
+                                            rafting: [],
+                                            fishing: [],
+                                            birdWatching: []})
+
+    const [map, setMap] = useState(null)
+
+    const [currentActivity, setCurrentActivity] = useState({name: '', owner: {username: ''}})
+    const [showDetails, setShowDetails] = useState(false)
+    const addDetails = (activity) => {
+        setCurrentActivity(activity)
+        setShowDetails(true)
+    }
 
     const toggleActivityFilter = (activityRef) => {
         // setActivityFilter(...activityFilter, [activityRef]: !activityFilter.activityRef)
     }
 
-const handleClose = () => {setShowDetails(false); setShowCreate(false)}
-
-
-const setDate= (e)=> {
-    setCreateEventForm({...createEventForm, date: e})
-}
-const createEvent = () => {
-    if (authenticated) {
-        setCreateEventForm({...createEventForm, userId: user.id});
-        setShowCreate(true)}
-    else {(alert('You need to Sign Up or Log In first!'))}
-    
-    
-}
-const handleChange = (e) =>{
-    setCreateEventForm({...createEventForm, [e.target.name]: e.target.value})
-}
-const handleSubmit = async (e) =>{
-    e.preventDefault();
-    
-    const activityId = eventList.indexOf(createEventForm.name) + 1;
-    setCreateEventForm({...createEventForm, activityId: activityId})
-    try{
-    const res = await Client.post('api/event/', createEventForm )
-    document.querySelector(".create-event-success").style.visibility= "visible"
-    document.querySelector(".create-event-fail").style.visibility= "hidden"
-    }
-    catch (error){ 
-        document.querySelector(".create-event-fail").style.visibility= "visible"
-        document.querySelector(".create-event-success").style.visibility= "hidden"
-}}
-
+    const handleShow = () => setShowDetails(true);
+    const handleClose = () => {setShowDetails(false); setShowCreate(false)}
 
     const addComment = () => {
         //check if logged in, if so, allow them to add comment
@@ -144,10 +99,27 @@ const handleSubmit = async (e) =>{
         //else, check if already liked - remove the like, else add the like
     }
 
-const addDetails = (activity) => {
-    setCurrentActivity(activity)
-    setShowDetails(true)
-}
+    const [showCreate, setShowCreate]= useState(false)
+    const [createEventForm, setCreateEventForm] = useState({
+        name: 'Select an Activity',
+        lat: '',
+        long: '',
+        activityId: 0,
+        date: new Date(),
+        description:'',
+        userId:'',
+        city:'',
+        state:'',
+        reoccuring:''
+    })
+    let eventList = ["hiking","running","ultimate frisbee", "skiing", "mountain biking", "road biking", "kayaking", "whitewater rafting", "fishing", "bird watching"]
+    const setDate= (e)=> {
+        setCreateEventForm({...createEventForm, date: e})
+    }
+    const createEvent = () => {
+        //isLoggedIn && authenticated ? (alert()) : (alert('login or auth failure'))
+        setShowCreate(true)
+    }
 
     useEffect(() => {
         const getEvents = async () => {
@@ -173,8 +145,20 @@ const addDetails = (activity) => {
         getEvents()
     },[])
 
-console.log(createEventForm)
-
+    // useEffect(() => {
+    //     const getEvents = async () => {
+    //         const res = await Client.get('api/event?attendees=true&likes=true')
+    //         let results = res.data
+    //         setAllEvents(() => {
+    //             let sortedResults = {}
+    //             results.forEach((event) => {
+    //                 sortedResults = {...sortedResults, [event.activity.ref]: Object.values(sortedResults[event.activity.ref]).push(event)}
+    //             })
+    //             return sortedResults
+    //         })
+    //     }
+    //     getEvents()
+    // },[])
 
     return (
         <StyledWrapper>
@@ -262,7 +246,6 @@ console.log(createEventForm)
             </div>
         </StyledWrapper>
     )
-
 }
 
 export default Landing
