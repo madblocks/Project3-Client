@@ -198,7 +198,7 @@ console.log(createEventForm)
                                         <Marker key={event.id} position={[event.latitude, event.longitude]}>
                                             <Popup>
                                                 <h2 style={{margin:"0"}}>{event.name}</h2><br /> 
-                                                {/* <h5 style={{margin:"0", position:"relative", top:"-10px"}}>Liked by {event.eventLikedBy.length} Members</h5><br/> */}
+                                                <h5 style={{margin:"0", position:"relative", top:"-10px"}}>Liked by {event.eventLikedBy.length} Members</h5><br/>
                                                 <h5 style={{margin:"0", position:"relative", top:"-10px"}}>{new Date(Date.parse(event.date)).toLocaleString('en-US')}</h5>
                                                 <Button variant = "primary" onClick={()=>addDetails(event)} >
                                                     show details
