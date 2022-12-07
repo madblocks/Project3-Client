@@ -9,6 +9,7 @@ import DropdownButton from 'react-bootstrap/DropdownButton'
 import DropdownItem from 'react-bootstrap/esm/DropdownItem'
 import Dropdown from 'react-bootstrap/Dropdown'
 import Calendar from 'react-calendar'
+import SearchBar from './SearchBar'
 
 const StyledWrapper = styled.div `
 .landing-container{
@@ -39,29 +40,26 @@ const StyledWrapper = styled.div `
 }`;
 const Landing = (props) =>{
 
-    const mapRef = useRef();
-    const {isLoggedIn, setLoggedIn} = useContext(DataContext)
-    const {authenticated, setAuth} = useContext(DataContext)
-    const [eventCreate, setEventCreate] = useState(false)
-    const [searchCriteria, setSearchCriteria] = useState([])
-    const [activeEvent, setActiveEvent] = useState(null)
-    const [currentSearch, setCurrentSearch] = useState([])
-    const [allEvents, setAllEvents] = useState({
-        hiking: [],
-        running: [],
-        ultimate: [],
-        skiing: [],
-        mountainBiking: [],
-        roadBiking: [],
-        kayaking: [],
-        rafting: [],
-        fishing: [],
-        birdWatching: []
-    })
+    // const mapRef = useRef();
+    // const {authenticated, isLoggedIn} = useContext(DataContext)
+    // const [eventCreate, setEventCreate] = useState(false)
+    // const [searchCriteria, setSearchCriteria] = useState([])
+    // const [activeEvent, setActiveEvent] = useState(null)
+    // const [currentSearch, setCurrentSearch] = useState([])
+const [allEvents, setAllEvents] = useState({hiking: [],
+                                            running: [],
+                                            ultimate: [],
+                                            skiing: [],
+                                            mountainBiking: [],
+                                            roadBiking: [],
+                                            kayaking: [],
+                                            rafting: [],
+                                            fishing: [],
+                                            birdWatching: []})
 
 const [map, setMap] = useState(null)
 
-const [currentActivity, setCurrentActivity] = useState({name: '', user: {username: ''}})
+const [currentActivity, setCurrentActivity] = useState({name: '', owner: {username: ''}})
 const [showDetails, setShowDetails] = useState(false)
 const addDetails = (activity) => {
     setCurrentActivity(activity)
@@ -104,12 +102,20 @@ const createEvent = () => {
 
 useEffect(() => {
     const getEvents = async () => {
-        const res = await Client.get('api/event')
+        const res = await Client.get('api/event?attendees=true&likes=true')
         let results = res.data
         setAllEvents(() => {
-            let sortedResults = allEvents
+            let sortedResults =  {  hiking: [],
+                                    running: [],
+                                    ultimate: [],
+                                    skiing: [],
+                                    mountainBiking: [],
+                                    roadBiking: [],
+                                    kayaking: [],
+                                    rafting: [],
+                                    fishing: [],
+                                    birdWatching: []}
             results.forEach((event) => {
-                
                 sortedResults = {...sortedResults, [event.activity.ref]: [...sortedResults[event.activity.ref], event]}
             })
             return sortedResults
@@ -118,12 +124,25 @@ useEffect(() => {
     getEvents()
 },[])
 
+// useEffect(() => {
+//     const getEvents = async () => {
+//         const res = await Client.get('api/event?attendees=true&likes=true')
+//         let results = res.data
+//         setAllEvents(() => {
+//             let sortedResults = {}
+//             results.forEach((event) => {
+//                 sortedResults = {...sortedResults, [event.activity.ref]: Object.values(sortedResults[event.activity.ref]).push(event)}
+//             })
+//             return sortedResults
+//         })
+//     }
+//     getEvents()
+// },[])
+
 return (
     <StyledWrapper>
     <div className="landing-container">
-        <input type="text" placeholder="search" className="search"></input>
-
-        <h6 className='instructions'>click and drag to move, use scrollwheel to zoom</h6>
+        <SearchBar/>
     <div className="map-and-details">
     <MapContainer center={[35.591, -82.55]} zoom={10} className="map" ref={setMap}>
         <TileLayer
@@ -133,12 +152,12 @@ return (
                 <LayersControl position="topright">
                     {Object.values(allEvents).map((eventType, index) => (
                         <LayersControl.Overlay checked name={`${eventType[0].activity.name}(${eventType.length})`} key = {index} layerId = {index}>
-                            <LayerGroup >
+                            <LayerGroup>
                                 {eventType.map(event => (
                                     <Marker key={event.id} position={[event.latitude, event.longitude]}>
                                         <Popup>
                                             <h2 style={{margin:"0"}}>{event.name}</h2><br /> 
-                                            <h5 style={{margin:"0", position:"relative", top:"-10px"}}>Liked by XX Members</h5><br/>
+                                            <h5 style={{margin:"0", position:"relative", top:"-10px"}}>Liked by {event.eventLikedBy.length} Members</h5><br/>
                                             <h5 style={{margin:"0", position:"relative", top:"-10px"}}>{new Date(Date.parse(event.date)).toLocaleString('en-US')}</h5>
                                             <Button variant = "primary" onClick={()=>addDetails(event)} >
                                                 show details
@@ -161,7 +180,7 @@ return (
                 <Modal.Title>{currentActivity.name}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                Hosted By {currentActivity.user.username}
+                Hosted By {currentActivity.owner.username}
                 <h6 style={{margin:"0"}}>XX Likes</h6> <br/>
                 <h5 style={{margin:"0", position:"relative", top:"-10px"}}>{new Date(Date.parse(currentActivity.date)).toLocaleString('en-US')}</h5>
                 <p>{currentActivity.description}</p>
