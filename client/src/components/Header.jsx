@@ -24,9 +24,6 @@ const StyledWrapper = styled.div `
 }
 `;
 
-
-
-
 function NavbarDarkExample() {
   return (
     <Navbar variant="dark" bg="dark" expand="lg">

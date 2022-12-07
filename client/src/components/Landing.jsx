@@ -23,11 +23,11 @@ const StyledWrapper = styled.div `
     border: 3px solid black;
 }
 .search{
-    margin: 10px;
+    margin: auto;
     width: 500px;
 }
 .instructions{
-    margin:0;
+    margin: auto;
     text-align: left;
     padding-left: 10px;
 }
