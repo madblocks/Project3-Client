@@ -9,7 +9,6 @@ import DropdownButton from 'react-bootstrap/DropdownButton'
 import Dropdown from 'react-bootstrap/Dropdown'
 import Calendar from 'react-calendar'
 import SearchBar from './SearchBar'
-import DropdownToggle from 'react-bootstrap/esm/DropdownToggle'
 
 const StyledWrapper = styled.div `
 .landing-container{
@@ -40,25 +39,22 @@ const StyledWrapper = styled.div `
 }`;
 const Landing = (props) =>{
 
-
-
-    const {authenticated, setAuth} = useContext(DataContext)
-    const {user, setUser} = useContext(DataContext)
-    const [eventCreate, setEventCreate] = useState(false)
-    const [searchCriteria, setSearchCriteria] = useState([])
-    const [currentSearch, setCurrentSearch] = useState([])
-    const [allEvents, setAllEvents] = useState({
-        hiking: [],
-        running: [],
-        ultimate: [],
-        skiing: [],
-        mountainBiking: [],
-        roadBiking: [],
-        kayaking: [],
-        rafting: [],
-        fishing: [],
-        birdWatching: []
-    })
+    // const mapRef = useRef();
+    // const {authenticated, isLoggedIn} = useContext(DataContext)
+    // const [eventCreate, setEventCreate] = useState(false)
+    // const [searchCriteria, setSearchCriteria] = useState([])
+    // const [activeEvent, setActiveEvent] = useState(null)
+    // const [currentSearch, setCurrentSearch] = useState([])
+const [allEvents, setAllEvents] = useState({hiking: [],
+                                            running: [],
+                                            ultimate: [],
+                                            skiing: [],
+                                            mountainBiking: [],
+                                            roadBiking: [],
+                                            kayaking: [],
+                                            rafting: [],
+                                            fishing: [],
+                                            birdWatching: []})
 
 const [map, setMap] = useState(null)
 
@@ -123,36 +119,45 @@ const handleSubmit = async (e) =>{
 
 useEffect(() => {
     const getEvents = async () => {
-        const res = await Client.get('api/event')
+        const res = await Client.get('api/event?attendees=true&likes=true')
         let results = res.data
         setAllEvents(() => {
-            let sortedResults = allEvents
+            let sortedResults =  {  hiking: [],
+                                    running: [],
+                                    ultimate: [],
+                                    skiing: [],
+                                    mountainBiking: [],
+                                    roadBiking: [],
+                                    kayaking: [],
+                                    rafting: [],
+                                    fishing: [],
+                                    birdWatching: []}
             results.forEach((event) => {
-                
                 sortedResults = {...sortedResults, [event.activity.ref]: [...sortedResults[event.activity.ref], event]}
             })
         }
         getEvents()
     },[])
 
-    // useEffect(() => {
-    //     const getEvents = async () => {
-    //         const res = await Client.get('api/event?attendees=true&likes=true')
-    //         let results = res.data
-    //         setAllEvents(() => {
-    //             let sortedResults = {}
-    //             results.forEach((event) => {
-    //                 sortedResults = {...sortedResults, [event.activity.ref]: Object.values(sortedResults[event.activity.ref]).push(event)}
-    //             })
-    //             return sortedResults
-    //         })
-    //     }
-    //     getEvents()
-    // },[])
+// useEffect(() => {
+//     const getEvents = async () => {
+//         const res = await Client.get('api/event?attendees=true&likes=true')
+//         let results = res.data
+//         setAllEvents(() => {
+//             let sortedResults = {}
+//             results.forEach((event) => {
+//                 sortedResults = {...sortedResults, [event.activity.ref]: Object.values(sortedResults[event.activity.ref]).push(event)}
+//             })
+//             return sortedResults
+//         })
+//     }
+//     getEvents()
+// },[])
 
-
-        <h6 className='instructions'>click and drag to move, use scrollwheel to zoom</h6>
-{/* Map */}        
+return (
+    <StyledWrapper>
+    <div className="landing-container">
+        <SearchBar/>
     <div className="map-and-details">
     <MapContainer center={[35.591, -82.55]} zoom={10} className="map">
         <TileLayer
@@ -162,12 +167,12 @@ useEffect(() => {
                 <LayersControl position="topright">
                     {Object.values(allEvents).map((eventType, index) => (
                         <LayersControl.Overlay checked name={`${eventType[0].activity.name}(${eventType.length})`} key = {index} layerId = {index}>
-                            <LayerGroup >
+                            <LayerGroup>
                                 {eventType.map(event => (
                                     <Marker key={event.id} position={[event.latitude, event.longitude]}>
                                         <Popup>
                                             <h2 style={{margin:"0"}}>{event.name}</h2><br /> 
-                                            <h5 style={{margin:"0", position:"relative", top:"-10px"}}>Liked by XX Members</h5><br/>
+                                            <h5 style={{margin:"0", position:"relative", top:"-10px"}}>Liked by {event.eventLikedBy.length} Members</h5><br/>
                                             <h5 style={{margin:"0", position:"relative", top:"-10px"}}>{new Date(Date.parse(event.date)).toLocaleString('en-US')}</h5>
                                             <Button variant = "primary" onClick={()=>addDetails(event)} >
                                                 show details
