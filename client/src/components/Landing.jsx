@@ -56,7 +56,7 @@ const [allEvents, setAllEvents] = useState({
         fishing: [],
         birdWatching: []
     })
-const [currentActivity, setCurrentActivity] = useState({name: '', owner: {username: ''}, eventLikedBy: []})
+const [currentActivity, setCurrentActivity] = useState({name: '', owner: {username: ''}, eventLikedBy: [], img: []})
 const [showDetails, setShowDetails] = useState(false)
 const [showCreate, setShowCreate]= useState(false)
 const [createEventForm, setCreateEventForm] = useState({
@@ -72,7 +72,6 @@ const [createEventForm, setCreateEventForm] = useState({
     reoccuring:''
 })
 let eventList = ["Hiking","Running","Ultimate Frisbee", "Skiing", "Mountain Biking", "Road Biking", "Kayaking", "Whitewater Rafting", "Fishing", "Bird Watching"]
-const [eventCreate, setEventCreate] = useState(false)
 const [search, setSearch] = useState({
         activityId: null,
         start: null,
@@ -91,13 +90,14 @@ const [activityFilter, setActivityFilter] = useState({
             fishing: false,
             birdWatching: true,
     })
-const [comments, setComments] = useState([])
+const [comments, setComments] = useState([{user:{avatar:'', username:'',id:''}}])
 const [newComment, setNewComment]= useState({
         body:'',
         userId:'',
         eventId:''
 })
 const [dateNow, setDateNow] = useState(Date.now())
+const [disable, setDisable]=useState(false)
 
     // const [currentSearch, setCurrentSearch] = useState([])
 
@@ -105,7 +105,7 @@ const [dateNow, setDateNow] = useState(Date.now())
         // setActivityFilter(...activityFilter, [activityRef]: !activityFilter.activityRef)
     }
 
-const handleClose = () => {setShowDetails(false); setShowCreate(false)}
+const handleClose = () => {setShowDetails(false); setShowCreate(false); setDisable(false)}
 
 
 const setDate= (e)=> {
@@ -150,7 +150,8 @@ const getEventComments = async() => {
     setComments(results)
     setShowDetails(true)
     }
-else {setComments(["failed to load comments"])}}
+    else {setComments(["failed to load comments"])}
+}
 
 const handleCommentChange = (e) => {
     setNewComment({...newComment, body: e.target.value, userId: user.id, eventId: currentActivity.id})
@@ -167,20 +168,33 @@ const addComment = async (e) => {
     })
     }
 
-// const sinceAdded = () => {
-//     let today = Date.now();
-//     console.log(today);
-//     let commentMade = Date.parse(comments[0].createdAt)
-//     console.log(commentMade)
-// }
-    const adjustLike = () => {
-        //check if logged in, if not send them to login
-        //else, check if already liked - remove the like, else add the like
-    }
+const adjustLike = async() => {
+    if (authenticated) {
+    
+        console.log(currentActivity.eventLikedBy)
+    for (let i=0; i<currentActivity.eventLikedBy.length;i++){
+        if (user.id === currentActivity.eventLikedBy[i].id){
+            document.querySelector(".userLiked").style.visibility = "visible"
+        }
+        else {
+            setDisable(true);
+            const requestBody = {
+                userId: user.id,
+                eventId: currentActivity.id
+            }
 
-const addDetails = (activity) => {
+            const res = await Client.post(`api/eventLikes`,requestBody)
+            console.log(res)
+        }
+    }
+    } else { (alert("Log in to like events!"))}
+}
+
+
+
+const addDetails = async (activity) => {
     setCurrentActivity(activity)
-    getEventComments();
+    await getEventComments();
     setDateNow(Date.now())
     setShowDetails(true)
 }
@@ -209,6 +223,8 @@ const addDetails = (activity) => {
         getEvents()
     },[])
 
+    console.log(comments)
+
     return allEvents.hiking.length > 2 ? (
         <StyledWrapper>
         <div className="landing-container">
@@ -223,9 +239,9 @@ const addDetails = (activity) => {
                     <LayersControl position="topright">
                         {Object.values(allEvents).map((eventType, index) => (
                             <LayersControl.Overlay key={index} layerId={index} 
-                                // checked={activityFilter[eventType[1].activity.ref]} 
-                                checked="true"
-                                // name={`${eventType[0].activity.name}(${eventType.length})`} 
+                                checked={activityFilter[eventType[1].activity.ref]} 
+                                // checked="true"
+                                name={`${eventType[0].activity.name}(${eventType.length})`} 
                                 >
                                 {/* {console.log(activityFilter[eventType[1].activity.ref])} */}
                                 <LayerGroup>
@@ -254,6 +270,7 @@ const addDetails = (activity) => {
 {/* Event Details Modal*/}
             <Modal show={showDetails} onHide={handleClose}>
                 <Modal.Header closeButton>
+                    {currentActivity.img.length>0 ? (<img src={currentActivity.img[0]}/>):null}
                     <Modal.Title>{currentActivity.name}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -268,15 +285,20 @@ const addDetails = (activity) => {
                     <Button type="submit">Submit</Button>
                 </form>
                 <div className="comment-box" style={{overflowY:"scroll", border:"2px solid black",borderRadius:"10px", height: "25vh", position:"relative", top:"-100px", margin:"0 auto"}}>
+                
                 {comments.map((comment,index)=>(
-                    <div style={{border: "2px solid black", borderRadius:"10px", padding: "2px 2px 2px 8px"}}>
-                    <p key={index} className="comment">{comment.body} </p>
-                    <p><small>{((dateNow - Date.parse(comments[index].createdAt))/86400000) < 1 ? (Math.trunc((((dateNow - Date.parse(comments[index].createdAt))/3600000))) + " Hours Ago"):Math.trunc(((dateNow - Date.parse(comments[index].createdAt))/86400000))+ " Days Ago"}</small></p>
+                    <div key={index} style={{border: "2px solid black", borderRadius:"10px", padding: "2px 2px 2px 8px"}}>
+                    {/* <img src={comment.user.avatar}/> */}
+                    {/* <h5>{comment.user.username}</h5> */}
+                    <p className="comment"> {comment.body}  </p>
+                    <p style={{margin:"0 auto"}}><small>{((dateNow - Date.parse(comments[index].createdAt))/86400000) < 1 ? (Math.trunc((((dateNow - Date.parse(comments[index].createdAt))/3600000))) + " Hours Ago"):Math.trunc(((dateNow - Date.parse(comments[index].createdAt))/86400000))+ " Days Ago"}</small></p>
                     </div>
                 ))}
                 </div>
                 <br/>
-                    <Button onClick={adjustLike}>Like</Button>
+                    <Button onClick={adjustLike} className="likedButton" disabled={disable}>Like</Button>
+                    <h4 className = "userLiked" style={{visibility: "hidden"}}>You've already Liked This Event</h4>
+                    
                 </Modal.Body>
             </Modal>
 {/* Create Event Modal */}
