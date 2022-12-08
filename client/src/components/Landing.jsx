@@ -314,17 +314,21 @@ const Landing = (props) =>{
                     <textarea style={{width: "100%"}} value={newComment.body} onChange={handleCommentChange}/>
                     <Button type="submit">Submit</Button>
                 </form>
+                {comments[0].user ? (
                 <div className="comment-box" style={{overflowY:"scroll", border:"1px solid black",borderRadius:"10px", height: "25vh", position:"relative", top:"-100px", margin:"0 auto"}}>
                 
                 {comments.map((comment,index)=>(
                     <div key={index} style={{border: "2px solid black", borderRadius:"10px", padding: "2px 2px 2px 8px", margin:"10px"}}>
-                    {/* <img src={comment.user.avatar}/> */}
-                    {/* <h5>{comment.user.username}</h5> */}
-                    <p className="comment"> {comment.body}  </p>
-                    <p style={{margin:"0 auto"}}><small>{((dateNow - Date.parse(comments[index].createdAt))/86400000) < 1 ? (Math.trunc((((dateNow - Date.parse(comments[index].createdAt))/3600000))) + " Hours Ago"):Math.trunc(((dateNow - Date.parse(comments[index].createdAt))/86400000))+ " Days Ago"}</small></p>
+                    <div style={{display:"flex"}}>
+                        <img src={`${baseUrl}${comment.user.avatar}`} style={{maxWidth: "20px", maxHeight:"20px", marginRight:"5px"}}/>
+                        <h5>{comment.user.username}</h5>
+                    </div>
+                    <p className="comment" style={{marginBottom:"0"}}> "{comment.body}"  </p>
+                    <p style={{margin:"0", color:"grey"}}><small>{((dateNow - Date.parse(comments[index].createdAt))/86400000) < 1 ? (Math.trunc((((dateNow - Date.parse(comments[index].createdAt))/3600000))) + " Hours Ago"):Math.trunc(((dateNow - Date.parse(comments[index].createdAt))/86400000))+ " Days Ago"}</small></p>
                     </div>
                 ))}
                 </div>
+                ) : (<h2>...Loading Comments</h2>)}
                 <br/>
                     <Button onClick={adjustLike} className="likedButton" disabled={disable}>Like</Button>
                     <h4 className = "userLiked" style={{visibility: "hidden"}}>You've already Liked This Event</h4>

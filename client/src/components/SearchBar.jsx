@@ -54,8 +54,7 @@ const StyledSearch = styled.div`
     z-index: 1000;
   }
   .rangeButtons{
-    position: relative;
-    right:400px;
+
     margin: 10px;  
     
   }
