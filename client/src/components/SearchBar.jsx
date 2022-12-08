@@ -54,7 +54,7 @@ const StyledSearch = styled.div`
     z-index: 1000;
   }
   .rangeButtons{
-
+    box-shadow: "2px 2px 2px black";
     margin: 10px;  
     
   }
@@ -138,12 +138,12 @@ export default function SearchBar ({search, setSearch, filter, setFilter, search
         <Modal.Header closeButton>Start Date</Modal.Header>
         <Modal.Body><Calendar onChange={handleStartDate} /></Modal.Body>
       </Modal>
-      <Button onClick={handleShowStartCal} className='rangeButtons'>{readable.start}</Button>
+      <Button onClick={handleShowStartCal} className='rangeButtons' style={{boxShadow: "2px 2px 2px black"}}>{readable.start}</Button>
       <Modal show={showEndCal} className='dateModal' onHide={handleShowEndCal}>
         <Modal.Header closeButton>Start Date</Modal.Header>
         <Modal.Body><Calendar onChange={handleEndDate} /></Modal.Body>
       </Modal>
-      <Button onClick={handleShowEndCal} className='rangeButtons'>{readable.end}</Button>
+      <Button onClick={handleShowEndCal} className='rangeButtons' style={{boxShadow: "2px 2px 2px black"}}>{readable.end}</Button>
       
     </StyledSearch>
   )
