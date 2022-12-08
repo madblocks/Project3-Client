@@ -31,7 +31,7 @@ function NavbarDarkExample() {
   return (
     <Navbar variant="dark" bg="dark" className='nav_link' expand="lg">
       <Container fluid>
-        <Navbar.Brand href="/"><img src={require("../images/OutDoorsyLogoFinal2.svg")} alt="logo" className="logo"></img></Navbar.Brand>
+        <Navbar.Brand href="/"><img src={require("../images/OutDoorsyLogoFinal2.png")} alt="logo" className="logo"></img></Navbar.Brand>
         <Navbar.Toggle aria-controls="navbar-dark-example" />
         <Navbar.Collapse id="navbar-dark-example">
           <Nav>
