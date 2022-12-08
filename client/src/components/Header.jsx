@@ -59,7 +59,11 @@ function NavbarDarkExample({isAuthenticated}) {
     <div>
     <Navbar variant="dark" bg="dark" className='nav_link' expand="lg">
       <Container fluid>
+<<<<<<< HEAD
         <Navbar.Brand href="/"><img src={svgLogo} alt="logo" className="logo"></img></Navbar.Brand>
+=======
+        <Navbar.Brand href="/"><img src={require("../images/OutDoorsyLogoFinal2.png")} alt="logo" className="logo"></img></Navbar.Brand>
+>>>>>>> d4ef602292d8aec244385c4850ebe72da006e364
         <Navbar.Toggle aria-controls="navbar-dark-example" />
         {isAuthenticated?(
            <SfNav showProfile={true}

@@ -2,21 +2,20 @@ import { DataContext } from '../DataContext';
 import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
-import { Button, Card, Dropdown, Modal, DropdownButton } from 'react-bootstrap';
-import Client from '../services/api'
-import { GrUserSettings } from 'react-icons/gr'
-import Calendar from 'react-calendar'
-
-
+import { Button } from 'react-bootstrap';
+import Client, { BASE_URL } from '../services/api';
+import {Card, Modal, Dropdown, DropdownButton} from 'react-bootstrap'
+import {Calendar} from 'react-calendar'
 
 const StyledProfile = styled.div`
 .grid-container{
-  border:2px solid black;
+
   height: 75vh;
-  width:70%;
-  margin: 0 0 0 10px;
+  width:100%;
+  margin: 10px;
   overflow-y:scroll;
   border-radius: 10px;
+  border:2px solid black;
 }
 .grid-container::-webkit-scrollbar{
   display:none
@@ -32,6 +31,7 @@ export default function Profile() {
 
   let navigate = useNavigate()
   const {user, authenticated} = useContext(DataContext)
+  const [counter, setCounter] = useState(0)
   const [userEvents, setUserEvents] = useState([])
   const [comments, setComments] = useState([])
   const [currentActivity, setCurrentActivity] = useState({name: '', user: {username: ''}})
@@ -42,13 +42,22 @@ export default function Profile() {
     userId:'',
     eventId:''
   })
-  const [updatedEvent, setUpdatedEvent] = useState({})
+  const [updatedEvent, setUpdatedEvent] = useState({
+    name: 'Select an Activity',
+    latitude: '',
+    longitude: '',
+    activityId: 0,
+    date: new Date(),
+    description:'',
+    userId:'',
+    city:'',
+    state:'',
+    reoccuring:'',
+    eventId:''
+  })
   let eventList = ["hiking","running","ultimate frisbee", "skiing", "mountain biking", "road biking", "kayaking", "whitewater rafting", "fishing", "bird watching"]
 
-
-
-
-  const handleClose = () => {setShowDetails(false);setShowEdit(false)}  
+  const handleClose = () => {setShowDetails(false);setShowEdit(false);setComments([])}  
   const commentForm = () => {
     document.querySelector(".commentForm").style.visibility= "visible";
     document.querySelector(".comment-box").style.top="20px";
@@ -66,10 +75,10 @@ const getEventComments = async() => {
   setShowDetails(true)
   }
 else {setComments(["failed to load comments"])}}
+
 const addComment = async (e) => {
     e.preventDefault()
     const res = await Client.post(`api/comment`, newComment)
-    console.log(res)
     setNewComment({
       body:'',
     userId:'',
@@ -88,11 +97,33 @@ const addDetails = (activity) => {
 const editEventButton = (activity) => {
   setUpdatedEvent(activity);
   setCurrentActivity(activity);
-  console.log(updatedEvent)
   setShowEdit(true)
 }
 const setDate= (e)=> {
   setUpdatedEvent({...updatedEvent, date: e})
+}
+const handleChange = (e) =>{
+  setUpdatedEvent({...updatedEvent, [e.target.name]: e.target.value})
+}
+
+const handleSubmit = async (e) =>{
+  e.preventDefault();
+  
+  const activityId = eventList.indexOf(updatedEvent.name) + 1;
+  setUpdatedEvent({...updatedEvent,  activityId: activityId})
+  try{
+    console.log(updatedEvent)
+  const res = await Client.put(`api/event/${currentActivity.id}`, updatedEvent )
+  document.querySelector(".update-event-success").style.visibility= "visible"
+  document.querySelector(".update-event-fail").style.visibility= "hidden"
+  console.log(res)
+  }
+  catch (error){ 
+      document.querySelector(".update-event-fail").style.visibility= "visible"
+      document.querySelector(".update-event-success").style.visibility= "hidden"
+}}
+const updateGrid = () => {
+  setCounter(counter+1);
 }
 
 useEffect(()=>{
@@ -101,29 +132,35 @@ useEffect(()=>{
     let results = res.data
     setUserEvents(results[0].events)
   const getLikes = async () => {
-    const res = await Client.get(`api/eventlikes/counter`)
+  const res = await Client.get(`api/eventlikes/counter`)
   }
 
   }
 getUserEvents();
-},[])
+},[counter])
 
-
-
-
-
-return (user && authenticated && userEvents.length > 0) ? (
+        return (user && authenticated) ? (
           <StyledProfile>
+            <div style={{display:"flex"}}>
+            <Button style={{marginLeft: "10px"}} onClick={updateGrid}>Reload Events</Button> 
+            <h1 style={{marginLeft:"200px"}}>Welcome, {user ? user.username : 'friend'}</h1>
+            </div>
+            <div className="grid-container">
+              {/* {posts.map((post) => (
+                <div className="card" key={post.id}>
+                  <h3>{post.title}</h3>
+                  <div>
+                    <img src={post.image} alt="post"/>
             <h1 style={{width:"100%"}}>Welcome, {user ? user.username : 'friend'} <GrUserSettings style={{float:"right", marginRight:"20px"}}/></h1>
             <div className="grid-container">
               <h5>My Events</h5>
 
 {/* Grid for Events */}
+              { userEvents.length > 0 ? (
               <div className="grid">
               {userEvents.map((post, index) => (
                 <Card key={index} style={{margin:"10px", border:"2px solid black"}}>
-                  <Card.Header>{post.name}</Card.Header>
-                  <Card.Title>{post.name}</Card.Title>
+                  <Card.Title style={{marginTop:"10px"}}>{post.name}</Card.Title>
                   <div style={{display:"flex"}}>  
                     <Button sz="sm" style={{margin: "0 90px 0 10px", border:"2px solid black"}} onClick={()=>editEventButton(post)}>Edit</Button>
                   <a href={'https://www.google.com/maps/search/?api=1&query='+post.latitude +','+post.longitude+'&z=11'} target="_blank">Directions</a>
@@ -137,6 +174,7 @@ return (user && authenticated && userEvents.length > 0) ? (
                 </Card>
               ))}
               </div>
+              ) : (<h1>Check Out the Map to Find New Events, Or Host Your Own!</h1>)}
             </div>
 {/* Details Modal */}
             <Modal show={showDetails} onHide={handleClose}>
@@ -144,9 +182,9 @@ return (user && authenticated && userEvents.length > 0) ? (
                 <Modal.Title>{currentActivity.name}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                Hosted By {user.username}
-                <h6 style={{margin:"0"}}>XX Likes</h6> <br/>
-                <h5 style={{margin:"0", position:"relative", top:"-10px"}}>{new Date(Date.parse(currentActivity.date)).toLocaleString('en-US')}</h5>
+                Hosted By {user.username} <br/>
+                {/* <h6 style={{margin:"0"}}>{currentActivity.eventLikedBy.length} Likes</h6> <br/> */}
+                <br/><h5 style={{margin:"0", position:"relative", top:"-10px"}}>{new Date(Date.parse(currentActivity.date)).toLocaleString('en-US')}</h5>
                 <p>{currentActivity.description}</p>
 
 {/* Comments Rendering */}
@@ -155,15 +193,17 @@ return (user && authenticated && userEvents.length > 0) ? (
                   <textarea style={{width: "100%"}} value={newComment.body}onChange={handleCommentChange}/>
                   <Button type="submit">Submit</Button>
                 </form>
+                {comments.length > 0 ? (
                 <div className="comment-box" style={{overflowY:"scroll", border:"2px solid black", height: "25vh", position:"relative", top:"-100px", margin:"0 auto"}}>
+                
                 {comments.map((comment,index)=>(
-                  
                   <p key={index}>{comment.body}</p>
                 ))}
                 </div>
+                ):<h1>...Loading Comments</h1>}
                 <br/>
 {/* Edit Form */}
-                <Button onClick={adjustLike}>Like</Button>
+                {/* <Button onClick={adjustLike}>Like</Button> */}
             </Modal.Body>
         </Modal>
         <Modal show ={showEdit} onHide={handleClose}>
@@ -171,7 +211,7 @@ return (user && authenticated && userEvents.length > 0) ? (
               <Modal.Title>Edit My Event -- {currentActivity.name}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <form>
+              <form onSubmit = {handleSubmit}>
                 <Dropdown onSelect={(e)=>{setUpdatedEvent({...updatedEvent, name: e})}} style={{margin: "10px"}}>
                   <DropdownButton title={updatedEvent.name}>
                     { eventList.map((event, index)=>(
@@ -180,9 +220,19 @@ return (user && authenticated && userEvents.length > 0) ? (
                   </DropdownButton>
                 </Dropdown>
                 <Calendar onChange={setDate} />
-              </form>
               
+              <textarea placeholder="description" style={{marginTop:"10px", width: "100%", height: "15vh"}} name="description" onChange={handleChange}></textarea>
+              <div style={{display: "flex",flexDirection:"column", margin:"10px 0 10px 0"}}>
+                    <input type="text" style={{width:"50%", marginBottom: "10px"}} placeholder ="latitude" name="latitude" onChange={handleChange}/>
+                    <input type="text" style={{width:"50%" , marginBottom: "10px"}} placeholder="longitude" name="longitude" onChange={handleChange}/>
+                    <input type="text" style={{width:"50%" , marginBottom: "10px"}} placeholder="city" name="city" onChange={handleChange}/>
+                    <input type="text" style={{width:"50%" , marginBottom: "10px"}} placeholder="state" name="state" onChange={handleChange}/>
+              </div>
+            <Button type="submit">Edit!</Button>
+            </form>
             </Modal.Body>
+            <h4 className = "update-event-success" style={{visibility:"hidden"}}>Edit Successful</h4>
+            <h4 className = "update-event-fail" style={{visibility:"hidden"}}>Error Occured, Try Again</h4>
         </Modal>
 
 

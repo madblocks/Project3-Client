@@ -7,13 +7,6 @@ import { useNavigate } from 'react-router-dom'
 import { RegisterUser } from '../services/Auth';
 
 const StyledWrapper = styled.div `
-  .input{
-    padding: 10px;
-    height: 50px;
-    width: 500px;
-    margin: auto;
-}
-
 
   width: 450px;
   height: 700px;
@@ -39,7 +32,7 @@ const StyledWrapper = styled.div `
       border: none;
   }
   .btn {
-      width: 80%;
+      width: 100px;
       height: 35px;
       border-radius: 10px;
       background: rgba(22, 46, 110, 0.895);
@@ -58,10 +51,10 @@ const StyledWrapper = styled.div `
     margin-left: -210px;
     line-height: 5px;
   }
-  
 
-
-`;
+h1{
+  padding-bottom: 25px;
+}`;
 
 
 
@@ -108,10 +101,15 @@ const Signup = (props) =>{
 
   return(
     <StyledWrapper>
+<<<<<<< HEAD
 
     
 
       <h1 className='title'>Sign Up</h1>
+=======
+      <h1 className='title'>Signup</h1>
+>>>>>>> d4ef602292d8aec244385c4850ebe72da006e364
+
 
       <Form>
         <Form.Group className='mb-3' controlId='username'>
@@ -147,9 +145,8 @@ const Signup = (props) =>{
 
 
         <Form.Group className="mb-3" controlId="formBasicCheckbox">
-          <Form.Check type="checkbox" className="checkbox" label="Check me out" />
+          <Form.Check type="checkbox" label="Check me out" />
         </Form.Group>
-
         <Button variant="primary" className='btn btn-primary' type="submit" onClick={handleSubmit}
           disabled={!allData.username || !allData.firstName || !allData.lastName || !allData.email || 
             !allData.password || !(allData.password === allData.confirmPassword)}>
