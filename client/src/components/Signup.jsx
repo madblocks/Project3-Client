@@ -14,19 +14,53 @@ const StyledWrapper = styled.div `
     margin: auto;
 }
 
-.btn{
-  width: 100px;
-}
+  width: 450px;
+  height: 700px;
+  background: rgb(19,38,79);
+  background: linear-gradient(180deg, rgba(19,38,79,1) 0%, rgba(22,147,198,1) 52%, rgba(255,255,255,0) 82%);
+  margin: auto;
+  border-radius: 10px;
+  padding-left: 10px;
+  color: white;
+  margin-top: 50px;
+  padding-top: 17px;
+
+
+  .mb-3 {
+      height: 40px;  
+  }
+  .input {
+      width: 80%;
+      height: 30px;
+      border-radius: 10px;
+      margin-left: 30px;
+      background: rgba(255,255,255,.2);
+      border: none;
+  }
+  .btn {
+      width: 100px;
+      height: 35px;
+      border-radius: 10px;
+      background: rgba(22, 46, 110, 0.895);
+      border: none; 
+      margin-left: -23px;
+  }
+  .label{
+    margin-left: -280px;
+    line-height: 5px;
+  }
+  .e_label{
+    margin-left: -320px;
+    line-height: 5px;
+  }
+  .p_label{
+    margin-left: -210px;
+    line-height: 5px;
+  }
 
 h1{
   padding-bottom: 25px;
-}
-
-input{
-
-}
-
-`;
+}`;
 
 
 
@@ -73,10 +107,8 @@ const Signup = (props) =>{
 
   return(
     <StyledWrapper>
-
-      <h1>Sign Up</h1>
-
       <h1 className='title'>Signup</h1>
+
 
       <Form>
         <Form.Group className='mb-3' controlId='username'>
@@ -109,6 +141,7 @@ const Signup = (props) =>{
           <Form.Label className='p_label'>CONFIRM PASSWORD </Form.Label>
           <Form.Control type="password" className='input' placeholder="Confirm Password" name='confirmPassword' onChange={handleChange}/>
         </Form.Group>
+
 
         <Form.Group className="mb-3" controlId="formBasicCheckbox">
           <Form.Check type="checkbox" label="Check me out" />

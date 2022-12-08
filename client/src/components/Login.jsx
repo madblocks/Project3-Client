@@ -13,7 +13,7 @@ const StyledLogin = styled.div `
   height: 400px;
   padding-top: 20px;
   background: rgb(16,45,40);
-background: linear-gradient(180deg, rgba(16,45,40,1) 0%, rgba(13,120,99,0.9893333333333333) 29%, rgba(234,238,238,0.696) 96%);
+  background: linear-gradient(180deg, rgba(16,45,40,1) 0%, rgba(13,120,99,0.9893333333333333) 29%, rgba(234,238,238,0.696) 96%);
   margin: auto;
   border-radius: 10px;
   margin-top: 60px;
@@ -24,12 +24,13 @@ background: linear-gradient(180deg, rgba(16,45,40,1) 0%, rgba(13,120,99,0.989333
       
   }
   .input {
-      width: 80%;
-      height: 30px;
+      width: 500px;
+      height: 50px;
       border-radius: 10px;
-      margin-left: 40px;
+      margin: auto;
       background: rgba(255,255,255,.2);
       border: none;
+      padding: 10px;
   }
   .btn {
       width: 80%;
@@ -42,6 +43,13 @@ background: linear-gradient(180deg, rgba(16,45,40,1) 0%, rgba(13,120,99,0.989333
   .label{
       margin-left: -230px;
   }
+
+
+   h1{
+    padding-bottom: 25px;
+  }
+
+
 
 `;
 //need feedback if username/password is incorrect
