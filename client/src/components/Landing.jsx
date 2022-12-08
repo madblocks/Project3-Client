@@ -12,6 +12,8 @@ import SearchBar from './SearchBar'
 import DropdownToggle from 'react-bootstrap/esm/DropdownToggle'
 
 const StyledWrapper = styled.div `
+
+    background: #36B1F7;
     .landing-container{
         height: 80vh;
         display: flex;
@@ -22,6 +24,8 @@ const StyledWrapper = styled.div `
         width: 60vw;
         margin: 10px;
         border: 3px solid black;
+        border-radius: 10px;
+        box-shadow: 2px 2px 2px black;
     }
     .search{
         margin: auto;
@@ -290,16 +294,16 @@ const Landing = (props) =>{
                     </LayersControl>
         </MapContainer>
             <div style={{display:"flex", flexDirection:"column", width: "33vw" }}>
-                <Button style={{width:"18vw"}} onClick={createEvent}>Create Event</Button> 
+                <Button style={{width:"18vw", position:"relative", top:"20px"}} onClick={createEvent}>Create Event</Button> 
             </div>
             </div>
 {/* Event Details Modal*/}
             <Modal show={showDetails} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    {currentActivity.img.length>0 ? (<img style={{maxWidth:"200px"}} src={`${baseUrl}${currentActivity.img[0]}`} alt="event"/>):null}
-                    <Modal.Title>{currentActivity.name}</Modal.Title>
+                <Modal.Header style={{justifyContent: "center", background:"#DEF2F0"}}>
+                    {currentActivity.img.length>0 ? (<img style={{maxWidth:"70%", margin:"auto", border:"2px solid black", borderRadius:"10px", boxShadow: "2px 2px 2px black"}} src={`${baseUrl}${currentActivity.img[0]}`} alt="event"/>):null}
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body style={{}}>
+                    <h2>{currentActivity.name}</h2>
                     Hosted By {currentActivity.owner.username}
                     <h6 style={{margin:"0"}}>{currentActivity.eventLikedBy.length} Likes</h6> <br/>
                     <h5 style={{margin:"0", position:"relative", top:"-10px"}}>{new Date(Date.parse(currentActivity.date)).toLocaleString('en-US')}</h5>
@@ -310,10 +314,10 @@ const Landing = (props) =>{
                     <textarea style={{width: "100%"}} value={newComment.body} onChange={handleCommentChange}/>
                     <Button type="submit">Submit</Button>
                 </form>
-                <div className="comment-box" style={{overflowY:"scroll", border:"2px solid black",borderRadius:"10px", height: "25vh", position:"relative", top:"-100px", margin:"0 auto"}}>
+                <div className="comment-box" style={{overflowY:"scroll", border:"1px solid black",borderRadius:"10px", height: "25vh", position:"relative", top:"-100px", margin:"0 auto"}}>
                 
                 {comments.map((comment,index)=>(
-                    <div key={index} style={{border: "2px solid black", borderRadius:"10px", padding: "2px 2px 2px 8px"}}>
+                    <div key={index} style={{border: "2px solid black", borderRadius:"10px", padding: "2px 2px 2px 8px", margin:"10px"}}>
                     {/* <img src={comment.user.avatar}/> */}
                     {/* <h5>{comment.user.username}</h5> */}
                     <p className="comment"> {comment.body}  </p>
@@ -327,9 +331,9 @@ const Landing = (props) =>{
                     
                 </Modal.Body>
             </Modal>
-{/* Create Event Modal */}
+{/* Create Event Modal */}/img/skiing/les-anderson-R3tHkgwYaic-unsplash.jpg
             <Modal show ={showCreate} onHide={handleClose}>
-                <Modal.Header closeButton>
+                <Modal.Header closeButton >
                     Host an Event!
                 </Modal.Header>
                 <Modal.Body>

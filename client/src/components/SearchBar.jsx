@@ -24,6 +24,7 @@ const StyledSearch = styled.div`
     height: 35px;
     background-color: white;
     border-radius: 20px;
+    box-shadow: 2px 2px 2px black;
     outline: none;
     border: none;
     display: flex;
@@ -53,7 +54,10 @@ const StyledSearch = styled.div`
     z-index: 1000;
   }
   .rangeButtons{
-      margin-left: 10px;
+    position: relative;
+    right:400px;
+    margin: 10px;  
+    
   }
   .dateModal{
     position: absolute;
