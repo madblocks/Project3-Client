@@ -12,34 +12,36 @@ import SearchBar from './SearchBar'
 import DropdownToggle from 'react-bootstrap/esm/DropdownToggle'
 
 const StyledWrapper = styled.div `
-.landing-container{
-    height: 80vh;
-    display: flex;
-    flex-direction: column;
-}
-.map{
-    height: 600px;
-    width: 60vw;
-    margin: 10px;
-    border: 3px solid black;
-}
-.search{
-    margin: auto;
-    width: 500px;
-}
-.instructions{
-    margin: auto;
-    text-align: left;
-    padding-left: 10px;
-}
-.map-and-details{
-    width:100%;
-    display:flex;
-    flex-direction: row;
-    justify-content: space-between;
-}`;
+    .landing-container{
+        height: 80vh;
+        display: flex;
+        flex-direction: column;
+    }
+    .map{
+        height: 600px;
+        width: 60vw;
+        margin: 10px;
+        border: 3px solid black;
+    }
+    .search{
+        margin: auto;
+        width: 500px;
+    }
+    .instructions{
+        margin: auto;
+        text-align: left;
+        padding-left: 10px;
+    }
+    .map-and-details{
+        width:100%;
+        display:flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+`;
 const Landing = (props) =>{
 
+const baseUrl = 'http://localhost:3001/'
 
 const {authenticated, setAuth} = useContext(DataContext)
 const {user, setUser} = useContext(DataContext)
@@ -104,12 +106,7 @@ const [dateNow, setDateNow] = useState(Date.now())
 const [disable, setDisable]=useState(false)
 
 
-    // const [activeEvent, setActiveEvent] = useState(null)
-    // const [currentSearch, setCurrentSearch] = useState([])
 
-    const toggleActivityFilter = (activityRef) => {
-        // setActivityFilter(...activityFilter, [activityRef]: !activityFilter.activityRef)
-    }
 
 
 const handleClose = () => {setShowDetails(false); setShowCreate(false); setDisable(false)}
@@ -274,7 +271,7 @@ const addDetails = async (activity) => {
 {/* Event Details Modal*/}
             <Modal show={showDetails} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    {currentActivity.img.length>0 ? (<img src={currentActivity.img[0]}/>):null}
+                    {currentActivity.img.length>0 ? (<img style={{maxWidth:"200px"}} src={`${baseUrl}${currentActivity.img[0]}`} alt="event"/>):null}
                     <Modal.Title>{currentActivity.name}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
