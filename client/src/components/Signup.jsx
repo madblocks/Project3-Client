@@ -14,7 +14,6 @@ const StyledWrapper = styled.div `
     margin: auto;
 }
 
-<<<<<<< HEAD
   width: 450px;
   height: 700px;
   background: rgb(19,38,79);
@@ -39,7 +38,7 @@ const StyledWrapper = styled.div `
       border: none;
   }
   .btn {
-      width: 80%;
+      width: 100px;
       height: 35px;
       border-radius: 10px;
       background: rgba(22, 46, 110, 0.895);
@@ -58,18 +57,10 @@ const StyledWrapper = styled.div `
     margin-left: -210px;
     line-height: 5px;
   }
-  
-=======
-.btn{
-  width: 100px;
-}
 
 h1{
   padding-bottom: 25px;
-}
-
->>>>>>> 84182e146bd746eb80b0cd16f4d96b9407de09a0
-`;
+}`;
 
 
 
@@ -116,11 +107,9 @@ const Signup = (props) =>{
 
   return(
     <StyledWrapper>
-<<<<<<< HEAD
-      <h1>Sign Up</h1>
-=======
       <h1 className='title'>Signup</h1>
->>>>>>> 84182e146bd746eb80b0cd16f4d96b9407de09a0
+
+
       <Form>
         <Form.Group className='mb-3' controlId='username'>
           <Form.Label className='label'>USERNAME </Form.Label>
@@ -152,13 +141,11 @@ const Signup = (props) =>{
           <Form.Label className='p_label'>CONFIRM PASSWORD </Form.Label>
           <Form.Control type="password" className='input' placeholder="Confirm Password" name='confirmPassword' onChange={handleChange}/>
         </Form.Group>
-<<<<<<< HEAD
+
 
         <Form.Group className="mb-3" controlId="formBasicCheckbox">
-          <Form.Check type="checkbox" className="checkbox" label="Check me out" />
+          <Form.Check type="checkbox" label="Check me out" />
         </Form.Group>
-=======
->>>>>>> 84182e146bd746eb80b0cd16f4d96b9407de09a0
         <Button variant="primary" className='btn btn-primary' type="submit" onClick={handleSubmit}
           disabled={!allData.username || !allData.firstName || !allData.lastName || !allData.email || 
             !allData.password || !(allData.password === allData.confirmPassword)}>

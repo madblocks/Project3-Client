@@ -2,12 +2,11 @@ import { DataContext } from '../DataContext';
 import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
-import { Button, Card, Dropdown, Modal, DropdownButton } from 'react-bootstrap';
-import Client from '../services/api'
-import { GrUserSettings } from 'react-icons/gr'
-import Calendar from 'react-calendar'
-
-
+import { Button } from 'react-bootstrap';
+import axios from 'axios';
+import Client, { BASE_URL } from '../services/api';
+import {Card, Modal, Dropdown, DropdownButton} from 'react-bootstrap'
+import {Calendar} from 'react-calendar'
 
 const StyledProfile = styled.div`
 .grid-container{
@@ -32,6 +31,7 @@ export default function Profile() {
 
   let navigate = useNavigate()
   const {user, authenticated} = useContext(DataContext)
+
   const [userEvents, setUserEvents] = useState([])
   const [comments, setComments] = useState([])
   const [currentActivity, setCurrentActivity] = useState({name: '', user: {username: ''}})
@@ -42,7 +42,7 @@ export default function Profile() {
     userId:'',
     eventId:''
   })
-  const [updatedEvent, setUpdatedEvent] = useState({})
+  const [updatedEvent, setUpdatedEvent] = useState({name:''})
   let eventList = ["hiking","running","ultimate frisbee", "skiing", "mountain biking", "road biking", "kayaking", "whitewater rafting", "fishing", "bird watching"]
 
 
@@ -66,10 +66,10 @@ const getEventComments = async() => {
   setShowDetails(true)
   }
 else {setComments(["failed to load comments"])}}
+
 const addComment = async (e) => {
     e.preventDefault()
     const res = await Client.post(`api/comment`, newComment)
-    console.log(res)
     setNewComment({
       body:'',
     userId:'',
@@ -107,13 +107,15 @@ useEffect(()=>{
   }
 getUserEvents();
 },[])
-
-
-
-
-
-return (user && authenticated && userEvents.length > 0) ? (
+        return (user && authenticated) ? (
           <StyledProfile>
+            <h1>Welcome, {user ? user.username : 'friend'}</h1>
+            <div className="grid col-4">
+              {/* {posts.map((post) => (
+                <div className="card" key={post.id}>
+                  <h3>{post.title}</h3>
+                  <div>
+                    <img src={post.image} alt="post"/>
             <h1 style={{width:"100%"}}>Welcome, {user ? user.username : 'friend'} <GrUserSettings style={{float:"right", marginRight:"20px"}}/></h1>
             <div className="grid-container">
               <h5>My Events</h5>
@@ -157,7 +159,6 @@ return (user && authenticated && userEvents.length > 0) ? (
                 </form>
                 <div className="comment-box" style={{overflowY:"scroll", border:"2px solid black", height: "25vh", position:"relative", top:"-100px", margin:"0 auto"}}>
                 {comments.map((comment,index)=>(
-                  
                   <p key={index}>{comment.body}</p>
                 ))}
                 </div>
