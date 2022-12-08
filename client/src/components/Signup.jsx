@@ -101,7 +101,14 @@ const Signup = (props) =>{
 
   return(
     <StyledWrapper>
+<<<<<<< HEAD
+
+    
+
+      <h1 className='title'>Sign Up</h1>
+=======
       <h1 className='title'>Signup</h1>
+>>>>>>> d4ef602292d8aec244385c4850ebe72da006e364
 
 
       <Form>
