@@ -12,12 +12,12 @@ const StyledLogin = styled.div `
  .formContainer {
     width: 400px;
   height: 400px;
-  background: rgb(19,38,79);
-  background: linear-gradient(180deg, rgba(19,38,79,1) 0%, rgba(22,147,198,1) 52%, rgba(255,255,255,0) 82%);
-//   background: rgb(16,45,40);
-//   background: linear-gradient(180deg, rgba(16,45,40,1) 0%, rgba(13,120,99,0.9893333333333333) 29%, rgba(234,238,238,0.696) 96%);
+  background-color: #3A8E88 ;
+
   margin: auto;
   border-radius: 10px;
+  border: 2px solid black;
+  box-shadow: 2px 2px 2px black;
   color: white;
   margin-top: 5vh;
 }
