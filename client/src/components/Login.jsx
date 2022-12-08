@@ -81,17 +81,11 @@ const Login = (props) =>{
             <Form className="formContainer">
                 <h1>Login</h1>
                 <Form.Group className='mb-3' controlId='username'>
-
                     <Form.Label className='label'>USERNAME </Form.Label>
                     <Form.Control type='text' className='input' placeholder='Username' name='username' onChange={handleChange}/>
                 </Form.Group>
-<<<<<<< HEAD
-                <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Label className='label'>PASSWORD </Form.Label>
-=======
                 <Form.Group className="mb-3" controlId="formBasicPassword" style={{marginTop: "30px"}}>
                     <Form.Label  className='label'>PASSWORD</Form.Label>
->>>>>>> d4ef602292d8aec244385c4850ebe72da006e364
                     <Form.Control type="password" className='input' placeholder="Password" name='password' onChange={handleChange}/>
                 </Form.Group>
                 <Button variant="primary" className='btn btn-primary' type="submit" onClick={handleSubmit}
