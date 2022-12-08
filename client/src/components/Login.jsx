@@ -84,7 +84,6 @@ const Login = (props) =>{
             <Form className="formContainer">
                 <h1>Login</h1>
                 <Form.Group className='mb-3' controlId='username'>
-
                     <Form.Label className='label'>USERNAME </Form.Label>
                     <Form.Control type='text' className='input' placeholder='Username' name='username' onChange={handleChange}/>
                 </Form.Group>

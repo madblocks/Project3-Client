@@ -9,7 +9,7 @@ import  Button  from 'react-bootstrap/Button'
 
 const StyledSearch = styled.div`
   height: 80px;
-  background: #08111c;
+  background: #36B1F7;
   font-size: 16px;
   box-sizing: border-box;
   display: flex;
@@ -24,6 +24,7 @@ const StyledSearch = styled.div`
     height: 35px;
     background-color: white;
     border-radius: 20px;
+    box-shadow: 2px 2px 2px black;
     outline: none;
     border: none;
     display: flex;
@@ -53,7 +54,9 @@ const StyledSearch = styled.div`
     z-index: 1000;
   }
   .rangeButtons{
-      margin-left: 10px;
+
+    margin: 10px;  
+    
   }
   .dateModal{
     position: absolute;

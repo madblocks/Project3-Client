@@ -25,7 +25,7 @@ const StyledWrapper = styled.div `
      justify-content: flex-end;
 }
 .nav_link{
-    background: #0e6655!important;
+    background: #3dcfe0!important;
 }
 .nav_brand{
   display: none;
@@ -72,16 +72,19 @@ function NavbarDarkExample({isAuthenticated}) {
   return (
     <div>
     <Navbar variant="dark" bg="dark" className='nav_link' expand="lg">
-      <Container fluid>
+      <Container fluid style={{justifyContent:"space-evenly"}}>
         <Navbar.Brand href="/"><img src={require("../images/OutDoorsyLogoFinal2.png")} alt="logo" className="logo"></img></Navbar.Brand>
+        <h1 style={{fontSize: "100px",fontFamily: 'Bangers, cursive'}}>Bring Back Nature</h1>
         <Navbar.Toggle aria-controls="navbar-dark-example" />
         {isAuthenticated?(
            <SfNav showProfile={true}
            profilePicture="https://flaticons.net/icon.php?slug_category=application&slug_icon=user-profile"
            profileMenu={[
-            {caption: "Profile", link: 'profile'},
-             {caption: "Logout", link: 'logout'}
-           ]}/>):null}
+            {caption: "Profile", link: '/profile'},
+             {caption: "Logout", link: '/logout'}
+           ]}
+           onMenuClicked={(link) => {window.location.href=link}}
+           />):null}
       </Container>
     </Navbar>
     </div>
@@ -115,16 +118,8 @@ function NavbarDarkExample({isAuthenticated}) {
 
 
 function FillExample({isAuthenticated}) {
-  return isAuthenticated?(
-    <Nav fill variant="tabs" defaultActiveKey="/home">
-      <Nav.Item>
-        <Nav.Link className='nav_title' eventKey="profile" href="/profile">Profile</Nav.Link>
-      </Nav.Item>
-      <Nav.Item>
-        <Nav.Link className='nav_title' eventKey="logout" href="/logout">Logout</Nav.Link>
-      </Nav.Item>
-    </Nav>
-  ):(
+  return isAuthenticated?
+    null:(
     <Nav fill variant="tabs" defaultActiveKey="/home">
     <Nav.Item>
       <Nav.Link className='nav_title' eventKey="signup" href="/signup">Signup</Nav.Link>
