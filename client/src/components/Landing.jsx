@@ -71,7 +71,6 @@ const [createEventForm, setCreateEventForm] = useState({
     reoccuring:''
 })
 let eventList = ["Hiking","Running","Ultimate Frisbee", "Skiing", "Mountain Biking", "Road Biking", "Kayaking", "Whitewater Rafting", "Fishing", "Bird Watching"]
-const [search, setSearch] = useState({
 
   
     // const {authenticated, isLoggedIn} = useContext(DataContext)
@@ -106,27 +105,7 @@ const [disable, setDisable]=useState(false)
 
 
     // const [activeEvent, setActiveEvent] = useState(null)
-
     // const [currentSearch, setCurrentSearch] = useState([])
-    const [allEvents, setAllEvents] = useState({hiking: [],
-                                            running: [],
-                                            ultimate: [],
-                                            skiing: [],
-                                            mountainBiking: [],
-                                            roadBiking: [],
-                                            kayaking: [],
-                                            rafting: [],
-                                            fishing: [],
-                                            birdWatching: []})
-
-    const [map, setMap] = useState(null)
-
-    const [currentActivity, setCurrentActivity] = useState({name: '', owner: {username: ''}})
-    const [showDetails, setShowDetails] = useState(false)
-    const addDetails = (activity) => {
-        setCurrentActivity(activity)
-        setShowDetails(true)
-    }
 
     const toggleActivityFilter = (activityRef) => {
         // setActivityFilter(...activityFilter, [activityRef]: !activityFilter.activityRef)
@@ -184,10 +163,6 @@ const getEventComments = async() => {
 const handleCommentChange = (e) => {
     setNewComment({...newComment, body: e.target.value, userId: user.id, eventId: currentActivity.id})
 }
-
-
- 
-
 
 const addComment = async (e) => {
     e.preventDefault()

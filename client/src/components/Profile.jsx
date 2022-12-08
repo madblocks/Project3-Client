@@ -3,9 +3,10 @@ import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
 import { Button } from 'react-bootstrap';
-import { useState, useEffect} from 'react';
 import axios from 'axios';
 import Client, { BASE_URL } from '../services/api';
+import {Card, Modal, Dropdown, DropdownButton} from 'react-bootstrap'
+import {Calendar} from 'react-calendar'
 
 const StyledProfile = styled.div`
 .grid-container{
@@ -41,7 +42,7 @@ export default function Profile() {
     userId:'',
     eventId:''
   })
-  const [updatedEvent, setUpdatedEvent] = useState({})
+  const [updatedEvent, setUpdatedEvent] = useState({name:''})
   let eventList = ["hiking","running","ultimate frisbee", "skiing", "mountain biking", "road biking", "kayaking", "whitewater rafting", "fishing", "bird watching"]
 
 
