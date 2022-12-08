@@ -248,6 +248,7 @@ const Landing = (props) =>{
         getEvents()
     },[])
 
+
   return (allEvents.hiking.length + allEvents.running.length + allEvents.ultimate.length + allEvents.skiing.length + allEvents.mountainBiking.length
         + allEvents.roadBiking.length + allEvents.kayaking.length + allEvents.rafting.length + allEvents.fishing.length + allEvents.birdWatching.length > 0) ? (
         <StyledWrapper>
