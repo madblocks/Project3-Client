@@ -58,8 +58,9 @@ function NavbarDarkExample({isAuthenticated}) {
   return (
     <div>
     <Navbar variant="dark" bg="dark" className='nav_link' expand="lg">
-      <Container fluid>
+      <Container fluid style={{justifyContent:"space-evenly"}}>
         <Navbar.Brand href="/"><img src={require("../images/OutDoorsyLogoFinal2.png")} alt="logo" className="logo"></img></Navbar.Brand>
+        <h1 style={{fontSize: "100px",fontFamily: 'Bangers, cursive'}}>Bring Back Nature</h1>
         <Navbar.Toggle aria-controls="navbar-dark-example" />
         {isAuthenticated?(
            <SfNav showProfile={true}
