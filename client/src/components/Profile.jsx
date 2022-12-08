@@ -6,6 +6,7 @@ import { Button } from 'react-bootstrap';
 import Client, { BASE_URL } from '../services/api';
 import {Card, Modal, Dropdown, DropdownButton} from 'react-bootstrap'
 import {Calendar} from 'react-calendar'
+import {BsFillTrashFill} from 'react-icons/bs'
 
 const StyledProfile = styled.div`
 .grid-container{
@@ -29,11 +30,13 @@ const StyledProfile = styled.div`
 
 export default function Profile() {
 
+  const baseUrl = 'http://localhost:3001/'
+
   let navigate = useNavigate()
   const {user, authenticated} = useContext(DataContext)
   const [counter, setCounter] = useState(0)
   const [userEvents, setUserEvents] = useState([])
-  const [comments, setComments] = useState([])
+  const [comments, setComments] = useState([{user:{avatar:'', username:'',id:''}}])
   const [currentActivity, setCurrentActivity] = useState({name: '', user: {username: ''}})
   const [showDetails, setShowDetails] = useState(false)
   const [showEdit, setShowEdit]= useState(false)
@@ -56,8 +59,10 @@ export default function Profile() {
     eventId:''
   })
   let eventList = ["hiking","running","ultimate frisbee", "skiing", "mountain biking", "road biking", "kayaking", "whitewater rafting", "fishing", "bird watching"]
+  const [dateNow, setDateNow] = useState(Date.now())
+  const [deleteConfirm, setDeleteConfirm] = useState(false)
 
-  const handleClose = () => {setShowDetails(false);setShowEdit(false);setComments([])}  
+  const handleClose = () => {setShowDetails(false);setShowEdit(false);setComments([{user:{avatar:'', username:'',id:''}}])}  
   const commentForm = () => {
     document.querySelector(".commentForm").style.visibility= "visible";
     document.querySelector(".comment-box").style.top="20px";
@@ -85,10 +90,6 @@ const addComment = async (e) => {
     eventId:''
     })
 }
-  const adjustLike = async () => {
-    //check if logged in, if not send them to login
-    //else, check if already liked - remove the like, else add the like
-}
 
 const addDetails = (activity) => {
   setCurrentActivity(activity)
@@ -104,6 +105,18 @@ const setDate= (e)=> {
 }
 const handleChange = (e) =>{
   setUpdatedEvent({...updatedEvent, [e.target.name]: e.target.value})
+}
+
+const deleteEvent = async(activity)=>{
+  try{
+    console.log(activity)
+    const res = await Client.delete(`api/event/${activity.id}`)
+    alert("Event Deleted!")
+  }
+  catch (error){
+    alert("An Error Occured")
+  }
+
 }
 
 const handleSubmit = async (e) =>{
@@ -122,6 +135,7 @@ const handleSubmit = async (e) =>{
       document.querySelector(".update-event-fail").style.visibility= "visible"
       document.querySelector(".update-event-success").style.visibility= "hidden"
 }}
+
 const updateGrid = () => {
   setCounter(counter+1);
 }
@@ -131,10 +145,6 @@ useEffect(()=>{
     const res = await Client.get(`api/user/${user.username}`)
     let results = res.data
     setUserEvents(results[0].events)
-  const getLikes = async () => {
-  const res = await Client.get(`api/eventlikes/counter`)
-  }
-
   }
 getUserEvents();
 },[counter])
@@ -168,9 +178,10 @@ getUserEvents();
                   <Card.Subtitle>{new Date(Date.parse(post.date)).toLocaleString('en-US')}</Card.Subtitle>
                   <Card.Body>{post.description}</Card.Body>
                   
-                  
-                  <Button onClick={()=>addDetails(post)} style={{width: "50%", border:"2px solid black", alignSelf:"center", marginBottom: "10px"}}>Show Details</Button>
-                  
+                  <div style={{display:"flex", justifyContent:"space-evenly", alignItems:"center"}}>
+                    <Button onClick={()=>addDetails(post)} style={{width: "40%", border:"2px solid black",  marginBottom: "10px"}}>Show Details</Button>
+                    <BsFillTrashFill className="trash" onClick={()=>deleteEvent(post)} style={{fontSize:"30px", cursor:"pointer"}}/>
+                  </div>
                 </Card>
               ))}
               </div>
@@ -190,18 +201,24 @@ getUserEvents();
 {/* Comments Rendering */}
                 <h5>Comments <Button onClick={commentForm} >add</Button></h5>
                 <form className="commentForm" style={{visibility:"hidden"}} onSubmit = {addComment}>
-                  <textarea style={{width: "100%"}} value={newComment.body}onChange={handleCommentChange}/>
-                  <Button type="submit">Submit</Button>
+                    <textarea style={{width: "100%"}} value={newComment.body} onChange={handleCommentChange}/>
+                    <Button type="submit">Submit</Button>
                 </form>
-                {comments.length > 0 ? (
-                <div className="comment-box" style={{overflowY:"scroll", border:"2px solid black", height: "25vh", position:"relative", top:"-100px", margin:"0 auto"}}>
+                {comments[0].user ? (
+                <div className="comment-box" style={{overflowY:"scroll", border:"1px solid black",borderRadius:"10px", height: "25vh", position:"relative", top:"-100px", margin:"0 auto"}}>
                 
                 {comments.map((comment,index)=>(
-                  <p key={index}>{comment.body}</p>
+                    <div key={index} style={{border: "2px solid black", borderRadius:"10px", padding: "2px 2px 2px 8px", margin:"10px"}}>
+                    <div style={{display:"flex"}}>
+                        <img src={`${baseUrl}${comment.user.avatar}`} style={{maxWidth: "20px", maxHeight:"20px", marginRight:"5px"}}/>
+                        <h5>{comment.user.username}</h5>
+                    </div>
+                    <p className="comment" style={{marginBottom:"0"}}> "{comment.body}"  </p>
+                    <p style={{margin:"0", color:"grey"}}><small>{((dateNow - Date.parse(comments[index].createdAt))/86400000) < 1 ? (Math.trunc((((dateNow - Date.parse(comments[index].createdAt))/3600000))) + " Hours Ago"):Math.trunc(((dateNow - Date.parse(comments[index].createdAt))/86400000))+ " Days Ago"}</small></p>
+                    </div>
                 ))}
                 </div>
-                ):<h1>...Loading Comments</h1>}
-                <br/>
+                ) : (<h2>...Loading Comments</h2>)}
 {/* Edit Form */}
                 {/* <Button onClick={adjustLike}>Like</Button> */}
             </Modal.Body>
@@ -234,9 +251,6 @@ getUserEvents();
             <h4 className = "update-event-success" style={{visibility:"hidden"}}>Edit Successful</h4>
             <h4 className = "update-event-fail" style={{visibility:"hidden"}}>Error Occured, Try Again</h4>
         </Modal>
-
-
-
           </StyledProfile>
         ) : (
         <div className = 'protected'>
