@@ -328,7 +328,7 @@ const addDetails = async (activity) => {
                 <Button type="submit">Add Event!</Button>
                 </form>
                 <h4 className="create-event-success" style={{visibility:"hidden"}}>Created!</h4>
-                <h4 className="create-event-fail" style={{visibility:"hidden"}}>Please Fill Out All Fields!</h4>
+                <h4 className="create-event-fail" style={{visibility:"hidden"}}>An Error Occured, Please Try Again</h4>
                 </Modal.Body>
             </Modal>                    
             </div>
