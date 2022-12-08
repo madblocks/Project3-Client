@@ -31,6 +31,81 @@ export default function Profile() {
   let navigate = useNavigate()
   const {user, authenticated} = useContext(DataContext)
 
+  const [userEvents, setUserEvents] = useState([])
+  const [comments, setComments] = useState([])
+  const [currentActivity, setCurrentActivity] = useState({name: '', user: {username: ''}})
+  const [showDetails, setShowDetails] = useState(false)
+  const [showEdit, setShowEdit]= useState(false)
+  const [newComment, setNewComment]= useState({
+    body:'',
+    userId:'',
+    eventId:''
+  })
+  const [updatedEvent, setUpdatedEvent] = useState({})
+  let eventList = ["hiking","running","ultimate frisbee", "skiing", "mountain biking", "road biking", "kayaking", "whitewater rafting", "fishing", "bird watching"]
+
+
+
+
+  const handleClose = () => {setShowDetails(false);setShowEdit(false)}  
+  const commentForm = () => {
+    document.querySelector(".commentForm").style.visibility= "visible";
+    document.querySelector(".comment-box").style.top="20px";
+  }
+  const handleCommentChange = (e) => {
+    setNewComment({...newComment, body: e.target.value, userId: user.id, eventId: currentActivity.id})
+  }
+  
+const getEventComments = async() => {
+  if (currentActivity.id) 
+  {
+  const res = await Client.get(`/api/comment/${currentActivity.id}`) 
+  let results = res.data
+  setComments(results)
+  setShowDetails(true)
+  }
+else {setComments(["failed to load comments"])}}
+
+const addComment = async (e) => {
+    e.preventDefault()
+    const res = await Client.post(`api/comment`, newComment)
+    setNewComment({
+      body:'',
+    userId:'',
+    eventId:''
+    })
+}
+  const adjustLike = async () => {
+    //check if logged in, if not send them to login
+    //else, check if already liked - remove the like, else add the like
+}
+
+const addDetails = (activity) => {
+  setCurrentActivity(activity)
+  getEventComments();
+}
+const editEventButton = (activity) => {
+  setUpdatedEvent(activity);
+  setCurrentActivity(activity);
+  console.log(updatedEvent)
+  setShowEdit(true)
+}
+const setDate= (e)=> {
+  setUpdatedEvent({...updatedEvent, date: e})
+}
+
+useEffect(()=>{
+  const getUserEvents = async () => {
+    const res = await Client.get(`api/user/${user.username}`)
+    let results = res.data
+    setUserEvents(results[0].events)
+  const getLikes = async () => {
+    const res = await Client.get(`api/eventlikes/counter`)
+  }
+
+  }
+getUserEvents();
+},[])
         return (user && authenticated) ? (
           <StyledProfile>
             <h1>Welcome, {user ? user.username : 'friend'}</h1>
@@ -83,7 +158,6 @@ export default function Profile() {
                 </form>
                 <div className="comment-box" style={{overflowY:"scroll", border:"2px solid black", height: "25vh", position:"relative", top:"-100px", margin:"0 auto"}}>
                 {comments.map((comment,index)=>(
-                  
                   <p key={index}>{comment.body}</p>
                 ))}
                 </div>
