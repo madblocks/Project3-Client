@@ -27,6 +27,7 @@ const StyledWrapper = styled.div `
 }
 .nav_link{
     background: #3dcfe0!important;
+    border-bottom: 3px solid white;
 }
 .nav_brand{
   display: none;
@@ -78,7 +79,10 @@ function NavbarDarkExample({isAuthenticated, user}) {
     <Navbar variant="dark" bg="dark" className='nav_link' expand="lg">
       <Container fluid style={{justifyContent:"space-evenly"}}>
         <Navbar.Brand href="/"><img src={require("../images/OutDoorsyLogoFinal2.png")} alt="logo" className="logo"></img></Navbar.Brand>
-        <h1 style={{fontSize: "100px",fontFamily: 'Bangers, cursive'}}>Bring Back Nature</h1>
+        <div style={{display:"flex", flexDirection:"column"}}>
+          <h1 style={{fontSize: "100px",fontFamily: 'Bangers, cursive'}}>Bring Back Nature</h1>
+          <h3 style={{fontSize: "40px",fontFamily: 'Bangers, cursive'}}> W/ Outdoorsy</h3>
+        </div>
         <Navbar.Toggle aria-controls="navbar-dark-example" />
         {isAuthenticated?(
            <SfNav showProfile={true}

@@ -312,7 +312,7 @@ const refresher = () =>{
                     </LayersControl>
         </MapContainer>
             <div style={{display:"flex", flexDirection:"column", width: "33vw" }}>
-                <Button style={{width:"18vw", position:"relative", top:"20px"}} onClick={createEvent}>Create Event</Button> 
+                <Button style={{width:"18vw", position:"relative", top:"20px", boxShadow: "2px 2px 2px black"}} onClick={createEvent}>Create Event</Button> 
             </div>
             </div>
 {/* Event Details Modal*/}
