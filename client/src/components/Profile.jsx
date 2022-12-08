@@ -143,7 +143,7 @@ getUserEvents();
           <StyledProfile>
             <div style={{display:"flex"}}>
             <Button style={{marginLeft: "10px"}} onClick={updateGrid}>Reload Events</Button> 
-            <h1 style={{marginLeft:"200px"}}>Welcome, {user ? user.username : 'friend'}</h1>
+            <h4 style={{marginLeft:"70%"}}>Welcome, {user ? user.username : 'friend'}</h4>
             </div>
             <div className="grid-container">
               {/* {posts.map((post) => (
