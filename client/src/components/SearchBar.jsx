@@ -9,7 +9,7 @@ import  Button  from 'react-bootstrap/Button'
 
 const StyledSearch = styled.div`
   height: 80px;
-  background: #36B1F7;
+  background: #3A8E88;
   font-size: 16px;
   box-sizing: border-box;
   display: flex;

@@ -9,13 +9,13 @@ import {Calendar} from 'react-calendar'
 import {BsFillTrashFill} from 'react-icons/bs'
 
 const StyledProfile = styled.div`
+background-color: #3A8E88;
 .grid-container{
 
   height: 75vh;
   width:98%;
   margin: 10px;
   overflow-y:scroll;
-  border-radius: 10px;
 }
 .grid-container::-webkit-scrollbar{
   display:none
@@ -150,7 +150,7 @@ getUserEvents();
 
 return (user && authenticated) ? (
           <StyledProfile>
-            <div style={{display:"flex", justifyContent:"space-evenly", marginTop:"10px"}}>
+            <div style={{display:"flex", position:"relative", top:"10px"}}>
               <Button style={{marginLeft: "10px"}} onClick={updateGrid}>Reload Events</Button> 
               
               <h4 style={{marginLeft:"70%"}}>Welcome, {user ? user.username : 'friend'}</h4>

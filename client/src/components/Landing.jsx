@@ -14,7 +14,7 @@ import {AiOutlineCalendar, AiOutlineUser} from 'react-icons/ai'
 
 const StyledWrapper = styled.div `
 
-    background: #36B1F7;
+    background: #3A8E88;
     .landing-container{
         height: 80vh;
         display: flex;
