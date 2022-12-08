@@ -335,7 +335,7 @@ const Landing = (props) =>{
                     
                 </Modal.Body>
             </Modal>
-{/* Create Event Modal */}/img/skiing/les-anderson-R3tHkgwYaic-unsplash.jpg
+{/* Create Event Modal */}
             <Modal show ={showCreate} onHide={handleClose}>
                 <Modal.Header closeButton >
                     Host an Event!
