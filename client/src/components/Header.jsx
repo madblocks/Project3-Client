@@ -23,7 +23,7 @@ const StyledWrapper = styled.div `
      justify-content: flex-end;
 }
 .nav_link{
-    background: #0e6655!important;
+    background: #3dcfe0!important;
 }
 `;
 
