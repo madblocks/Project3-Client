@@ -7,12 +7,6 @@ import { useNavigate } from 'react-router-dom'
 import { RegisterUser } from '../services/Auth';
 
 const StyledWrapper = styled.div `
-  .input{
-    padding: 10px;
-    height: 50px;
-    width: 500px;
-    margin: auto;
-}
 
   width: 450px;
   height: 700px;

@@ -9,44 +9,44 @@ import { LoginUser } from '../services/Auth';
 const StyledLogin = styled.div `
 
 
-  width: 400px;
+ .formContainer {
+    width: 400px;
   height: 400px;
-  padding-top: 20px;
   background: rgb(16,45,40);
   background: linear-gradient(180deg, rgba(16,45,40,1) 0%, rgba(13,120,99,0.9893333333333333) 29%, rgba(234,238,238,0.696) 96%);
   margin: auto;
   border-radius: 10px;
-  margin-top: 60px;
   color: white;
+  margin-top: 5vh;
+}
 
   .mb-3 {
       height: 60px; 
-      
+
   }
   .input {
-      width: 500px;
-      height: 50px;
+    width: 70%;
+    margin-left: 15%;
       border-radius: 10px;
-      margin: auto;
       background: rgba(255,255,255,.2);
-      border: none;
-      padding: 10px;
+    border:none;
   }
   .btn {
       width: 80%;
       height: 35px;
       border-radius: 10px;
-      margin-top: 30px;
+      margin-top: 40px;
       background: #0d7863;
       border: none;
   }
   .label{
-      margin-left: -230px;
+    text-align: left;
+    width: 70%;
   }
 
 
    h1{
-    padding-bottom: 25px;
+    padding-top: 10px;
   }
 
 
@@ -77,22 +77,16 @@ const Login = (props) =>{
 
     return (
         <StyledLogin>
-            <h1>Login</h1>
-            <Form>
+            
+            <Form className="formContainer">
+                <h1>Login</h1>
                 <Form.Group className='mb-3' controlId='username'>
 
                     <Form.Label className='label'>USERNAME </Form.Label>
                     <Form.Control type='text' className='input' placeholder='Username' name='username' onChange={handleChange}/>
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Label className='label'>PASSWORD </Form.Label>
-
-                    <Form.Label>UserName</Form.Label>
-                    <Form.Control type='text' className='input' placeholder='Username' name='username' onChange={handleChange}/>
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Label>Password</Form.Label>
-
+                <Form.Group className="mb-3" controlId="formBasicPassword" style={{marginTop: "30px"}}>
+                    <Form.Label  className='label'>PASSWORD</Form.Label>
                     <Form.Control type="password" className='input' placeholder="Password" name='password' onChange={handleChange}/>
                 </Form.Group>
                 <Button variant="primary" className='btn btn-primary' type="submit" onClick={handleSubmit}
