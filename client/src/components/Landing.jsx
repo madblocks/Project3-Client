@@ -41,7 +41,6 @@ const StyledWrapper = styled.div `
 const Landing = (props) =>{
 
 
-
 const {authenticated, setAuth} = useContext(DataContext)
 const {user, setUser} = useContext(DataContext)
 const [allEvents, setAllEvents] = useState({
@@ -73,6 +72,11 @@ const [createEventForm, setCreateEventForm] = useState({
 })
 let eventList = ["Hiking","Running","Ultimate Frisbee", "Skiing", "Mountain Biking", "Road Biking", "Kayaking", "Whitewater Rafting", "Fishing", "Bird Watching"]
 const [search, setSearch] = useState({
+
+  
+    // const {authenticated, isLoggedIn} = useContext(DataContext)
+    const [search, setSearch] = useState({
+
         activityId: null,
         start: null,
         end: null,
@@ -90,6 +94,7 @@ const [activityFilter, setActivityFilter] = useState({
             fishing: false,
             birdWatching: true,
     })
+
 const [comments, setComments] = useState([{user:{avatar:'', username:'',id:''}}])
 const [newComment, setNewComment]= useState({
         body:'',
@@ -99,11 +104,34 @@ const [newComment, setNewComment]= useState({
 const [dateNow, setDateNow] = useState(Date.now())
 const [disable, setDisable]=useState(false)
 
+
+    // const [activeEvent, setActiveEvent] = useState(null)
+
     // const [currentSearch, setCurrentSearch] = useState([])
+    const [allEvents, setAllEvents] = useState({hiking: [],
+                                            running: [],
+                                            ultimate: [],
+                                            skiing: [],
+                                            mountainBiking: [],
+                                            roadBiking: [],
+                                            kayaking: [],
+                                            rafting: [],
+                                            fishing: [],
+                                            birdWatching: []})
+
+    const [map, setMap] = useState(null)
+
+    const [currentActivity, setCurrentActivity] = useState({name: '', owner: {username: ''}})
+    const [showDetails, setShowDetails] = useState(false)
+    const addDetails = (activity) => {
+        setCurrentActivity(activity)
+        setShowDetails(true)
+    }
 
     const toggleActivityFilter = (activityRef) => {
         // setActivityFilter(...activityFilter, [activityRef]: !activityFilter.activityRef)
     }
+
 
 const handleClose = () => {setShowDetails(false); setShowCreate(false); setDisable(false)}
 
@@ -157,6 +185,10 @@ const handleCommentChange = (e) => {
     setNewComment({...newComment, body: e.target.value, userId: user.id, eventId: currentActivity.id})
 }
 
+
+ 
+
+
 const addComment = async (e) => {
     e.preventDefault()
     const res = await Client.post(`api/comment`, newComment)
@@ -190,14 +222,13 @@ const adjustLike = async() => {
     } else { (alert("Log in to like events!"))}
 }
 
-
-
 const addDetails = async (activity) => {
     setCurrentActivity(activity)
     await getEventComments();
     setDateNow(Date.now())
     setShowDetails(true)
 }
+
 
     useEffect(() => {
         const getEvents = async () => {
@@ -223,9 +254,7 @@ const addDetails = async (activity) => {
         getEvents()
     },[])
 
-    console.log(comments)
-
-    return allEvents.hiking.length > 2 ? (
+  return allEvents.hiking.length > 2 ? (
         <StyledWrapper>
         <div className="landing-container">
             <SearchBar/>
@@ -333,8 +362,8 @@ const addDetails = async (activity) => {
             </Modal>                    
             </div>
         </StyledWrapper>
-    )  : <h1>Loading</h1>
 
+    )  : <h1>Loading</h1>
 }
 
 export default Landing
