@@ -150,13 +150,13 @@ getUserEvents();
 
 return (user && authenticated) ? (
           <StyledProfile>
-            <div style={{display:"flex", position:"relative", top:"10px"}}>
-              <Button style={{marginLeft: "10px"}} onClick={updateGrid}>Reload Events</Button> 
-              
-              <h4 style={{marginLeft:"70%"}}>Welcome, {user ? user.username : 'friend'}</h4>
+            <div style={{display:"flex", justifyContent:"space-between", position:"relative", top:"10px"}}>
+              <Button style={{marginLeft: "10px", boxShadow:"2px 2px 2px black"}} onClick={updateGrid}>Reload Events</Button> 
+              <h2 style={{fontFamily: 'Bangers, cursive', fontSize:"64px", margin:"0"}}>Your Events</h2> 
+              <h4 style={{}}>Welcome,<br/> {user ? user.username : 'friend'}</h4>
             </div>
             <div className="grid-container">
-            <h2 style={{fontFamily: 'Bangers, cursive', fontSize:"64px", margin:"0"}}>Your Events</h2> 
+            
               {/* {posts.map((post) => (
                 <div className="card" key={post.id}>
                   <h3>{post.title}</h3>
