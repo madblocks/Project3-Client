@@ -9,16 +9,16 @@ import { RegisterUser } from '../services/Auth';
 const StyledWrapper = styled.div `
 
   width: 450px;
-  height: 700px;
-  background: rgb(19,38,79);
-  background: linear-gradient(180deg, rgba(19,38,79,1) 0%, rgba(22,147,198,1) 52%, rgba(255,255,255,0) 82%);
+  height: 60vh;
+  background-color: #3A8E88 ;
   margin: auto;
   border-radius: 10px;
+  border: 2px solid black;
+  box-shadow: 2px 2px 2px black;
   padding-left: 10px;
   color: white;
   margin-top: 50px;
   padding-top: 17px;
-
 
   .mb-3 {
       height: 40px;  
@@ -135,11 +135,8 @@ const Signup = (props) =>{
           <Form.Label className='p_label'>CONFIRM PASSWORD </Form.Label>
           <Form.Control type="password" className='input' placeholder="Confirm Password" name='confirmPassword' onChange={handleChange}/>
         </Form.Group>
+        <br/>
 
-
-        <Form.Group className="mb-3" controlId="formBasicCheckbox">
-          <Form.Check type="checkbox" label="Check me out" />
-        </Form.Group>
         <Button variant="primary" className='btn btn-primary' type="submit" onClick={handleSubmit}
           disabled={!allData.username || !allData.firstName || !allData.lastName || !allData.email || 
             !allData.password || !(allData.password === allData.confirmPassword)}>
