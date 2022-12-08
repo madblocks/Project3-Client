@@ -1,4 +1,3 @@
-import {Link} from 'react-router-dom'
 import styled from 'styled-components'
 import { DataContext } from '../DataContext'
 import { useContext } from 'react'
@@ -6,16 +5,12 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { SfNav } from 'react-sf-building-blocks';
-import svgLogo from '../images/OutDoorsyLogoFinal2.svg';
-import {
-  MDBFooter,
-  MDBContainer,
-  MDBCol,
-  MDBRow
-} from 'mdb-react-ui-kit';
+import { MDBFooter } from 'mdb-react-ui-kit';
 
 
 const StyledWrapper = styled.div `
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond&family=DM+Serif+Display&display=swap');
+
 .header{
     display:flex;
 
@@ -50,8 +45,27 @@ const StyledWrapper = styled.div `
 .nav_signin_button{
   display: none!important;
 }
-
-
+.navbar-toggler{
+  display: none;
+}
+.btn_signin_portrait{
+  display: none!important;
+}
+.nav_left_menu{
+  display: none;
+}
+span{
+  display: none;
+}
+.text-dark{
+  text-decoration: none;
+}
+.nav_title{
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  color: #143e87;
+  font-weight: bold;
+}
 `;
 
 function NavbarDarkExample({isAuthenticated}) {
@@ -66,8 +80,11 @@ function NavbarDarkExample({isAuthenticated}) {
            <SfNav showProfile={true}
            profilePicture="https://flaticons.net/icon.php?slug_category=application&slug_icon=user-profile"
            profileMenu={[
-             {caption: "Logout", link: 'logout'}
-           ]}/>):null}
+            {caption: "Profile", link: '/profile'},
+             {caption: "Logout", link: '/logout'}
+           ]}
+           onMenuClicked={(link) => {window.location.href=link}}
+           />):null}
       </Container>
     </Navbar>
     </div>
@@ -82,61 +99,33 @@ function NavbarDarkExample({isAuthenticated}) {
 
  function App() {
   return (
-    <div className='fixed-bottom'>
-    <MDBFooter bgColor='light' className='text-center text-lg-left'>
-      <MDBContainer className='p-4'>
-        <MDBRow>
-          <MDBCol lg='6' md='12' className='mb-4 mb-md-0'>
-            <h5 className='text-uppercase'>Footer text</h5>
-
-            <p>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste atque ea quis molestias.
-              Fugiat pariatur maxime quis culpa corporis vitae repudiandae aliquam voluptatem veniam,
-              est atque cumque eum delectus sint!
-            </p>
-          </MDBCol>
-
-          <MDBCol lg='6' md='12' className='mb-4 mb-md-0'>
-            <h5 className='text-uppercase'>Footer text</h5>
-
-            <p>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste atque ea quis molestias.
-              Fugiat pariatur maxime quis culpa corporis vitae repudiandae aliquam voluptatem veniam,
-              est atque cumque eum delectus sint!
-            </p>
-          </MDBCol>
-        </MDBRow>
-      </MDBContainer>
+    
+    <div className='fixed-bottom footer'>
+    <MDBFooter  className='text-center text-lg-left'>
+      
 
       <div className='text-center p-3' style={{ backgroundColor: '#0e6655' }}>
         &copy; {new Date().getFullYear()} Copyright:{' '}
-        <a className='text-dark' href='#'>
+        <a className='text-dark' href='/'>
           OutDoorsy.com
         </a>
       </div>
     </MDBFooter>
     </div>
+   
   )
  }
 
 
 function FillExample({isAuthenticated}) {
-  return isAuthenticated?(
-    <Nav fill variant="tabs" defaultActiveKey="/home">
-      <Nav.Item>
-        <Nav.Link eventKey="profile" href="/profile">Profile</Nav.Link>
-      </Nav.Item>
-      <Nav.Item>
-        <Nav.Link eventKey="logout" href="/logout">Logout</Nav.Link>
-      </Nav.Item>
-    </Nav>
-  ):(
+  return isAuthenticated?
+    null:(
     <Nav fill variant="tabs" defaultActiveKey="/home">
     <Nav.Item>
-      <Nav.Link eventKey="signup" href="/signup">Signup</Nav.Link>
+      <Nav.Link className='nav_title' eventKey="signup" href="/signup">Signup</Nav.Link>
     </Nav.Item>
     <Nav.Item>
-      <Nav.Link eventKey="login" href="/login">Login</Nav.Link>
+      <Nav.Link className='nav_title' eventKey="login" href="/login">Login</Nav.Link>
     </Nav.Item>
   </Nav>
   )

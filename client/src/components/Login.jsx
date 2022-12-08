@@ -12,8 +12,10 @@ const StyledLogin = styled.div `
  .formContainer {
     width: 400px;
   height: 400px;
-  background: rgb(16,45,40);
-  background: linear-gradient(180deg, rgba(16,45,40,1) 0%, rgba(13,120,99,0.9893333333333333) 29%, rgba(234,238,238,0.696) 96%);
+  background: rgb(19,38,79);
+  background: linear-gradient(180deg, rgba(19,38,79,1) 0%, rgba(22,147,198,1) 52%, rgba(255,255,255,0) 82%);
+//   background: rgb(16,45,40);
+//   background: linear-gradient(180deg, rgba(16,45,40,1) 0%, rgba(13,120,99,0.9893333333333333) 29%, rgba(234,238,238,0.696) 96%);
   margin: auto;
   border-radius: 10px;
   color: white;
@@ -36,7 +38,8 @@ const StyledLogin = styled.div `
       height: 35px;
       border-radius: 10px;
       margin-top: 40px;
-      background: #0d7863;
+      background: rgba(22, 46, 110, 0.895);
+    //   background: #0d7863;
       border: none;
   }
   .label{
