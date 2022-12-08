@@ -7,6 +7,7 @@ import Client, { BASE_URL } from '../services/api';
 import {Card, Modal, Dropdown, DropdownButton} from 'react-bootstrap'
 import {Calendar} from 'react-calendar'
 import {BsFillTrashFill} from 'react-icons/bs'
+import {AiOutlineCalendar, AiOutlineUser} from 'react-icons/ai'
 
 const StyledProfile = styled.div`
 background-color: #3A8E88;
@@ -36,7 +37,7 @@ export default function Profile() {
   const [counter, setCounter] = useState(0)
   const [userEvents, setUserEvents] = useState([])
   const [comments, setComments] = useState([{user:{avatar:'', username:'',id:''}}])
-  const [currentActivity, setCurrentActivity] = useState({name: '', user: {username: ''}})
+  const [currentActivity, setCurrentActivity] = useState({name: '', owner: {username: ''}, eventLikedBy: [], img: [], activity:[{name:''}], latitude:'', longitude: '', recurring: '', attendees: [{username:''}]})
   const [showDetails, setShowDetails] = useState(false)
   const [showEdit, setShowEdit]= useState(false)
   const [newComment, setNewComment]= useState({
@@ -76,6 +77,7 @@ const getEventComments = async() => {
   const res = await Client.get(`/api/comment/${currentActivity.id}`) 
   let results = res.data
   setComments(results)
+  setDateNow(Date.now())
   setShowDetails(true)
   }
 else {setComments(["failed to load comments"])}}
@@ -148,6 +150,8 @@ useEffect(()=>{
 getUserEvents();
 },[counter])
 
+console.log(currentActivity)
+
 return (user && authenticated) ? (
           <StyledProfile>
             <div style={{display:"flex", justifyContent:"space-between", position:"relative", top:"10px"}}>
@@ -194,10 +198,10 @@ return (user && authenticated) ? (
                 <Modal.Title>{currentActivity.name}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                Hosted By {user.username} <br/>
-                {/* <h6 style={{margin:"0"}}>{currentActivity.eventLikedBy.length} Likes</h6> <br/> */}
-                <br/><h5 style={{margin:"0", position:"relative", top:"-10px"}}>{new Date(Date.parse(currentActivity.date)).toLocaleString('en-US')}</h5>
-                <p>{currentActivity.description}</p>
+            <h2 style={{marginBottom:"0"}}>{currentActivity.name}</h2>
+                    <div style={{fontSize:"12px", marginBottom: "20px"}}> Hosted By {user.username}</div>
+                    <h5 style={{margin:"0", position:"relative", top:"-10px"}}><AiOutlineCalendar style ={{marginRight: "6px"}}/>{new Date(Date.parse(currentActivity.date)).toLocaleString('en-US')} - recurring: {currentActivity.recurring}</h5>
+                    <p style={{border:"2px solid black", borderRadius:"10px", boxShadow:"2px 2px 2px black", padding:"6px"}}>{currentActivity.description}</p>
 
 {/* Comments Rendering */}
                 <h5>Comments <Button onClick={commentForm} >add</Button></h5>
