@@ -229,7 +229,7 @@ const addDetails = async (activity) => {
         getEvents()
     },[])
 
-  return allEvents.hiking.length > 2 ? (
+return allEvents.hiking.length > 2 ? (
         <StyledWrapper>
         <div className="landing-container">
             <SearchBar/>

@@ -1,5 +1,6 @@
 import { DataContext } from '../DataContext'
 import { useEffect, useContext } from 'react'
+import Logo from "../images/OutDoorsyLogoFinal2.svg"
 
 const Logout = () =>{
     const {setUser, setAuth} = useContext(DataContext)
@@ -10,7 +11,14 @@ const Logout = () =>{
         localStorage.clear();
     })
 
-    return(<div>You have been logged out</div>)
+    return(
+    <div>
+    <h1 style={{marginTop:"20px"}}>See You Soon! </h1>
+    
+    <img src={Logo} style={{scale:".3", position: "relative", top:"-450px"}}/>
+
+    
+    </div>)
 }
 
 export default Logout
