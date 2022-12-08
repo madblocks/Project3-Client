@@ -10,6 +10,7 @@ import Dropdown from 'react-bootstrap/Dropdown'
 import Calendar from 'react-calendar'
 import SearchBar from './SearchBar'
 import DropdownToggle from 'react-bootstrap/esm/DropdownToggle'
+import {AiOutlineCalendar, AiOutlineUser} from 'react-icons/ai'
 
 const StyledWrapper = styled.div `
 
@@ -40,7 +41,7 @@ const StyledWrapper = styled.div `
         width:100%;
         display:flex;
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: center;
     }
 `;
 
@@ -62,9 +63,10 @@ const Landing = (props) =>{
             fishing: [],
             birdWatching: []
         })
-    const [currentActivity, setCurrentActivity] = useState({name: '', owner: {username: ''}, eventLikedBy: [], img: []})
+    const [currentActivity, setCurrentActivity] = useState({name: '', owner: {username: ''}, eventLikedBy: [], img: [], activity:[{name:''}], latitude:'', longitude: '', recurring: '', attendees: [{username:''}]})
     const [showDetails, setShowDetails] = useState(false)
     const [showCreate, setShowCreate]= useState(false)
+    const [refresh, setRefresh] = useState(0)
     const [createEventForm, setCreateEventForm] = useState({
         name: 'Select an Activity',
         latitude: '',
@@ -107,6 +109,7 @@ const Landing = (props) =>{
             userId:'',
             eventId:''
     })
+  
     const [dateNow, setDateNow] = useState(Date.now())
     const [disable, setDisable]=useState(false)
     
@@ -169,30 +172,42 @@ const Landing = (props) =>{
         eventId:''
         })
     }
+    const [currentLikes, setCurrentLikes] = useState(0)
+    // const adjustLike = async() => {
+    //     if (authenticated) {
+    //         setCurrentLikes(currentActivity.eventLikedBy.length)
+    //         console.log(currentLikes)
 
-    const adjustLike = async() => {
-        if (authenticated) {
-            console.log(currentActivity.eventLikedBy)
-            for (let i=0; i<currentActivity.eventLikedBy.length;i++){
-                if (user.id === currentActivity.eventLikedBy[i].id){
-                    document.querySelector(".userLiked").style.visibility = "visible"
-                } else {
-                    setDisable(true);
-                    const requestBody = {
-                        userId: user.id,
-                        eventId: currentActivity.id
-                    }
-                    const res = await Client.post(`api/eventLikes`,requestBody)
-                    console.log(res)
-                }
-            }
-        } else { (alert("Log in to like events!"))}
-    }
+
+
+    //         for (let i=0; i<currentActivity.eventLikedBy.length;i++){
+    //             if (user.id === currentActivity.eventLikedBy[i].id){
+    //                 document.querySelector(".userLiked").style.visibility = "visible"
+    //             } else {
+    //                 setDisable(true);
+    //                 const requestBody = {
+    //                     userId: user.id,
+    //                     eventId: currentActivity.id
+    //                 }
+    //                 const res = await Client.post(`api/eventLikes`,requestBody)
+    //                 setCurrentLikes(currentLikes+1)
+    //             }
+    //         }
+    //     } else { (alert("Log in to like events!"))}
+    // }
 
     const addDetails = async (activity) => {
         setCurrentActivity(activity)
         await getEventComments();
         setDateNow(Date.now())
+        setCurrentLikes(currentActivity.eventLikedBy.length)
+
+        for (let i=0; i<currentActivity.eventLikedBy.length;i++){
+            if (user.id == currentActivity.eventLikedBy[i].id){
+                setDisable(true);
+            }
+        }
+
         setShowDetails(true)
     }
 
@@ -227,6 +242,9 @@ const Landing = (props) =>{
         }
         getSearch()
     }
+const refresher = () =>{
+    setRefresh(refresh+1)
+}
 
     useEffect(() => {
         const getEvents = async () => {
@@ -250,9 +268,9 @@ const Landing = (props) =>{
             })
         }
         getEvents()
-    },[])
+    },[refresh])
 
-
+console.log(currentActivity)
   return (allEvents.hiking.length + allEvents.running.length + allEvents.ultimate.length + allEvents.skiing.length + allEvents.mountainBiking.length
         + allEvents.roadBiking.length + allEvents.kayaking.length + allEvents.rafting.length + allEvents.fishing.length + allEvents.birdWatching.length > 0) ? (
         <StyledWrapper>
@@ -300,14 +318,16 @@ const Landing = (props) =>{
 {/* Event Details Modal*/}
             <Modal show={showDetails} onHide={handleClose}>
                 <Modal.Header style={{justifyContent: "center", background:"#DEF2F0"}}>
-                    {currentActivity.img.length>0 ? (<img style={{maxWidth:"70%", margin:"auto", border:"2px solid black", borderRadius:"10px", boxShadow: "2px 2px 2px black"}} src={`${baseUrl}${currentActivity.img[0]}`} alt="event"/>):null}
+                    {currentActivity.img.length>0 ? (<img style={{maxWidth:"70%", maxHeight:"60vh", margin:"auto", border:"2px solid black", borderRadius:"10px", boxShadow: "2px 2px 2px black"}} src={`${baseUrl}${currentActivity.img[0]}`} alt="event"/>):null}
                 </Modal.Header>
                 <Modal.Body style={{}}>
-                    <h2>{currentActivity.name}</h2>
-                    Hosted By {currentActivity.owner.username}
-                    <h6 style={{margin:"0"}}>{currentActivity.eventLikedBy.length} Likes</h6> <br/>
-                    <h5 style={{margin:"0", position:"relative", top:"-10px"}}>{new Date(Date.parse(currentActivity.date)).toLocaleString('en-US')}</h5>
-                    <p>{currentActivity.description}</p>
+                    <h2 style={{marginBottom:"0"}}>{currentActivity.name}</h2>
+                    <div style={{fontSize:"12px"}}>{currentActivity.activity.name} Hosted By {currentActivity.owner.username}</div>
+                    <h6 style={{margin:"6px 0 0 0"}}>{currentLikes} Likes</h6> <br/>
+                    <h5 style={{margin:"0", position:"relative", top:"-10px"}}><AiOutlineCalendar style ={{marginRight: "6px"}}/>{new Date(Date.parse(currentActivity.date)).toLocaleString('en-US')} - recurring: {currentActivity.recurring}</h5>
+                    <p><AiOutlineUser style={{fontSize:"20px", marginRight:"10px"}}/>{currentActivity.attendees[0].username} and {currentActivity.attendees.length -1} others are attending</p>
+                    <p style={{border:"2px solid black", borderRadius:"10px", boxShadow:"2px 2px 2px black", padding:"6px"}}>{currentActivity.description}</p>
+                    
 {/* Comments Box In Event Details */}                    
                 <h5>Comments <Button onClick={commentForm} >add</Button></h5>
                 <form className="commentForm" style={{visibility:"hidden"}} onSubmit = {addComment}>
@@ -330,12 +350,13 @@ const Landing = (props) =>{
                 </div>
                 ) : (<h2>...Loading Comments</h2>)}
                 <br/>
-                    <Button onClick={adjustLike} className="likedButton" disabled={disable}>Like</Button>
-                    <h4 className = "userLiked" style={{visibility: "hidden"}}>You've already Liked This Event</h4>
+{/* Like Button */}
+                    {/* <Button onClick={adjustLike} className="likedButton" disabled={disable}>Like</Button>
+                    <h4 className = "userLiked" style={{visibility: "hidden"}}>Liked!</h4> */}
                     
                 </Modal.Body>
             </Modal>
-{/* Create Event Modal */}/img/skiing/les-anderson-R3tHkgwYaic-unsplash.jpg
+{/* Create Event Modal */}
             <Modal show ={showCreate} onHide={handleClose}>
                 <Modal.Header closeButton >
                     Host an Event!

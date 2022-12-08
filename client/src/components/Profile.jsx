@@ -12,11 +12,10 @@ const StyledProfile = styled.div`
 .grid-container{
 
   height: 75vh;
-  width:100%;
+  width:98%;
   margin: 10px;
   overflow-y:scroll;
   border-radius: 10px;
-  border:2px solid black;
 }
 .grid-container::-webkit-scrollbar{
   display:none
@@ -149,13 +148,15 @@ useEffect(()=>{
 getUserEvents();
 },[counter])
 
-        return (user && authenticated) ? (
+return (user && authenticated) ? (
           <StyledProfile>
-            <div style={{display:"flex"}}>
-            <Button style={{marginLeft: "10px"}} onClick={updateGrid}>Reload Events</Button> 
-            <h4 style={{marginLeft:"70%"}}>Welcome, {user ? user.username : 'friend'}</h4>
+            <div style={{display:"flex", justifyContent:"space-evenly", marginTop:"10px"}}>
+              <Button style={{marginLeft: "10px"}} onClick={updateGrid}>Reload Events</Button> 
+              
+              <h4 style={{marginLeft:"70%"}}>Welcome, {user ? user.username : 'friend'}</h4>
             </div>
             <div className="grid-container">
+            <h2 style={{fontFamily: 'Bangers, cursive', fontSize:"64px", margin:"0"}}>Your Events</h2> 
               {/* {posts.map((post) => (
                 <div className="card" key={post.id}>
                   <h3>{post.title}</h3>

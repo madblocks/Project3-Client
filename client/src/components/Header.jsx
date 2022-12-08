@@ -104,7 +104,7 @@ function NavbarDarkExample({isAuthenticated}) {
     <MDBFooter  className='text-center text-lg-left'>
       
 
-      <div className='text-center p-3' style={{ backgroundColor: '#0e6655' }}>
+      <div className='text-center p-3' style={{ backgroundColor: '#3A8E88' }}>
         &copy; {new Date().getFullYear()} Copyright:{' '}
         <a className='text-dark' href='/'>
           OutDoorsy.com
