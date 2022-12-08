@@ -6,6 +6,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { SfNav } from 'react-sf-building-blocks';
 import { MDBFooter } from 'mdb-react-ui-kit';
+import userEvent from '@testing-library/user-event';
 
 
 const StyledWrapper = styled.div `
@@ -66,9 +67,12 @@ span{
   color: #143e87;
   font-weight: bold;
 }
+.nav_right_menu{
+  margin-left: 200px;
+}
 `;
 
-function NavbarDarkExample({isAuthenticated}) {
+function NavbarDarkExample({isAuthenticated, user}) {
   return (
     <div>
     <Navbar variant="dark" bg="dark" className='nav_link' expand="lg">
@@ -78,7 +82,7 @@ function NavbarDarkExample({isAuthenticated}) {
         <Navbar.Toggle aria-controls="navbar-dark-example" />
         {isAuthenticated?(
            <SfNav showProfile={true}
-           profilePicture="https://flaticons.net/icon.php?slug_category=application&slug_icon=user-profile"
+           profilePicture={user.avatar ? `http://localhost:3001/${user.avatar}` : "https://flaticons.net/icon.php?slug_category=application&slug_icon=user-profile"}
            profileMenu={[
             {caption: "Profile", link: '/profile'},
              {caption: "Logout", link: '/logout'}
@@ -133,12 +137,13 @@ function FillExample({isAuthenticated}) {
 
 
 const Header= (props) => {
-    const {authenticated} = useContext(DataContext)
+    const {authenticated, user} = useContext(DataContext)
 
-
+  
     return(
         <StyledWrapper>
-            <NavbarDarkExample isAuthenticated={authenticated}/>
+            <NavbarDarkExample isAuthenticated={authenticated} user={user}/>
+            {console.log(user)}
             {authenticated ? 
             <FillExample isAuthenticated={true}/>:<FillExample isAuthenticated={false}/>}
             <App />
