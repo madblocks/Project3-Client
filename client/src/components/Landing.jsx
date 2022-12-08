@@ -39,168 +39,190 @@ const StyledWrapper = styled.div `
         justify-content: space-between;
     }
 `;
+
 const Landing = (props) =>{
 
-const baseUrl = 'http://localhost:3001/'
+    const baseUrl = 'http://localhost:3001/'
 
-const {authenticated, setAuth} = useContext(DataContext)
-const {user, setUser} = useContext(DataContext)
-const [allEvents, setAllEvents] = useState({
-        hiking: [],
-        running: [],
-        ultimate: [],
-        skiing: [],
-        mountainBiking: [],
-        roadBiking: [],
-        kayaking: [],
-        rafting: [],
-        fishing: [],
-        birdWatching: []
+    const {authenticated, setAuth} = useContext(DataContext)
+    const {user, setUser} = useContext(DataContext)
+    const [allEvents, setAllEvents] = useState({
+            hiking: [],
+            running: [],
+            ultimate: [],
+            skiing: [],
+            mountainBiking: [],
+            roadBiking: [],
+            kayaking: [],
+            rafting: [],
+            fishing: [],
+            birdWatching: []
+        })
+    const [currentActivity, setCurrentActivity] = useState({name: '', owner: {username: ''}, eventLikedBy: [], img: []})
+    const [showDetails, setShowDetails] = useState(false)
+    const [showCreate, setShowCreate]= useState(false)
+    const [createEventForm, setCreateEventForm] = useState({
+        name: 'Select an Activity',
+        latitude: '',
+        longitude: '',
+        activityId: 0,
+        date: new Date(),
+        description:'',
+        userId:'',
+        city:'',
+        state:'',
+        reoccuring:''
     })
-const [currentActivity, setCurrentActivity] = useState({name: '', owner: {username: ''}, eventLikedBy: [], img: []})
-const [showDetails, setShowDetails] = useState(false)
-const [showCreate, setShowCreate]= useState(false)
-const [createEventForm, setCreateEventForm] = useState({
-    name: 'Select an Activity',
-    latitude: '',
-    longitude: '',
-    activityId: 0,
-    date: new Date(),
-    description:'',
-    userId:'',
-    city:'',
-    state:'',
-    reoccuring:''
-})
-let eventList = ["Hiking","Running","Ultimate Frisbee", "Skiing", "Mountain Biking", "Road Biking", "Kayaking", "Whitewater Rafting", "Fishing", "Bird Watching"]
+    let eventList = ["Hiking","Running","Ultimate Frisbee", "Skiing", "Mountain Biking", "Road Biking", "Kayaking", "Whitewater Rafting", "Fishing", "Bird Watching"]
 
   
     // const {authenticated, isLoggedIn} = useContext(DataContext)
     const [search, setSearch] = useState({
-
+        name: null,
         activityId: null,
         start: null,
         end: null,
         username: null,
     })
-const [activityFilter, setActivityFilter] = useState({
+    const [activityFilter, setActivityFilter] = useState({
             hiking: true,
-            running: false,
+            running: true,
             ultimate: true,
-            skiing: false,
+            skiing: true,
             mountainBiking: true,
-            roadBiking: false,
-            kayaking: false,
-            rafting: false,
-            fishing: false,
+            roadBiking: true,
+            kayaking: true,
+            rafting: true,
+            fishing: true,
             birdWatching: true,
     })
 
-const [comments, setComments] = useState([{user:{avatar:'', username:'',id:''}}])
-const [newComment, setNewComment]= useState({
+    const [comments, setComments] = useState([{user:{avatar:'', username:'',id:''}}])
+    const [newComment, setNewComment]= useState({
+            body:'',
+            userId:'',
+            eventId:''
+    })
+    const [dateNow, setDateNow] = useState(Date.now())
+    const [disable, setDisable]=useState(false)
+    
+    const handleClose = () => {setShowDetails(false); setShowCreate(false); setDisable(false)}
+
+    const setDate= (e)=> {
+        setCreateEventForm({...createEventForm, date: e})
+    }
+    const createEvent = () => {
+        if (authenticated) {
+            setCreateEventForm({...createEventForm, userId: user.id});
+            setShowCreate(true)}
+        else {(alert('You need to Sign Up or Log In first!'))}
+    }
+    const handleChange = (e) =>{
+        setCreateEventForm({...createEventForm, [e.target.name]: e.target.value})
+    }
+    const handleSubmit = async (e) =>{
+        e.preventDefault();
+        
+        const activityId = eventList.indexOf(createEventForm.name) + 1;
+        setCreateEventForm({...createEventForm, activityId: activityId})
+        try{
+        const res = await Client.post('api/event/', createEventForm )
+        document.querySelector(".create-event-success").style.visibility= "visible"
+        document.querySelector(".create-event-fail").style.visibility= "hidden"
+        }
+        catch (error){ 
+            document.querySelector(".create-event-fail").style.visibility= "visible"
+            document.querySelector(".create-event-success").style.visibility= "hidden"
+    }}
+    const commentForm = () => {
+        if (authenticated) {
+        document.querySelector(".commentForm").style.visibility= "visible";
+        document.querySelector(".comment-box").style.top="20px";}
+        else {alert("You need to log in before commenting!")}
+    }
+    const getEventComments = async() => {
+        if (currentActivity.id) 
+        {
+        const res = await Client.get(`/api/comment/${currentActivity.id}`) 
+        let results = res.data
+        setComments(results)
+        setShowDetails(true)
+        }
+        else {setComments(["failed to load comments"])}
+    }
+
+    const handleCommentChange = (e) => {
+        setNewComment({...newComment, body: e.target.value, userId: user.id, eventId: currentActivity.id})
+    }
+
+    const addComment = async (e) => {
+        e.preventDefault()
+        const res = await Client.post(`api/comment`, newComment)
+        console.log(res)
+        setNewComment({
         body:'',
         userId:'',
         eventId:''
-})
-const [dateNow, setDateNow] = useState(Date.now())
-const [disable, setDisable]=useState(false)
-
-
-
-
-
-const handleClose = () => {setShowDetails(false); setShowCreate(false); setDisable(false)}
-
-
-const setDate= (e)=> {
-    setCreateEventForm({...createEventForm, date: e})
-}
-const createEvent = () => {
-    if (authenticated) {
-        setCreateEventForm({...createEventForm, userId: user.id});
-        setShowCreate(true)}
-    else {(alert('You need to Sign Up or Log In first!'))}
-    
-    
-}
-const handleChange = (e) =>{
-    setCreateEventForm({...createEventForm, [e.target.name]: e.target.value})
-}
-const handleSubmit = async (e) =>{
-    e.preventDefault();
-    
-    const activityId = eventList.indexOf(createEventForm.name) + 1;
-    setCreateEventForm({...createEventForm, activityId: activityId})
-    try{
-    const res = await Client.post('api/event/', createEventForm )
-    document.querySelector(".create-event-success").style.visibility= "visible"
-    document.querySelector(".create-event-fail").style.visibility= "hidden"
-    }
-    catch (error){ 
-        document.querySelector(".create-event-fail").style.visibility= "visible"
-        document.querySelector(".create-event-success").style.visibility= "hidden"
-}}
-const commentForm = () => {
-    if (authenticated) {
-    document.querySelector(".commentForm").style.visibility= "visible";
-    document.querySelector(".comment-box").style.top="20px";}
-    else {alert("You need to log in before commenting!")}
-}
-const getEventComments = async() => {
-    if (currentActivity.id) 
-    {
-    const res = await Client.get(`/api/comment/${currentActivity.id}`) 
-    let results = res.data
-    setComments(results)
-    setShowDetails(true)
-    }
-    else {setComments(["failed to load comments"])}
-}
-
-const handleCommentChange = (e) => {
-    setNewComment({...newComment, body: e.target.value, userId: user.id, eventId: currentActivity.id})
-}
-
-const addComment = async (e) => {
-    e.preventDefault()
-    const res = await Client.post(`api/comment`, newComment)
-    console.log(res)
-    setNewComment({
-    body:'',
-    userId:'',
-    eventId:''
-    })
+        })
     }
 
-const adjustLike = async() => {
-    if (authenticated) {
-    
-        console.log(currentActivity.eventLikedBy)
-    for (let i=0; i<currentActivity.eventLikedBy.length;i++){
-        if (user.id === currentActivity.eventLikedBy[i].id){
-            document.querySelector(".userLiked").style.visibility = "visible"
-        }
-        else {
-            setDisable(true);
-            const requestBody = {
-                userId: user.id,
-                eventId: currentActivity.id
+    const adjustLike = async() => {
+        if (authenticated) {
+            console.log(currentActivity.eventLikedBy)
+            for (let i=0; i<currentActivity.eventLikedBy.length;i++){
+                if (user.id === currentActivity.eventLikedBy[i].id){
+                    document.querySelector(".userLiked").style.visibility = "visible"
+                } else {
+                    setDisable(true);
+                    const requestBody = {
+                        userId: user.id,
+                        eventId: currentActivity.id
+                    }
+                    const res = await Client.post(`api/eventLikes`,requestBody)
+                    console.log(res)
+                }
             }
-
-            const res = await Client.post(`api/eventLikes`,requestBody)
-            console.log(res)
-        }
+        } else { (alert("Log in to like events!"))}
     }
-    } else { (alert("Log in to like events!"))}
-}
 
-const addDetails = async (activity) => {
-    setCurrentActivity(activity)
-    await getEventComments();
-    setDateNow(Date.now())
-    setShowDetails(true)
-}
+    const addDetails = async (activity) => {
+        setCurrentActivity(activity)
+        await getEventComments();
+        setDateNow(Date.now())
+        setShowDetails(true)
+    }
 
+    const searchNow = () => {
+        const getSearch = async () => {
+            let queryString = ''
+            const { name, activityId, start, end, username } = search
+            if(name) queryString += `&name=${name}`
+            if(activityId) queryString += `&activityId=${activityId}`
+            if(start) queryString += `&start=${start}`
+            if(end) queryString += `&end=${end}`
+            if(username) queryString += `&username=${username}`
+            const res = await Client.get(`api/event?attendees=true&likes=true${queryString}`)
+            let results = res.data
+            console.log(results)
+            setAllEvents(() => {
+                let sortedResults =  {  hiking: [],
+                                        running: [],
+                                        ultimate: [],
+                                        skiing: [],
+                                        mountainBiking: [],
+                                        roadBiking: [],
+                                        kayaking: [],
+                                        rafting: [],
+                                        fishing: [],
+                                        birdWatching: []}
+                results.forEach((event) => {
+                    sortedResults = {...sortedResults, [event.activity.ref]: [...sortedResults[event.activity.ref], event]}
+                })
+                return sortedResults
+            })
+        }
+        getSearch()
+    }
 
     useEffect(() => {
         const getEvents = async () => {
@@ -226,23 +248,26 @@ const addDetails = async (activity) => {
         getEvents()
     },[])
 
-  return allEvents.hiking.length > 2 ? (
+  return (allEvents.hiking.length + allEvents.running.length + allEvents.ultimate.length + allEvents.skiing.length + allEvents.mountainBiking.length
+        + allEvents.roadBiking.length + allEvents.kayaking.length + allEvents.rafting.length + allEvents.fishing.length + allEvents.birdWatching.length > 0) ? (
         <StyledWrapper>
         <div className="landing-container">
-            <SearchBar/>
+            <div style={{height:"80px"}}>
+                <SearchBar search={search} setSearch={setSearch} filter={activityFilter} setFilter={setActivityFilter} searchNow={searchNow}/>
+            </div>
+            
         <div className="map-and-details">
 {/* Map */}
         <MapContainer center={[35.591, -82.55]} zoom={10} className="map">
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
-                { allEvents.hiking.length > 2 &&
                     <LayersControl position="topright">
                         {Object.values(allEvents).map((eventType, index) => (
                             <LayersControl.Overlay key={index} layerId={index} 
-                                checked={activityFilter[eventType[1].activity.ref]} 
-                                // checked="true"
-                                name={`${eventType[0].activity.name}(${eventType.length})`} 
+                                // checked={activityFilter[eventType[0].activity.ref]} 
+                                checked="true"
+                                name={`${eventList[index]} (${eventType.length})`} 
                                 >
                                 {/* {console.log(activityFilter[eventType[1].activity.ref])} */}
                                 <LayerGroup>
@@ -262,7 +287,6 @@ const addDetails = async (activity) => {
                             </LayersControl.Overlay>
                         ))}
                     </LayersControl>
-                }
         </MapContainer>
             <div style={{display:"flex", flexDirection:"column", width: "33vw" }}>
                 <Button style={{width:"18vw"}} onClick={createEvent}>Create Event</Button> 
