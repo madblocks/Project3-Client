@@ -26,7 +26,7 @@ const StyledWrapper = styled.div `
      justify-content: flex-end;
 }
 .nav_link{
-    background: #3dcfe0!important;
+    background: #3d8ae0!important;
     border-bottom: 3px solid white;
 }
 .nav_brand{
