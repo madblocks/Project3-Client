@@ -40,5 +40,52 @@ Frontend
 - Umida
 
 Backend
-- Andrew
+- Andrew - [github](https://github.com/madblocks)
 - Jeremy - [Linkedin](https://www.linkedin.com/in/jeremyvillalva)   [github](GitHub.com/jbillaba)
+
+
+## [ERD](https://lucid.app/lucidchart/bd8ed2ea-030a-494c-bbb9-2437d2ed3f76/edit?viewport_loc=-19%2C17%2C1955%2C1126%2C0_0&invitationId=inv_45d4522b-18bf-47db-9935-24a6b7d3e547)
+
+<img src="hhttps://imgur.com/jYFgyue" />
+
+## API Docs
+
+### Endpoints
+
+#### Events
+**Path**  `/api/event`
+
+##### GET 
+Use the standard query string format for requests
+
+Example: `/api/event?limit=50&start=2022-12-16&end=2022-12-17&activityId=4&attendees=true&comments=true&likes=true`
+
+**Options**
+
+ | Option         | Values                               |
+ | ______________ | ____________________________________ |
+ | name           | string                               |
+ | city           | string                               |
+ | state          | string                               |
+ | recurring      | no, weekly, monthly                  |
+ | activityId     | activity Id's (1-10)                 |
+ | ownerId        | UUID of event owner                  |
+ | owner          | username of event owner              |
+ | start          | start date (YYYY-MM-DD)              |
+ | end            | end date (YYYY-MM-DD) -requies start |
+ | attendees      | boolean (include event attendees)    |
+ | comments       | boolean (include event comments)     |
+ | likes          | boolean (include event likes)        |
+ | limit          | 1 - 100                              |
+
+
+
+
+##### POST
+**Path**  `/api/event/`
+
+##### PUT
+**Path**  `/api/event/:eventId`
+
+##### DELETE
+**Path**  `/api/event/:eventId`
