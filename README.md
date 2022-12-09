@@ -62,24 +62,21 @@ Example: `/api/event?limit=50&start=2022-12-16&end=2022-12-17&activityId=4&atten
 
 **Options**
 
- | Option         | Values                               |
- | ______________ | ____________________________________ |
- | name           | string                               |
- | city           | string                               |
- | state          | string                               |
- | recurring      | no, weekly, monthly                  |
- | activityId     | activity Id's (1-10)                 |
- | ownerId        | UUID of event owner                  |
- | owner          | username of event owner              |
- | start          | start date (YYYY-MM-DD)              |
- | end            | end date (YYYY-MM-DD) -requies start |
- | attendees      | boolean (include event attendees)    |
- | comments       | boolean (include event comments)     |
- | likes          | boolean (include event likes)        |
- | limit          | 1 - 100                              |
-
-
-
+| Option         | Values                               |
+| -------------- | ------------------------------------ |
+| name           | string                               |
+| city           | string                               |
+| state          | string                               |
+| recurring      | no, weekly, monthly                  |
+| activityId     | activity Id's (1-10)                 |
+| ownerId        | UUID of event owner                  |
+| owner          | username of event owner              |
+| start          | start date (YYYY-MM-DD)              |
+| end            | end date (YYYY-MM-DD) -requies start |
+| attendees      | boolean (include event attendees)    |
+| comments       | boolean (include event comments)     |
+| likes          | boolean (include event likes)        |
+| limit          | 1 - 100                              |
 
 ##### POST
 **Path**  `/api/event/`
