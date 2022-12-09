@@ -10,7 +10,7 @@ import userEvent from '@testing-library/user-event';
 
 
 const StyledWrapper = styled.div `
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond&family=DM+Serif+Display&display=swap');
+
 
 .header{
     display:flex;

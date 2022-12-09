@@ -9,7 +9,7 @@ import { RegisterUser } from '../services/Auth';
 const StyledWrapper = styled.div `
 
   width: 450px;
-  height: 60vh;
+  height: 75vh;
   background-color: #3A8E88 ;
   margin: auto;
   border-radius: 10px;
@@ -19,6 +19,7 @@ const StyledWrapper = styled.div `
   color: white;
   margin-top: 50px;
   padding-top: 17px;
+  margin-bottom: 100px;
 
   .mb-3 {
       height: 40px;  
