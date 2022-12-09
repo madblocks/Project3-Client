@@ -16,7 +16,7 @@ const StyledWrapper = styled.div `
 
     background: #3A8E88;
     .landing-container{
-        height: 80vh;
+        height: 100vh;
         display: flex;
         flex-direction: column;
     }
@@ -27,6 +27,7 @@ const StyledWrapper = styled.div `
         border: 3px solid black;
         border-radius: 10px;
         box-shadow: 2px 2px 2px black;
+        margin-bottom: 100px;
     }
     .search{
         margin: auto;
