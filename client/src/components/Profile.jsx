@@ -12,8 +12,7 @@ import {AiOutlineCalendar} from 'react-icons/ai'
 const StyledProfile = styled.div`
 background-color: #3A8E88;
 .grid-container{
-
-  height: 75vh;
+  height: 100vh;
   width:98%;
   margin: 10px;
   overflow-y:scroll;
@@ -27,7 +26,7 @@ background-color: #3A8E88;
 }
 .editInput{
   width:50%;
-  margin-bottom: 10px;
+  margin:10px;
 }
 `
 
@@ -241,10 +240,10 @@ return (user && authenticated) ? (
                 <Calendar onChange={setDate} />
               <textarea placeholder="description" style={{marginTop:"10px", width: "100%", height: "15vh"}} name="description" onChange={handleChange}></textarea>
               <div style={{display: "flex",flexDirection:"column", margin:"10px 0 10px 0"}}>
-                    <input type="text" class="editInput" placeholder ="latitude" name="latitude" onChange={handleChange}/>
-                    <input type="text" class="editInput" placeholder="longitude" name="longitude" onChange={handleChange}/>
-                    <input type="text" class="editInput" placeholder="city" name="city" onChange={handleChange}/>
-                    <input type="text" class="editInput" placeholder="state" name="state" onChange={handleChange}/>
+                    <input type="text" style={{marginTop:"10px", width:"50%"}} placeholder ="latitude" name="latitude" onChange={handleChange}/>
+                    <input type="text" style={{marginTop:"10px", width:"50%"}} placeholder="longitude" name="longitude" onChange={handleChange}/>
+                    <input type="text" style={{marginTop:"10px", width:"50%"}} placeholder="city" name="city" onChange={handleChange}/>
+                    <input type="text" style={{marginTop:"10px", width:"50%"}} placeholder="state" name="state" onChange={handleChange}/>
               </div>
             <Button type="submit">Edit!</Button>
             </form>

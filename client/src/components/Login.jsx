@@ -55,7 +55,7 @@ const StyledLogin = styled.div `
 
 
 `;
-//need feedback if username/password is incorrect
+
 const Login = (props) =>{
 
     let navigate = useNavigate()
@@ -69,13 +69,17 @@ const Login = (props) =>{
 
     const handleSubmit = async (e) =>{
         e.preventDefault()
+        try{
         const payload = await LoginUser(formData)
-        // sessionStorage.setItem('name', formData.username) 
         setFormData({username: '', password: ''})
         setUser(payload)
         setAuth(true)
         setLoggedIn(true)
         navigate('/profile')
+        } catch (error) {
+          alert("invalid username or password")
+          setFormData({username: '', password: ''})
+        }
     }
 
     return (
@@ -85,11 +89,11 @@ const Login = (props) =>{
                 <h1>Login</h1>
                 <Form.Group className='mb-3' controlId='username'>
                     <Form.Label className='label'>USERNAME </Form.Label>
-                    <Form.Control type='text' className='input' placeholder='Username' name='username' onChange={handleChange}/>
+                    <Form.Control type='text' className='input' placeholder='Username' name='username' value={formData.username} onChange={handleChange}/>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicPassword" style={{marginTop: "30px"}}>
                     <Form.Label  className='label'>PASSWORD</Form.Label>
-                    <Form.Control type="password" className='input' placeholder="Password" name='password' onChange={handleChange}/>
+                    <Form.Control type="password" className='input' placeholder="Password" name='password' value={formData.password} onChange={handleChange}/>
                 </Form.Group>
                 <Button variant="primary" className='btn btn-primary' type="submit" onClick={handleSubmit}
                     disabled={!formData.username || !formData.password}>

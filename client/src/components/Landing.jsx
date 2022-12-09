@@ -83,8 +83,7 @@ const Landing = (props) =>{
     })
     let eventList = ["Hiking","Running","Ultimate Frisbee", "Skiing", "Mountain Biking", "Road Biking", "Kayaking", "Whitewater Rafting", "Fishing", "Bird Watching"]
 
-  
-    // const {authenticated, isLoggedIn} = useContext(DataContext)
+
     const [search, setSearch] = useState({
         name: null,
         activityId: null,
@@ -111,7 +110,6 @@ const Landing = (props) =>{
             userId:'',
             eventId:''
     })
-  
     const [dateNow, setDateNow] = useState(Date.now())
     const [disable, setDisable]=useState(false)
     
@@ -174,28 +172,6 @@ const Landing = (props) =>{
         })
     }
     const [currentLikes, setCurrentLikes] = useState(0)
-    // const adjustLike = async() => {
-    //     if (authenticated) {
-    //         setCurrentLikes(currentActivity.eventLikedBy.length)
-    //         console.log(currentLikes)
-
-
-
-    //         for (let i=0; i<currentActivity.eventLikedBy.length;i++){
-    //             if (user.id === currentActivity.eventLikedBy[i].id){
-    //                 document.querySelector(".userLiked").style.visibility = "visible"
-    //             } else {
-    //                 setDisable(true);
-    //                 const requestBody = {
-    //                     userId: user.id,
-    //                     eventId: currentActivity.id
-    //                 }
-    //                 const res = await Client.post(`api/eventLikes`,requestBody)
-    //                 setCurrentLikes(currentLikes+1)
-    //             }
-    //         }
-    //     } else { (alert("Log in to like events!"))}
-    // }
 
     const addDetails = async (activity) => {
         setCurrentActivity(activity)
@@ -243,9 +219,6 @@ const Landing = (props) =>{
         }
         getSearch()
     }
-const refresher = () =>{
-    setRefresh(refresh+1)
-}
 
     useEffect(() => {
         const getEvents = async () => {
@@ -269,10 +242,10 @@ const refresher = () =>{
             })
         }
         getEvents()
-    },[refresh])
+    },[])
 
 
-  return (allEvents.hiking.length + allEvents.running.length + allEvents.ultimate.length + allEvents.skiing.length + allEvents.mountainBiking.length
+return (allEvents.hiking.length + allEvents.running.length + allEvents.ultimate.length + allEvents.skiing.length + allEvents.mountainBiking.length
         + allEvents.roadBiking.length + allEvents.kayaking.length + allEvents.rafting.length + allEvents.fishing.length + allEvents.birdWatching.length > 0) ? (
         <StyledWrapper>
         <div className="landing-container">
@@ -350,11 +323,7 @@ const refresher = () =>{
                 ))}
                 </div>
                 ) : (<h2>No Comments</h2>)}
-                <br/>
-{/* Like Button */}
-                    {/* <Button onClick={adjustLike} className="likedButton" disabled={disable}>Like</Button>
-                    <h4 className = "userLiked" style={{visibility: "hidden"}}>Liked!</h4> */}
-                    
+                <br/>                    
                 </Modal.Body>
             </Modal>
 {/* Create Event Modal */}
