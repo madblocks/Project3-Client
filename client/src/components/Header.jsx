@@ -7,6 +7,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import { SfNav } from 'react-sf-building-blocks';
 import { MDBFooter } from 'mdb-react-ui-kit';
 import userEvent from '@testing-library/user-event';
+import {AiOutlineGithub} from 'react-icons/ai'
 
 
 const StyledWrapper = styled.div `
@@ -111,8 +112,12 @@ function NavbarDarkExample({isAuthenticated, user}) {
     <div className='fixed-bottom footer'>
     <MDBFooter  className='text-center text-lg-left'>
       
-
+     
       <div className='text-center p-3' style={{ backgroundColor: '#3A8E88' }}>
+
+      <a href="https://github.com/TimVillanueva/Project3-Client" target="_target" onClick="window.open('https://github.com/madblocks/P3-Server')">
+        <AiOutlineGithub style={{fontSize:"40px"}}/></a>
+        
         &copy; {new Date().getFullYear()} Copyright:{' '}
         <a className='text-dark' href='/'>
           OutDoorsy.com

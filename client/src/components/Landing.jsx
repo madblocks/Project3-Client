@@ -9,14 +9,13 @@ import DropdownButton from 'react-bootstrap/DropdownButton'
 import Dropdown from 'react-bootstrap/Dropdown'
 import Calendar from 'react-calendar'
 import SearchBar from './SearchBar'
-import DropdownToggle from 'react-bootstrap/esm/DropdownToggle'
 import {AiOutlineCalendar, AiOutlineUser} from 'react-icons/ai'
 
 const StyledWrapper = styled.div `
 
     background: #3A8E88;
     .landing-container{
-        height: 80vh;
+        height: 90vh;
         display: flex;
         flex-direction: column;
     }
