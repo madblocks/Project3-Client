@@ -86,7 +86,7 @@ const Signup = (props) =>{
       email: allData.email,
       password: allData.password
     })
-    // not sure if we need to clear form.  It seems to clear any with a re-render
+  
     setAllData({
       username: '',
       firstName: '',
