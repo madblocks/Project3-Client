@@ -74,13 +74,19 @@ export default function Profile() {
 const getEventComments = async() => {
   if (currentActivity.id) 
   {
+    try{
   const res = await Client.get(`/api/comment/${currentActivity.id}`) 
   let results = res.data
   setComments(results)
   setDateNow(Date.now())
   setShowDetails(true)
+    }catch (error){
+      console.log("error getting comments")
+    }
   }
-else {setComments(["failed to load comments"])}}
+else {
+  console.log("error getting comments (else)")
+}}
 
 const addComment = async (e) => {
     e.preventDefault()
@@ -143,15 +149,16 @@ const updateGrid = () => {
 
 useEffect(()=>{
   const getUserEvents = async () => {
+    try{
     const res = await Client.get(`api/user/${user.username}`)
     let results = res.data
-    setUserEvents(results[0].events)
+    setUserEvents(results[0].events)}
+    catch (error) {
+      throw error
+    }
   }
 getUserEvents();
-},[counter])
-
-console.log(currentActivity)
-
+},[counter]) 
 return (user && authenticated) ? (
           <StyledProfile>
             <div style={{display:"flex", justifyContent:"space-between", position:"relative", top:"10px"}}>
@@ -190,7 +197,7 @@ return (user && authenticated) ? (
                 </Card>
               ))}
               </div>
-              ) : (<h1>Check Out the Map to Find New Events, Or Host Your Own!</h1>)}
+              ) : (<h1>Check out the map to find events, or host your own!</h1>)}
             </div>
 {/* Details Modal */}
             <Modal show={showDetails} onHide={handleClose}>
@@ -209,11 +216,13 @@ return (user && authenticated) ? (
                     <textarea style={{width: "100%"}} value={newComment.body} onChange={handleCommentChange}/>
                     <Button type="submit">Submit</Button>
                 </form>
-                {comments[0].user ? (
+                {comments.length > 0 ? (
                 <div className="comment-box" style={{overflowY:"scroll", border:"1px solid black",borderRadius:"10px", height: "25vh", position:"relative", top:"-100px", margin:"0 auto"}}>
                 
                 {comments.map((comment,index)=>(
+                  
                     <div key={index} style={{border: "2px solid black", borderRadius:"10px", padding: "2px 2px 2px 8px", margin:"10px"}}>
+                      {console.log(comment)}
                     <div style={{display:"flex"}}>
                         <img src={`${baseUrl}${comment.user.avatar}`} style={{maxWidth: "20px", maxHeight:"20px", marginRight:"5px"}}/>
                         <h5>{comment.user.username}</h5>
@@ -223,7 +232,7 @@ return (user && authenticated) ? (
                     </div>
                 ))}
                 </div>
-                ) : (<h2>...Loading Comments</h2>)}
+                ) : (<h2>No Comments</h2>)}
 {/* Edit Form */}
                 {/* <Button onClick={adjustLike}>Like</Button> */}
             </Modal.Body>

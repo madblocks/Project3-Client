@@ -155,7 +155,6 @@ const Landing = (props) =>{
         setComments(results)
         setShowDetails(true)
         }
-        else {setComments(["failed to load comments"])}
     }
 
     const handleCommentChange = (e) => {
@@ -348,7 +347,7 @@ const refresher = () =>{
                     </div>
                 ))}
                 </div>
-                ) : (<h2>...Loading Comments</h2>)}
+                ) : (<h2>No Comments</h2>)}
                 <br/>
 {/* Like Button */}
                     {/* <Button onClick={adjustLike} className="likedButton" disabled={disable}>Like</Button>
