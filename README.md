@@ -46,7 +46,7 @@ Backend
 
 ## [ERD](https://lucid.app/lucidchart/bd8ed2ea-030a-494c-bbb9-2437d2ed3f76/edit?viewport_loc=-19%2C17%2C1955%2C1126%2C0_0&invitationId=inv_45d4522b-18bf-47db-9935-24a6b7d3e547)
 
-<img src="hhttps://imgur.com/jYFgyue" />
+<img src="https://imgur.com/jYFgyue" />
 
 ## API Docs
 
