@@ -27,12 +27,12 @@ Users will be able to navigate a map of listings using specified criteria. Users
 Users are able to navigate a response website, easily create and account and log in (and stay logged in through JWT Auth). The front-end is able to pull meaningful data from the backend and display as much. 
 
 ## Technical Specifications
-<img src="https://i.imgur.com/As6eAaa.png"/>
+
 This project utilizes the PERN stack to navigate React-Leaflet. The site will use JWT Auth to secure user events to protect editing from outside users. The backend utilizes many-many associations, UUID, falso Data generation, password hashing
 
 Additional Libraries Installed: React-Icons, React-Bootstrap, React-Calendar, Styled-Components, Axios
 
-
+<img src="https://i.imgur.com/As6eAaa.png"/>
 
 ## Team Breakdown
 Frontend
@@ -46,8 +46,7 @@ Backend
 
 ## [ERD](https://lucid.app/lucidchart/bd8ed2ea-030a-494c-bbb9-2437d2ed3f76/edit?viewport_loc=-19%2C17%2C1955%2C1126%2C0_0&invitationId=inv_45d4522b-18bf-47db-9935-24a6b7d3e547)
 
-<img src="https://imgur.com/jYFgyue" />
-
+<img src="https://i.imgur.com/lqn0C15.png"/>
 ## API Docs
 
 ### Endpoints
