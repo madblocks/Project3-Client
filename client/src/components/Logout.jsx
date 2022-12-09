@@ -15,7 +15,7 @@ const Logout = () =>{
     <div>
     <h1 style={{marginTop:"20px"}}>See you soon! </h1>
     
-    <img src={Logo} style={{scale:".3", position: "relative", top:"-300px"}}/>
+    <img src={Logo} style={{scale:".3", position: "relative", top:"-400px"}}/>
 
     
     </div>)
