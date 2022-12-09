@@ -121,7 +121,7 @@ const deleteEvent = async(activity)=>{
   try{
     console.log(activity)
     const res = await Client.delete(`api/event/${activity.id}`)
-    alert("Event Deleted!")
+    setCounter(counter+1)
   }
   catch (error){
     alert("An Error Occured")
@@ -131,7 +131,7 @@ const deleteEvent = async(activity)=>{
 
 const handleSubmit = async (e) =>{
   e.preventDefault();
-  
+  setCounter(counter+1)
   const activityId = eventList.indexOf(updatedEvent.name) + 1;
   setUpdatedEvent({...updatedEvent,  activityId: activityId})
   try{
@@ -245,7 +245,7 @@ return (user && authenticated) ? (
                     <input type="text" style={{marginTop:"10px", width:"50%"}} placeholder="city" name="city" onChange={handleChange}/>
                     <input type="text" style={{marginTop:"10px", width:"50%"}} placeholder="state" name="state" onChange={handleChange}/>
               </div>
-            <Button type="submit">Edit!</Button>
+            <Button type="submit" onClick={handleClose}>Edit!</Button>
             </form>
             </Modal.Body>
             <h4 className = "update-event-success" style={{visibility:"hidden"}}>Edit Successful</h4>

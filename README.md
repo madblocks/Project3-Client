@@ -8,7 +8,7 @@ Links:
 - [BackEnd Repo](https://github.com/madblocks/P3-Server)
 - [Trello](https://trello.com/invite/b/bSpz8036/ATTIb79c5a79aa50bfc9a979b155474dfe22DEC96875/pet-adoption-board)
 - [WireFame](https://drive.google.com/file/d/1njBBtG5Axwdqup8d-Aq2YHGc8ZznjbiP/view?usp=sharing)
-- [ERD](https://drive.google.com/file/d/1-8H_6sZ3CQeZGTK2qy3YofrD8Ag0MtOx/view)
+- [ERD](https://lucid.app/lucidchart/bd8ed2ea-030a-494c-bbb9-2437d2ed3f76/edit?viewport_loc=-19%2C17%2C1955%2C1126%2C0_0&invitationId=inv_45d4522b-18bf-47db-9935-24a6b7d3e547)
 
 ### Pre-Project Backend Goals
 
