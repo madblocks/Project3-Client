@@ -49,7 +49,7 @@ const StyledWrapper = styled.div `
 
 const Landing = (props) =>{
 
-    const baseUrl = 'http://p3-server-production.up.railway.app/'
+    const baseUrl = 'https://p3-server-production.up.railway.app/'
 
     const {authenticated, user } = useContext(DataContext)
     const [allEvents, setAllEvents] = useState({
