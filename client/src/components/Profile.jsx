@@ -63,7 +63,7 @@ export default function Profile() {
   })
   let eventList = ["hiking","running","ultimate frisbee", "skiing", "mountain biking", "road biking", "kayaking", "whitewater rafting", "fishing", "bird watching"]
   const [dateNow, setDateNow] = useState(Date.now())
-  const [deleteConfirm, setDeleteConfirm] = useState(false)
+
 
   const handleClose = () => {setShowDetails(false);setShowEdit(false);setComments([{user:{avatar:'', username:'',id:''}}])}  
   const commentForm = () => {
@@ -94,6 +94,7 @@ else {
 const addComment = async (e) => {
     e.preventDefault()
     const res = await Client.post(`api/comment`, newComment)
+    console.log(res)
     setNewComment({
       body:'',
     userId:'',
@@ -119,8 +120,7 @@ const handleChange = (e) =>{
 
 const deleteEvent = async(activity)=>{
   try{
-    console.log(activity)
-    const res = await Client.delete(`api/event/${activity.id}`)
+    await Client.delete(`api/event/${activity.id}`)
     setCounter(counter+1)
   }
   catch (error){
@@ -162,6 +162,7 @@ useEffect(()=>{
   }
 getUserEvents();
 },[counter]) 
+
 return (user && authenticated) ? (
   <StyledProfile>
     <div style={{display:"flex", justifyContent:"space-between", position:"relative", top:"10px"}}>
@@ -178,7 +179,7 @@ return (user && authenticated) ? (
           <Card.Title style={{marginTop:"10px"}}>{post.name}</Card.Title>
           <div style={{display:"flex"}}>  
             <Button sz="sm" style={{margin: "0 90px 0 10px", border:"2px solid black"}} onClick={()=>editEventButton(post)}>Edit</Button>
-            <a href={'https://www.google.com/maps/search/?api=1&query='+post.latitude +','+post.longitude+'&z=11'} target="_blank">Directions</a>
+            <a href={'https://www.google.com/maps/search/?api=1&query='+post.latitude +','+post.longitude+'&z=11'} target="_blank" rel="noreferrer">Directions</a>
           </div>
           <Card.Subtitle>{new Date(Date.parse(post.date)).toLocaleString('en-US')}</Card.Subtitle>
           <Card.Body>{post.description}</Card.Body>
@@ -212,7 +213,7 @@ return (user && authenticated) ? (
       {comments.map((comment,index)=>(
         <div key={index} style={{border: "2px solid black", borderRadius:"10px", padding: "2px 2px 2px 8px", margin:"10px"}}>
           <div style={{display:"flex"}}>
-            <img src={`${baseUrl}${comment.user.avatar}`} style={{maxWidth: "20px", maxHeight:"20px", marginRight:"5px"}}/>
+            <img src={`${baseUrl}${comment.user.avatar}`} alt="big mountain" style={{maxWidth: "20px", maxHeight:"20px", marginRight:"5px"}}/>
             <h5>{comment.user.username}</h5>
           </div>
           <p className="comment" style={{marginBottom:"0"}}> "{comment.body}"  </p>

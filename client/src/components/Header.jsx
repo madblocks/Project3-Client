@@ -6,7 +6,6 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { SfNav } from 'react-sf-building-blocks';
 import { MDBFooter } from 'mdb-react-ui-kit';
-import userEvent from '@testing-library/user-event';
 import {AiOutlineGithub} from 'react-icons/ai'
 
 

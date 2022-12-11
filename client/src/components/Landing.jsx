@@ -1,6 +1,6 @@
 import { MapContainer, TileLayer, Marker, Popup, LayersControl, LayerGroup } from 'react-leaflet'
 import styled from 'styled-components'
-import { useState, useContext, useEffect, useRef} from 'react'
+import { useState, useContext, useEffect } from 'react'
 import  Button  from 'react-bootstrap/Button'
 import { DataContext } from '../DataContext' 
 import Client from '../services/api'
@@ -51,8 +51,7 @@ const Landing = (props) =>{
 
     const baseUrl = 'http://p3-server-production.up.railway.app/'
 
-    const {authenticated, setAuth} = useContext(DataContext)
-    const {user, setUser} = useContext(DataContext)
+    const {authenticated, user } = useContext(DataContext)
     const [allEvents, setAllEvents] = useState({
             hiking: [],
             running: [],
@@ -68,7 +67,6 @@ const Landing = (props) =>{
     const [currentActivity, setCurrentActivity] = useState({name: '', owner: {username: ''}, eventLikedBy: [], img: [], activity:[{name:''}], latitude:'', longitude: '', recurring: '', attendees: [{username:''}]})
     const [showDetails, setShowDetails] = useState(false)
     const [showCreate, setShowCreate]= useState(false)
-    const [refresh, setRefresh] = useState(0)
     const [createEventForm, setCreateEventForm] = useState({
         name: 'Select an Activity',
         latitude: '',
@@ -113,7 +111,7 @@ const Landing = (props) =>{
     const [dateNow, setDateNow] = useState(Date.now())
     const [disable, setDisable]=useState(false)
     
-    const handleClose = () => {setShowDetails(false); setShowCreate(false); setDisable(false)}
+    const handleClose = () => {setShowDetails(false); setShowCreate(false); setDisable(false); console.log(disable)}
 
     const setDate= (e)=> {
         setCreateEventForm({...createEventForm, date: e})
@@ -134,6 +132,7 @@ const Landing = (props) =>{
         setCreateEventForm({...createEventForm, activityId: activityId})
         try{
         const res = await Client.post('api/event/', createEventForm )
+        console.log(res)
         document.querySelector(".create-event-success").style.visibility= "visible"
         document.querySelector(".create-event-fail").style.visibility= "hidden"
         }
@@ -180,7 +179,7 @@ const Landing = (props) =>{
         setCurrentLikes(currentActivity.eventLikedBy.length)
 
         for (let i=0; i<currentActivity.eventLikedBy.length;i++){
-            if (user.id == currentActivity.eventLikedBy[i].id){
+            if (user.id === currentActivity.eventLikedBy[i].id){
                 setDisable(true);
             }
         }
@@ -314,7 +313,7 @@ return (allEvents.hiking.length + allEvents.running.length + allEvents.ultimate.
                 {comments.map((comment,index)=>(
                     <div key={index} style={{border: "2px solid black", borderRadius:"10px", padding: "2px 2px 2px 8px", margin:"10px"}}>
                     <div style={{display:"flex"}}>
-                        <img src={`${baseUrl}${comment.user.avatar}`} style={{maxWidth: "20px", maxHeight:"20px", marginRight:"5px"}}/>
+                        <img src={`${baseUrl}${comment.user.avatar}`} alt="big mountain" style={{maxWidth: "20px", maxHeight:"20px", marginRight:"5px"}}/>
                         <h5>{comment.user.username}</h5>
                     </div>
                     <p className="comment" style={{marginBottom:"0"}}> "{comment.body}"  </p>

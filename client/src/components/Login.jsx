@@ -39,7 +39,7 @@ const StyledLogin = styled.div `
       border-radius: 10px;
       margin-top: 40px;
       background: rgba(22, 46, 110, 0.895);
-    //   background: #0d7863;
+      ${'' /* background: #0d7863; */}
       border: none;
   }
   .label{
@@ -59,8 +59,7 @@ const StyledLogin = styled.div `
 const Login = (props) =>{
 
     let navigate = useNavigate()
-    const {setUser, setAuth} = useContext(DataContext)
-    const {isLoggedIn, setLoggedIn} = useContext(DataContext)
+    const {setUser, setAuth, setLoggedIn} = useContext(DataContext)
     const [formData, setFormData] = useState({username: '', password: ''})
 
     const handleChange = (e) => {
