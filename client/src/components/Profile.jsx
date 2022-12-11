@@ -161,7 +161,7 @@ useEffect(()=>{
     }
   }
 getUserEvents();
-},[counter]) 
+},[counter, user.username])
 
 return (user && authenticated) ? (
   <StyledProfile>
