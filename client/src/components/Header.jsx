@@ -86,7 +86,7 @@ function NavbarDarkExample({isAuthenticated, user}) {
         <Navbar.Toggle aria-controls="navbar-dark-example" />
         {isAuthenticated?(
            <SfNav showProfile={true}
-           profilePicture={user.avatar ? `https://p3-server-production.up.railway.app/${user.avatar}` : "https://flaticons.net/icon.php?slug_category=application&slug_icon=user-profile"}
+           profilePicture={user.avatar ? `${process.env.REACT_APP_SERVER_URL}/${user.avatar}` : "https://flaticons.net/icon.php?slug_category=application&slug_icon=user-profile"}
            profileMenu={[
             {caption: "Profile", link: '/profile'},
              {caption: "Logout", link: '/logout'}

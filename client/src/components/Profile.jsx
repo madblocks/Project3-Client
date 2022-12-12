@@ -33,7 +33,7 @@ background-color: #3A8E88;
 
 export default function Profile() {
 
-  const baseUrl = 'https://p3-server-production.up.railway.app/'
+  const baseUrl = `${process.env.REACT_APP_SERVER_URL}/`
 
   let navigate = useNavigate()
   const {user, authenticated} = useContext(DataContext)

@@ -1,6 +1,6 @@
 import Axios from 'axios'
 
-export const BASE_URL = 'https://p3-server-production.up.railway.app'
+export const BASE_URL = process.env.REACT_APP_SERVER_URL
 
 const Client = Axios.create({ baseURL: BASE_URL })
 // Intercepts every request axios makes
