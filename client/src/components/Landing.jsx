@@ -50,6 +50,7 @@ const StyledWrapper = styled.div `
 const Landing = (props) =>{
 
     const baseUrl = `${process.env.REACT_APP_SERVER_URL}/`
+    console.log(baseUrl)
 
     const {authenticated, user } = useContext(DataContext)
     const [allEvents, setAllEvents] = useState({
